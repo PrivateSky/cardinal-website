@@ -1,0 +1,1 @@
+import{r as s,h as t}from"./p-3f8ac7cf.js";const r=class{constructor(t){s(this,t),this.title=""}render(){return t("psk-chapter",{title:this.title},t("div",{class:"psk-description"},t("slot",null)))}};export{r as psk_description};

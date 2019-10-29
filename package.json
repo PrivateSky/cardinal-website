@@ -1,0 +1,16 @@
+{
+  "name": "pwc-app-core",
+  "version": "0.0.1",
+  "description": "PrivateSky Website Core for building self sovereign applications",
+  "scripts": {
+    "release": "node ./scripts/build-release.js"
+  },
+  "devDependencies": {
+    "webcomponents": "file:../pskwebcomponents",
+    "gulp": "^4.0.2",
+    "gulp-include": "^2.4.1",
+    "vinyl-source-stream": "^2.0.0",
+    "gulp-run-command": "^0.0.9"
+  },
+  "license": "MIT"
+}

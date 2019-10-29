@@ -1,0 +1,16 @@
+@import url(../../assets/bootstrap/css/bootstrap.min.css);
+a{
+  color:#000000;
+}
+
+:host{
+  width: 100%;
+}
+
+.navbar {
+padding:.5rem 1rem .5rem 0rem;
+}
+
+.navbar-brand{
+  padding: 5px;
+}

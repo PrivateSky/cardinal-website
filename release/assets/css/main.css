@@ -1,0 +1,14 @@
+@import url("https://privatesky.xyz/assets/fonts/fontawesome/font-awesome.min.css");
+@import url("https://privatesky.xyz/assets/fonts/nunito/nunito.css");
+@import url("https://privatesky.xyz/assets/css/bootstrap/css/bootstrap.min.css");
+pre {
+  overflow: hidden;
+  padding: 10px;
+  background: #E9E9E9;
+  white-space: pre-wrap;
+  color: #005cbf;
+}
+
+header {
+  background: #005cbf;
+}

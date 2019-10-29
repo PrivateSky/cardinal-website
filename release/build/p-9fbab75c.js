@@ -1,0 +1,1 @@
+const a="definedProperties",e="data-define-props",o="Copy to clipboard",p="Copied!";export{e as D,p as T,a,o as b};
