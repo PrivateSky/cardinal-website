@@ -1,1 +1,0 @@
-const e="definedProperties",a="definedEvents",d="data-define-props",s="data-define-events",o="Copy to clipboard",t="Copied!";export{d as D,t as T,e as a,s as b,a as c,o as d};

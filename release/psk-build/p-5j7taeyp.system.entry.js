@@ -1,1 +1,0 @@
-System.register(["./p-d5e63b2c.system.js"],(function(t){"use strict";var e,s;return{setters:[function(t){e=t.r;s=t.h}],execute:function(){var i=t("psk_description",function(){function t(t){e(this,t);this.title=""}t.prototype.render=function(){return s("psk-chapter",{title:this.title},s("div",{class:"psk-description"},s("slot",null)))};return t}())}}}));

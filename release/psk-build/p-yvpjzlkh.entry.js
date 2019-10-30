@@ -1,1 +1,0 @@
-import{r as e,h as s}from"./p-400bec78.js";const t=class{constructor(s){e(this,s),this.componentRender="psk-stepper-renderer"}render(){return s(this.componentRender,{wizardSteps:this.wizardSteps,activeStep:this.activeStep,handleStepChange:this.handleStepChange})}};export{t as psk_stepper};

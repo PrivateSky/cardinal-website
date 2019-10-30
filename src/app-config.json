@@ -1,0 +1,26 @@
+{
+  "basePagesUrl": "http://localhost:8000/pages",
+  "profile": {
+    "username": "PrivateSky Core",
+    "email": "privatesky@axiologic.net",
+    "avatar": "https://privatesky.xyz/assets/icon/privatesky.png"
+  },
+  "menu": {
+    "defaultMenuConfig": {
+      "icon": "fa-bars",
+      "type": "route",
+      "component": "psk-page-loader",
+      "exact": true
+    },
+    "pages": [
+      {
+        "name": "Home",
+        "icon": "fa-home"
+      },
+      {
+        "name": "Contact",
+        "icon": "fa-cog"
+      }
+    ]
+  }
+}

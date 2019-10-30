@@ -1,1 +1,0 @@
-import{r,h as t}from"./p-3f8ac7cf.js";const n=class{constructor(t){r(this,t)}render(){return t("app-menu",null)}static get style(){return""}};export{n as app_container};

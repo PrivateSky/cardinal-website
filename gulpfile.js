@@ -13,7 +13,7 @@ function buildWebComponents(cb) {
 };
 
 function copyAssets(cb) {
-    gulp.src('./assets/**/*')
+    gulp.src('./src/assets/**/*')
         .pipe(include({
             separateInputs: true,
         }))
@@ -41,8 +41,8 @@ function copyJsFolderBuild(cb) {
     cb();
 };
 
-function copyHtmlFile(cb) {
-    gulp.src('index.html')
+function copySourceFiles(cb) {
+    gulp.src('src/**/*')
         .pipe(include({
             separateInputs: true,
         }))
@@ -50,7 +50,7 @@ function copyHtmlFile(cb) {
     cb();
 };
 
-exports.build = series(buildWebComponents, copyAssets, copyJsFile, copyJsFolderBuild, copyHtmlFile);
+exports.build = series(buildWebComponents, copyJsFile, copyJsFolderBuild, copySourceFiles);
 
 
 

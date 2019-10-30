@@ -1,1 +1,0 @@
-System.register([],function(e){"use strict";return{execute:function(){var r=e("a","definedProperties");var t=e("D","data-define-props");var i=e("b","Copy to clipboard");var a=e("T","Copied!")}}});
