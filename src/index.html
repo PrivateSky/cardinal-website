@@ -9,8 +9,11 @@
 
     <script type="module">
         import DefaultController from "./controllers/DefaultController.js";
+        document.addEventListener("ControllerFactoryIsReady", (e) => {
+            let ControllerFactory = e.detail;
+            ControllerFactory.registerController("DefaultController", DefaultController);
+        })
 
-        window.DefaultController = DefaultController;
     </script>
     <script>
         globalConfig = {
@@ -23,6 +26,13 @@
 <psk-app-root
         controller="DefaultController"
         history-type="hash"
-></psk-app-root>
+>
+
+</psk-app-root>
+<!--    <psk-user-profile></psk-user-profile>
+    <header><app-menu></app-menu></header>
+    <section>
+        <psk-app-router failRedirectTo="/home"></psk-app-router>
+    </section>;-->
 </body>
 </html>

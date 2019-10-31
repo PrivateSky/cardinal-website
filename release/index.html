@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>PSK App Core</title>
+    <script type="module" src="psk-build.js"></script>
+    <link href="assets/css/main.css" rel="stylesheet">
+
+    <script type="module">
+        import DefaultController from "./controllers/DefaultController.js";
+
+
+        document.addEventListener("ControllerFactoryIsReady", (e) => {
+            let ControllerFactory = e.detail;
+            ControllerFactory.registerController("DefaultController", DefaultController);
+        })
+
+    </script>
+    <script>
+        globalConfig = {
+            theme: "default",
+            pagesBasePath: "https://raw.githubusercontent.com/PrivateSky/pwc-apps/master/pages/"
+        }</script>
+</head>
+
+<body>
+<psk-app-root
+        controller="DefaultController"
+        history-type="hash"
+>
+
+</psk-app-root>
+<!--    <psk-user-profile></psk-user-profile>
+    <header><app-menu></app-menu></header>
+    <section>
+        <psk-app-router failRedirectTo="/home"></psk-app-router>
+    </section>;-->
+</body>
+</html>

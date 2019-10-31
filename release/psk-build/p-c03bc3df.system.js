@@ -1,0 +1,1 @@
+System.register([],(function(){"use strict";return{execute:function(){console.log("asdasdas");var t=function(){function t(){this.controllers=[]}t.prototype.init=function(){console.log("inited")};t.prototype.registerController=function(t){this.controllers.push(t)};return t}();t.init()}}}));
