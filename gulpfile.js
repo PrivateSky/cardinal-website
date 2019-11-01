@@ -12,18 +12,10 @@ function buildWebComponents(cb) {
     });
 };
 
-function copyAssets(cb) {
-    gulp.src('./src/assets/**/*')
-        .pipe(include({
-            separateInputs: true,
-        }))
-        .pipe(gulp.dest('./release/assets'));
-    cb();
-};
 
 function copyJsFile(cb) {
 
-    gulp.src('./node_modules/webcomponents/dist/psk-build.js')
+    gulp.src('./node_modules/webcomponents/dist/cardinal.js')
         .pipe(include({
             separateInputs: true,
         }))
@@ -33,11 +25,20 @@ function copyJsFile(cb) {
 
 function copyJsFolderBuild(cb) {
 
-    gulp.src('./node_modules/webcomponents/dist/psk-build/**/*')
+    gulp.src('./node_modules/webcomponents/dist/cardinal/**/*')
         .pipe(include({
             separateInputs: true,
         }))
-        .pipe(gulp.dest('./release/psk-build'));
+        .pipe(gulp.dest('./release/cardinal'));
+    cb();
+};
+
+function copyThemes(cb) {
+    gulp.src('./node_modules/webcomponents/dist/themes/**/*')
+        .pipe(include({
+            separateInputs: true,
+        }))
+        .pipe(gulp.dest('./release/themes'));
     cb();
 };
 
@@ -50,7 +51,8 @@ function copySourceFiles(cb) {
     cb();
 };
 
-exports.build = series(buildWebComponents, copyJsFile, copyJsFolderBuild, copySourceFiles);
+
+exports.build = series(buildWebComponents, copyJsFile, copyJsFolderBuild, copyThemes, copySourceFiles);
 
 
 

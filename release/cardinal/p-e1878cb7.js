@@ -1,0 +1,1 @@
+const a="definedProperties",e="definedEvents",s="data-define-props",d="data-define-events",n="Copy to clipboard",i="Copied!",t="numeric",o={startTag:/<([a-z]+|-*)>/,endTag:/<\/([a-z]+|-*)>/,inlineTag:/.*<([a-z]+|-*)>.*<\/([a-z]+|-*)>.*/};export{s as D,t as L,o as P,i as T,a,d as b,e as c,n as d};
