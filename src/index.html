@@ -4,17 +4,10 @@
 
     <meta charset="UTF-8">
     <title>PSK App Core</title>
-    <script type="module" src="cardinal.js"></script>
-    <link href="assets/css/main.css" rel="stylesheet">
-
-    <script type="module">
-        import DefaultController from "./controllers/DefaultController.js";
-        document.addEventListener("controllerFactoryIsReady", (e) => {
-            let ControllerFactory = e.detail;
-            ControllerFactory.registerController("DefaultController", DefaultController);
-        })
-
-    </script>
+    <link href="./assets/css/main.css" rel="stylesheet" type="text/css">
+    <script type="module" src="scripts/app.js"></script>
+    <script type="module" src="cardinal/cardinal.esm.js"></script>
+    <script nomodule src="cardinal.js"></script>
     <script>
         globalConfig = {
             theme: "default",

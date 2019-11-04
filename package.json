@@ -6,12 +6,13 @@
     "web-server": "cd release && ws --spa ./index.html"
   },
   "devDependencies": {
-    "webcomponents": "file:../pskwebcomponents",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "gulp": "^4.0.2",
     "gulp-include": "^2.4.1",
-    "vinyl-source-stream": "^2.0.0",
     "gulp-run-command": "^0.0.9",
-    "local-web-server": "^3.0.7"
+    "local-web-server": "^3.0.7",
+    "vinyl-source-stream": "^2.0.0",
+    "webcomponents": "file:../pskwebcomponents"
   },
   "license": "MIT"
 }
