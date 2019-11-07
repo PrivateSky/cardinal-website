@@ -203,12 +203,12 @@
             "path": "page-not-found",
             "pageSrc": "Components/psk-page-not-found/index.html"
         }, {
-            "name": "Feedback Pool",
+            "name": "Feedback List",
             "icon": "fa-cog",
             "path": "list-feedbacks",
             "pageSrc": "Components/psk-list-feedbacks/index.html"
         }, {
-            "name": "Application Router",
+            "name": "App Router",
             "icon": "fa-cog",
             "path": "app-router",
             "pageSrc": "Components/psk-app-router/index.html"
@@ -218,7 +218,7 @@
             "path": "attachments-list",
             "pageSrc": "Components/psk-attachments-list/index.html"
         }, {
-            "name": "File Chooser",
+            "name": "Files Chooser",
             "icon": "fa-cog",
             "path": "file-chooser",
             "pageSrc": "Components/psk-file-chooser/index.html"
@@ -228,12 +228,12 @@
             "path": "modal",
             "pageSrc": "Components/psk-modal/index.html"
         }, {
-            "name": "Pin Popup",
+            "name": "PIN Popup",
             "icon": "fa-cog",
             "path": "pin-popup",
             "pageSrc": "Components/psk-pin-popup/index.html"
         }, {
-            "name": "User Interface Loader",
+            "name": "UI Loader",
             "icon": "fa-cog",
             "path": "ui-loader",
             "pageSrc": "Components/psk-ui-loader/index.html"
@@ -242,6 +242,11 @@
             "icon": "fa-cog",
             "path": "user-profile",
             "pageSrc": "Components/psk-user-profile/index.html"
+        }, {
+            "name": "Wizard",
+            "icon": "fa-cog",
+            "path": "wizard",
+            "pageSrc": "Components/psk-wizard/index.html"
         }, {
             "name": "App Menu",
             "pageSrc": "Components/app-menu/index.html"
