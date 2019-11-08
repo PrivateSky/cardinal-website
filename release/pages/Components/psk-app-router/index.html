@@ -12,11 +12,14 @@
     </psk-description>
 
     <psk-property-descriptor title="Supported properties">
-        <psk-app-router data-define-props="true" />
+        <psk-app-router data-define-props="true">
+        </psk-app-router>
     </psk-property-descriptor>
-    <psk-event-descriptor title="Event Description">
-        <psk-app-router data-define-events="true" />
-    </psk-event-descriptor>
+
+    <psk-controller-descriptor title="Events that supports Controllers">
+        <psk-app-router data-define-controller="true">
+        </psk-app-router>
+    </psk-controller-descriptor>
 
     <psk-chapter title="HTML Children">
         <p>This component has no HTML children.</p>
@@ -28,7 +31,8 @@
                 name: Home , path : /home , icon : fa-home , type : route , component : app-home
                 , exact : true },{ name : PSK Components , path : /psk-components , icon : fa-bars , type
                 : abstract , children : [{ name : App Menu , path : /psk-components/app-menu , component
-                : app-menu-usage , icon : fa-bars , type : route , exact : true }] }]" />
+                : app-menu-usage , icon : fa-bars , type : route , exact : true }] }]">
+            </psk-app-router>
         </psk-tag>
     </psk-chapter>
 </psk-page>

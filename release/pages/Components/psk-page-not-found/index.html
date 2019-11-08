@@ -1,5 +1,5 @@
 <psk-page title="psk-page-not-found">
-    <psk-tag>
+    <psk-tag language="html">
         <psk-page-not-found>
         </psk-page-not-found>
     </psk-tag>
@@ -7,9 +7,12 @@
     <psk-toc title="PSK - Page not Found - TOC"></psk-toc>
 
     <psk-description>
-        <p>This component is intended to be used inside a router component, so when the user navigates to an unknown route, this component will be loaded.</p>
-        <p>This component should be instantiated everywhere in application where there is a possibility to navigate to a wrong or unknown route.</p>
-        <p>The component has the role to redirect the user to a valid route inside the application by using <code>basePath</code> or <code>urlDestination</code> properties.</p>
+        <p>This component is intended to be used inside a router component, so when the user navigates to an unknown
+            route, this component will be loaded.</p>
+        <p>This component should be instantiated everywhere in application where there is a possibility to navigate to a
+            wrong or unknown route.</p>
+        <p>The component has the role to redirect the user to a valid route inside the application by using
+            <code>basePath</code> or <code>urlDestination</code> properties.</p>
         <p>If none of these two properties are given, then a third property is checked: <code>pageRenderer</code></p>
         <p>The the order of the properties priority is the following:</p>
         <p>
@@ -21,7 +24,8 @@
         </p>
     </psk-description>
     <psk-property-descriptor title="Supported properties">
-        <psk-page-not-found data-define-props="true" />
+        <psk-page-not-found data-define-props="true">
+        </psk-page-not-found>
     </psk-property-descriptor>
 
     <psk-chapter title="HTML Children">
@@ -44,6 +48,7 @@
     </psk-chapter>
 
     <psk-example title="Usage Preview with the default page-renderer">
-        <psk-page-not-found />
+        <psk-page-not-found>
+        </psk-page-not-found>
     </psk-example>
 </psk-page>

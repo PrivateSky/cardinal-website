@@ -1,6 +1,7 @@
-@import url("https://privatesky.xyz/assets/fonts/fontawesome/font-awesome.min.css");
-@import url("https://privatesky.xyz/assets/fonts/nunito/nunito.css");
-@import url("https://privatesky.xyz/assets/css/bootstrap/css/bootstrap.min.css");
+@import url("http://localhost:8000/assets/css/fonts/fontawesome/css/all.css");
+@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("./fonts/nunito/nunito.css");
+@import url("./bootstrap/css/bootstrap.min.css");
 
 body {
   margin: 0;
