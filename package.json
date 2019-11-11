@@ -1,12 +1,11 @@
 {
-  "name": "pwc-app-core",
+  "name": "cardinal",
   "version": "0.0.1",
   "description": "PrivateSky Website Core for building self sovereign applications",
   "scripts": {
     "web-server": "cd release && ws --spa ./index.html"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.11.2",
     "gulp": "^4.0.2",
     "gulp-include": "^2.4.1",
     "gulp-run-command": "^0.0.9",

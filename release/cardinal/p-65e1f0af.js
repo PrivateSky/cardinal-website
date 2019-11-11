@@ -1,0 +1,1 @@
+import{g as o}from"./p-a1b3783e.js";function n(){return n=>{const{componentWillLoad:t}=n;n.componentWillLoad=function(){const n=o(this);return n&&n.shadowRoot?"undefined"!=typeof globalConfig&&"string"==typeof globalConfig.theme?t&&t.call(this):void console.error("Theme or globalConfig is not defind!"):t&&t.call(this)}}}export{n as C};

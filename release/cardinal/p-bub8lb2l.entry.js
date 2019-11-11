@@ -1,1 +1,0 @@
-import{r,h as n}from"./p-f32dfcad.js";const s=class{constructor(n){r(this,n)}render(){return n("app-menu",null)}};export{s as app_container};
