@@ -3,7 +3,7 @@
   "profile": {
     "username": "PrivateSky Core",
     "email": "privatesky@axiologic.net",
-    "avatar": "https://privatesky.xyz/assets/icon/privatesky.png"
+    "avatar": "./assets/images/cardinal.png"
   },
   "menu": {
     "defaultMenuConfig": {
