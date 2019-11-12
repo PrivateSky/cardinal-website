@@ -1,4 +1,4 @@
-const configUrl = "app-config.json";
+const configUrl = "/app-config.json";
 export default class DefaultController {
 
 
@@ -132,6 +132,23 @@ export default class DefaultController {
 
 
         configuration.menu = fillOptionalPageProps(rawConfig.menu.pages);
+
+        if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
+            let addPathPrefix = function (pages) {
+                pages.forEach(page => {
+                    let suffix = page.path;
+                    if(page.path.indexOf("/")===0){
+                        suffix = page.path.substr(1);
+                    }
+                    page.path = `${rawConfig.menu.defaultMenuConfig.pagePrefix}${suffix}`;
+                    if (page.children) {
+                        addPathPrefix(page.children);
+                    }
+                });
+            };
+            addPathPrefix(configuration.menu);
+        }
+
         configuration.pagesHierarchy = this._prepareMenuTree(configuration.menu);
         return configuration;
     }

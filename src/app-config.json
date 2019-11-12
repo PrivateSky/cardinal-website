@@ -3,14 +3,15 @@
   "profile": {
     "username": "PrivateSky Core",
     "email": "privatesky@axiologic.net",
-    "avatar": "./assets/images/cardinal.png"
+    "avatar": "/assets/images/cardinal.png"
   },
   "menu": {
     "defaultMenuConfig": {
       "icon": "fa-bars",
       "type": "route",
       "component": "psk-page-loader",
-      "exact": true
+      "exact": true,
+      "pagePrefix": "/page:"
     },
     "pages": [{
       "name": "Home",
