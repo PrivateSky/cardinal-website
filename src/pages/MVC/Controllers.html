@@ -1,17 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-  <meta>
-  <script type="module" src="/build/app.esm.js"></script>
-  <script nomodule src="/build/app.js"></script>
-  </meta>
+<psk-page title="Tenders list">
+    <psk-container>
+        <psk-controller>
+            alert('this is a script run inside psk-controller tag');
+        </psk-controller>
 
-</head>
+        <psk-html>
+            <psk-toolbar actions=""></psk-toolbar>
+            <psk-cards data="cardList">
+                <psk-renderer>
+                    <psk-table>
+                        <psk-img></psk-img>| {name} |
+                        <psk-icon icon="circle" rf-if="status| eq active"></psk-icon>
+                        ^|
+                        <psk-button eventName="view"></psk-button>
+                    </psk-table>
+                </psk-renderer>
+            </psk-cards>
+        </psk-html>
+    </psk-container>
 
-<body>
-<h1>Work in progress</h1>
-This is a simple external page that explains how controller works!
-</body>
-</html>
+    <psk-container controller-name="SomeController">
+        <psk-controller>
+            this.controller.setState({
+				myName: "Catalin",
+				cardList: [
+					{ name: "Tender1", status: "active" },
+					{ name: "Tender2", status: "inactive" }
+				]
+			});
+			this.controller.receive("eventName", function(event) {
+				console.log(event);
+				console.log(event.detail);
+			});
+			this.controller.send("eventName", this.controller.getState());
+			console.log(this.controller.getState());
+        </psk-controller>
+
+        <psk-toolbar actions=""></psk-toolbar>
+        <psk-cards data="cardList">
+            <psk-renderer>
+                <psk-table>
+                    <psk-img></psk-img>| {name} |
+                    <psk-icon icon="circle" rf-if="status| eq active"></psk-icon>
+                    ^|
+                    <psk-button eventName="view"></psk-button>
+                </psk-table>
+            </psk-renderer>
+        </psk-cards>
+    </psk-container>
+
+    <psk-container controller-name="SomeController">
+        <psk-toolbar actions=""></psk-toolbar>
+        <psk-cards data="cardList">
+            <psk-renderer>
+                <psk-table>
+                    <psk-img></psk-img>| {name} |
+                    <psk-icon icon="circle" rf-if="status| eq active"></psk-icon>
+                    ^|
+                    <psk-button eventName="view"></psk-button>
+                </psk-table>
+            </psk-renderer>
+        </psk-cards>
+    </psk-container>
+</psk-page>
