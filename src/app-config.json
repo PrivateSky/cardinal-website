@@ -11,7 +11,8 @@
       "type": "route",
       "component": "psk-page-loader",
       "exact": true,
-      "pagePrefix": "/page:"
+      "pagePrefix": "?",
+      "historyType":"query"
     },
     "pages": [{
       "name": "Home",

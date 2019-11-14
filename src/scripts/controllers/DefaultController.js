@@ -9,7 +9,6 @@ export default class DefaultController {
         this._getAppConfiguration(configUrl, (err, _configuration) => {
 
             this.configuration = this._prepareConfiguration(_configuration);
-
             this.configIsLoaded = true;
             while (this.pendingRequests.length) {
                 let request = this.pendingRequests.pop();
@@ -22,6 +21,7 @@ export default class DefaultController {
 
         element.addEventListener("needMenuItems", this._provideConfig("menu"));
         element.addEventListener("getUserInfo", this._provideConfig("profile"));
+        element.addEventListener("getHistoryType", this._provideConfig("historyType"));
         element.addEventListener("validateUrl", (e) => {
             e.stopImmediatePropagation();
             let {sourceUrl, callback} = e.detail;
@@ -133,14 +133,25 @@ export default class DefaultController {
 
         configuration.menu = fillOptionalPageProps(rawConfig.menu.pages);
 
-        if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
+        configuration.historyType = "browser";
+        let historyType = rawConfig.menu.defaultMenuConfig.historyType;
+        if (historyType === "hash" ||
+            historyType === "query") {
+            configuration.historyType = historyType;
+        }
+
+        if (historyType === "query") {
+            let pagePrefix = "?";
+            if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
+                pagePrefix = rawConfig.menu.defaultMenuConfig.pagePrefix;
+            }
             let addPathPrefix = function (pages) {
                 pages.forEach(page => {
-                    let suffix = page.path;
-                    if(page.path.indexOf("/")===0){
-                        suffix = page.path.substr(1);
+                    let pagePath = page.path;
+                    if (pagePath.indexOf("/") === 0) {
+                        pagePath = pagePath.substr(1);
                     }
-                    page.path = `${rawConfig.menu.defaultMenuConfig.pagePrefix}${suffix}`;
+                    page.path = `${pagePrefix}${pagePath}`;
                     if (page.children) {
                         addPathPrefix(page.children);
                     }
@@ -149,19 +160,29 @@ export default class DefaultController {
             addPathPrefix(configuration.menu);
         }
 
-        configuration.pagesHierarchy = this._prepareMenuTree(configuration.menu);
+        configuration.pagesHierarchy = this._prepareMenuTree(configuration.menu, historyType);
         return configuration;
     }
 
-    _prepareMenuTree(menuPages) {
+    _prepareMenuTree(menuPages, historyType) {
         let leafSearch = function (menu) {
             let tree = {};
             menu.forEach((leaf) => {
                 let pageName = leaf.name.replace(/(\s+)/g, '').toLowerCase();
 
                 if (!tree[pageName]) {
+                    let leafPath = leaf.path;
+                    switch (historyType) {
+                        case "browser":
+                        case "query":
+                            leafPath = leaf.path;
+                            break;
+                        case "hash":
+                            leafPath = "/#" + leaf.path;
+                            break;
+                    }
                     tree[pageName] = {
-                        path: leaf.path
+                        path: leafPath
                     };
                 }
 
@@ -181,8 +202,8 @@ export default class DefaultController {
 
         let root = this.configuration.pagesHierarchy;
         for (let i = 0; i < paths.length; i++) {
-            if(!root[paths[i]]){
-                return  callback(`${sourceUrl} is not a valid path in the application!`);
+            if (!root[paths[i]]) {
+                return callback(`${sourceUrl} is not a valid path in the application!`);
             }
 
             if (root[paths[i]].children && i !== paths.length) {
