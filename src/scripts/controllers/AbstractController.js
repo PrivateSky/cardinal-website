@@ -3,16 +3,26 @@ export default class AbstractController {
         this._element = element;
     }
 
+    setState(newState) {
+        this._state = newState;
+    }
+
+    getState() {
+        return this._state;
+    }
+
     receive(eventName, callback) {
-        if (!eventName || eventName.trim().length === 0) {
+        if (!eventName || eventName.trim().length === 0
+            || !callback || typeof callback !== 'function'
+            || !this._element || !this._element.addEventListener) {
             return;
         }
         this._element.addEventListener(eventName, callback);
     }
 
     send(eventName, data) {
-        if (!eventName || eventName.trim().length === 0 ||
-            typeof this._element === 'undefined') {
+        if (!eventName || eventName.trim().length === 0 || !this._element
+            || !this._element || !this._element.dispatchEvent) {
             return;
         }
 

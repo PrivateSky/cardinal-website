@@ -1,7 +1,14 @@
 <psk-page title="Tenders list">
     <psk-container>
         <psk-controller>
-            alert('this is a script run inside psk-controller tag');
+            controller.setState({
+                myName: "Catalin",
+                cardList: [
+                    { name: "Tender1", status: "active" },
+                    { name: "Tender2", status: "inactive" }
+                ]
+            });
+            console.log(controller.getState());
         </psk-controller>
 
         <psk-html>
@@ -51,17 +58,8 @@
         </psk-cards>
     </psk-container>
 
-    <psk-container controller-name="SomeController">
-        <psk-toolbar actions=""></psk-toolbar>
-        <psk-cards data="cardList">
-            <psk-renderer>
-                <psk-table>
-                    <psk-img></psk-img>| {name} |
-                    <psk-icon icon="circle" rf-if="status| eq active"></psk-icon>
-                    ^|
-                    <psk-button eventName="view"></psk-button>
-                </psk-table>
-            </psk-renderer>
-        </psk-cards>
-    </psk-container>
+    <psk-chapter title="This chapter has only the psk-container wich loads an external HTML file">
+        <psk-container html-file-path="https://raw.githubusercontent.com/PrivateSky/privatesky-xyz/master/pages/WebComponents/psk-ui-loader/index.html">
+        </psk-container>
+    </psk-chapter>
 </psk-page>

@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "PrivateSky Website Core for building self sovereign applications",
   "scripts": {
-    "web-server": "cd release && ws --spa ./index.html"
+    "web-server": "cd release && ws --spa ./index.html",
+    "dev":"gulp build && npm run web-server"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
