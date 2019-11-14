@@ -21,19 +21,21 @@
 
     <psk-container controller-name="SomeController">
         <psk-controller>
-            this.controller.setState({
-				myName: "Catalin",
-				cardList: [
-					{ name: "Tender1", status: "active" },
-					{ name: "Tender2", status: "inactive" }
-				]
-			});
-			this.controller.receive("eventName", function(event) {
-				console.log(event);
-				console.log(event.detail);
-			});
-			this.controller.send("eventName", this.controller.getState());
-			console.log(this.controller.getState());
+            controller.setState({
+                myName: "Catalin",
+                cardList: [
+                    { name: "Tender1", status: "active" },
+                    { name: "Tender2", status: "inactive" }
+                ]
+            });
+            controller.receive("eventName",  function(event) {
+                console.log('INSIDE EVENT CALLED [eventName]');
+                console.log(event);
+                console.log(event.detail);
+                console.log('INSIDE EVENT CALLED [eventName]');
+            });
+            controller.send("eventName", controller.getState());
+            console.log(controller.getState());
         </psk-controller>
 
         <psk-toolbar actions=""></psk-toolbar>

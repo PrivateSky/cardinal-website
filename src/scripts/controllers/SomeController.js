@@ -5,12 +5,12 @@ export default class SomeController extends AbstractController {
         super(element);
     }
 
-    set State(state) {
-        console.log('setter', state);
-        this._state = state;
+    setState(newState) {
+        console.log('setter', newState);
+        this._state = newState;
     }
 
-    get State() {
+    getState() {
         console.log('getter', this._state);
         return this._state;
     }

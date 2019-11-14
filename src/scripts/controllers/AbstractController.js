@@ -4,16 +4,14 @@ export default class AbstractController {
     }
 
     receive(eventName, callback) {
-        if (eventName || eventName.trim().length === 0 ||
-            typeof callback !== 'function' ||
-            typeof this._element === 'undefined') {
+        if (!eventName || eventName.trim().length === 0) {
             return;
         }
         this._element.addEventListener(eventName, callback);
     }
 
     send(eventName, data) {
-        if (eventName || eventName.trim().length === 0 ||
+        if (!eventName || eventName.trim().length === 0 ||
             typeof this._element === 'undefined') {
             return;
         }
@@ -24,5 +22,12 @@ export default class AbstractController {
             composed: true,
             detail: data
         }));
+    }
+
+    executeScript(controller, script) {
+        if(controller && typeof script === 'string' && script.trim().length > 0) {
+            new Function('controller', script)(controller);
+        }
+        return null;
     }
 }
