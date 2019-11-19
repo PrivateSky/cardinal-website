@@ -24,23 +24,19 @@
         "icon": "fa-cog",
         "children": [{
           "name": "Planning",
-          "icon": "fa-cog",
-          "pageSrc": "Services/Planning.html"
+          "icon": "fa-cog"
         },
           {
             "name": "Execution",
-            "icon": "fa-cog",
-            "pageSrc": "Services/Execution.html"
+            "icon": "fa-cog"
           },
           {
             "name": "Launching",
-            "icon": "fa-cog",
-            "pageSrc": "Services/Launching.html"
+            "icon": "fa-cog"
           },
           {
             "name": "Follow Up",
-            "icon": "fa-cog",
-            "pageSrc": "Services/Follow Up.html"
+            "icon": "fa-cog"
           }
         ]
       },
