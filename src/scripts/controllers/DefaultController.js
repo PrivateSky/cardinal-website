@@ -109,10 +109,7 @@ export default class DefaultController {
                         if (page.pageSrc) {
                             page.componentProps.pageUrl = basePagesUrl + page.pageSrc;
                         } else {
-
-                            let filename = page.name.replace(/\s(.)/g, function ($1) {
-                                return $1.toUpperCase();
-                            }).replace(/\s/g, '');
+                            let filename = page.name.replace(/[:.!?]/g,"").replace(/\s/g, '-').toLowerCase();
 
                             let prefix = "";
                             if (pathPrefix) {
