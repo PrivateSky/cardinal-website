@@ -1,7 +1,6 @@
 const configUrl = "/app-config.json";
 export default class DefaultController {
 
-
     constructor(element) {
         this.configIsLoaded = false;
         this.pendingRequests = [];
@@ -51,13 +50,18 @@ export default class DefaultController {
         }
     }
 
-    _prepareConfiguration(rawConfig) {
+    static _prepareConfiguration(rawConfig) {
 
         let configuration = {};
 
         if (!rawConfig.basePagesUrl) {
+            throw new Error("Pages Base url missing");
+        }
+
+        if (!rawConfig.baseUrl) {
             throw new Error("Base url missing");
         }
+        configuration.baseUrl = rawConfig.baseUrl;
 
         let basePagesUrl = rawConfig.basePagesUrl;
 
@@ -157,11 +161,11 @@ export default class DefaultController {
             addPathPrefix(configuration.menu);
         }
 
-        configuration.pagesHierarchy = this._prepareMenuTree(configuration.menu, historyType);
+        configuration.pagesHierarchy = DefaultController._prepareMenuTree(configuration.menu, historyType);
         return configuration;
     }
 
-    _prepareMenuTree(menuPages, historyType) {
+    static _prepareMenuTree(menuPages, historyType) {
         let leafSearch = function (menu) {
             let tree = {};
             menu.forEach((leaf) => {
