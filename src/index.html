@@ -1,40 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
     <meta charset="UTF-8">
     <title>PSK App Core</title>
     <link href="/assets/css/main.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <script type="module" src="/scripts/app.js"></script>
-    <script type="module" src="/cardinal/cardinal.esm.js"></script>
-    <script nomodule src="/cardinal.js"></script>
+</head>
+
+<body>
+    <psk-app-root controller="DefaultController">
+        <header>
+            <img class="cardinal-logo" width="38px" height="38px" src="/assets/images/cardinal.png" />
+            <app-menu></app-menu>
+        </header>
+        <section>
+            <psk-app-router failRedirectTo="/home"></psk-app-router>
+        </section>
+    </psk-app-root>
+
     <script>
         globalConfig = {
             theme: "default",
             pagesBasePath: "https://raw.githubusercontent.com/PrivateSky/pwc-apps/master/pages/"
-        }</script>
-</head>
-
-<body>
-<psk-app-root
-        controller="DefaultController"
->
-    <header>
-        <img class="cardinal-logo" width="38px" height="38px" src="/assets/images/cardinal.png"/>
-        <app-menu></app-menu>
-    </header>
-    <section>
-        <psk-app-router failRedirectTo="/home"></psk-app-router>
-    </section>
-</psk-app-root>
-<!--
- <psk-user-profile></psk-user-profile>
-    <header><app-menu></app-menu></header>
-    <section>
-        <psk-app-router failRedirectTo="/home"></psk-app-router>
-    </section>
-    <div>{{appVersion}}</div>-->
+        }
+    </script>
+    <script type="text/javascript" src="http://cdn.rawgit.com/mikeric/rivets/master/dist/rivets.bundled.min.js"></script>
+    <script type="module" src="/scripts/app.js"></script>
+    <script type="module" src="/cardinal/cardinal.esm.js"></script>
+    <script nomodule src="/cardinal.js"></script>
 </body>
+
 </html>
