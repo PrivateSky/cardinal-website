@@ -7,7 +7,7 @@ export default class DefaultController {
 
         this._getAppConfiguration(configUrl, (err, _configuration) => {
 
-            this.configuration = this._prepareConfiguration(_configuration);
+            this.configuration = DefaultController._prepareConfiguration(_configuration);
             this.configIsLoaded = true;
             while (this.pendingRequests.length) {
                 let request = this.pendingRequests.pop();
