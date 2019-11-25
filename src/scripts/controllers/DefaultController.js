@@ -169,7 +169,7 @@ export default class DefaultController {
         let leafSearch = function (menu) {
             let tree = {};
             menu.forEach((leaf) => {
-                let pageName = leaf.name.replace(/(\s+)/g, '').toLowerCase();
+                let pageName = leaf.name.replace(/[\s+-]/g, '').toLowerCase();
 
                 if (!tree[pageName]) {
                     let leafPath = leaf.path;
@@ -198,7 +198,7 @@ export default class DefaultController {
     }
 
     _parseSourceUrl(sourceUrl, callback) {
-        sourceUrl = sourceUrl.replace(/(\s+)/g, '').toLowerCase();
+        sourceUrl = sourceUrl.replace(/[\s+-]/g, '').toLowerCase();
         let paths = sourceUrl.split("/");
 
         let root = this.configuration.pagesHierarchy;
