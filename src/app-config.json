@@ -57,6 +57,65 @@
         "pageSrc": "News/index.html"
       },
       {
+        "name": "Web Components",
+        "icon": "fa-newspaper-o",
+        "children": [
+          {
+            "name": "Page Not Found",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/page-not-found.html"
+          },
+          {
+            "name": "Feedback List",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/feedback-list.html"
+          },
+          {
+            "name": "App Router",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/app-router.html"
+          },
+          {
+            "name": "Attachments List",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/attachments-list.html"
+          },
+          {
+            "name": "Files Chooser",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/files-chooser.html"
+          },
+          {
+            "name": "Modal",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/modal.html"
+          },
+          {
+            "name": "PIN Popup",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/pin-popup.html"
+          },
+          {
+            "name": "UI Loader",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/ui-loader.html"
+
+          },
+          {
+            "name": "User Profile",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/user-profile.html"
+          },
+          {
+            "name": "Wizard",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/wizard.html"
+          },
+          {
+            "name": "Floating Menu",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/floating-menu.html"
+          },
+          {
+            "name": "Icon",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/icon.html"
+          },
+          {
+            "name": "App Menu",
+            "pageSrc": "https://privatesky.xyz/pages/web-components/app-menu.html"
+          }
+        ]
+      },
+      {
         "name": "Contact",
         "icon": "fa-envelope-o",
         "pageSrc": "Contact/index.html"
