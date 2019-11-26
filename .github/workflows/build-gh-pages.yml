@@ -17,13 +17,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install
-      run: |
-        npm ci
     - name: webcomponents
       run: |
         cd ..
         git clone https://github.com/PrivateSky/pskwebcomponents.git
         ls
+    - name: npm install
+      run: |
+        npm ci
       env:
         CI: true
