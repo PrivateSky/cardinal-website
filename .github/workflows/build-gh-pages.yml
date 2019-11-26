@@ -18,6 +18,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: install & build pskwebcomponents
+      if: failure()
       run: |
         cd ..
         git clone https://github.com/PrivateSky/pskwebcomponents.git
@@ -25,7 +26,6 @@ jobs:
         npm ci
         npm run build
     - name: npm install
-      if: failure()
       run: |
         npm ci
         gulp build
