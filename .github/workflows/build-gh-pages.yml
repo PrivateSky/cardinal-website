@@ -21,7 +21,8 @@ jobs:
       run: |
         cd ..
         git clone https://github.com/PrivateSky/pskwebcomponents.git
-        ls
+        cd pskwebcomponents
+        npm ci
     - name: npm install
       run: |
         npm ci
