@@ -23,7 +23,7 @@ jobs:
         git clone https://github.com/PrivateSky/pskwebcomponents.git
         cd pskwebcomponents
         npm ci
-        echo (npm run build)
+        echo $(npm run build)
     - name: npm install
       run: |
         npm ci
