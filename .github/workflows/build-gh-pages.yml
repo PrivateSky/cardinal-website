@@ -25,6 +25,7 @@ jobs:
         npm ci
         npm run build
     - name: npm install
+      if: failure()
       run: |
         npm ci
         gulp build
