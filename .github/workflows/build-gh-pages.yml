@@ -18,13 +18,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: install & build pskwebcomponents
-      if: failure()
       run: |
         cd ..
         git clone https://github.com/PrivateSky/pskwebcomponents.git
         cd pskwebcomponents
         npm ci
-        npm run build
+        echo (npm run build)
     - name: npm install
       run: |
         npm ci
