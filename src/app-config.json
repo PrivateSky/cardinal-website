@@ -1,6 +1,6 @@
 {
-  "baseUrl": "http://cardinaljs.xyz",
-  "basePagesUrl": "http://cardinaljs.xyz/pages/",
+  "baseUrl": "https://cardinaljs.xyz",
+  "basePagesUrl": "https://cardinaljs.xyz/pages/",
   "profile": {
     "username": "Cardinal",
     "email": "cardinal@axiologic.net",
