@@ -12,6 +12,10 @@ function buildWebComponents(cb) {
     });
 };
 
+function buildSitemap(cb) {
+    run('npm run generate-sitemap')().then(cb);
+};
+
 
 function copyJsFile(cb) {
 
@@ -49,7 +53,7 @@ function copySourceFiles(cb) {
 }
 
 
-exports.build = series(buildWebComponents, copyJsFile, copyJsFolderBuild, copyThemes, copySourceFiles);
+exports.build = series(buildWebComponents, buildSitemap, copyJsFile, copyJsFolderBuild, copyThemes, copySourceFiles);
 
 
 
