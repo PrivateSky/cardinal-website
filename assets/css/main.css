@@ -1,5 +1,4 @@
 @import url("./fonts/fontawesome/font-awesome.min.css");
-/*@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");*/
 @import url("./fonts/nunito/nunito.css");
 @import url("./bootstrap/css/bootstrap.min.css");
 
@@ -24,4 +23,11 @@ pre {
 
 header {
   background: #005cbf;
+}
+
+@media only screen and (max-width: 700px) {
+  .cardinal-logo {
+    position: absolute;
+    margin: 8px;
+  }
 }
