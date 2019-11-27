@@ -19,7 +19,7 @@
       "name": "Home",
       "path": "/home",
       "icon": "fa-home",
-      "pageSrc": "Home/index.html"
+      "pageSrc": "home.html"
     },
       {
         "name": "Services",
@@ -45,17 +45,17 @@
       {
         "name": "Works",
         "icon": "fa-briefcase",
-        "pageSrc": "Works/index.html"
+        "pageSrc": "works.html"
       },
       {
         "name": "About",
         "icon": "fa-home",
-        "pageSrc": "About/index.html"
+        "pageSrc": "about.html"
       },
       {
         "name": "News",
         "icon": "fa-newspaper-o",
-        "pageSrc": "News/index.html"
+        "pageSrc": "news.html"
       },
       {
         "name": "Web Components",
@@ -119,7 +119,7 @@
       {
         "name": "Contact",
         "icon": "fa-envelope-o",
-        "pageSrc": "Contact/index.html"
+        "pageSrc": "contact.html"
       }
     ]
   }
