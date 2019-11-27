@@ -1,6 +1,6 @@
 {
-  "baseUrl": "http://localhost:8000",
-  "basePagesUrl": "http://localhost:8000/pages/",
+  "baseUrl": "http://cardinaljs.xyz",
+  "basePagesUrl": "http://cardinaljs.xyz/pages/",
   "profile": {
     "username": "Cardinal",
     "email": "cardinal@axiologic.net",
