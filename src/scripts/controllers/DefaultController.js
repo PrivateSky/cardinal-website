@@ -1,4 +1,4 @@
-const configUrl = "./app-config.json";
+const configUrl = "/app-config.json";
 export default class DefaultController {
 
     constructor(element) {
