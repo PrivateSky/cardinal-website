@@ -65,7 +65,7 @@
 .content{
   padding: 50px;
   z-index: 100;
-  background: rgba(64,83,115,0.5);
+  background: rgba(105,141,72,0.5);
   flex-direction: column;
 }
 @media(max-width:960px){
