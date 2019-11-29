@@ -1,0 +1,40 @@
+<psk-page title="psk-page">
+
+    <psk-toc title="PSK Page - TOC">
+    </psk-toc>
+
+    <psk-description>
+        <p>This component is the most important component for documentation as it renders the entire page.</p>
+        <p>This component renders everything on UI based on it's <code>title</code> property.</p>
+        <span>For loading it uses <psk-link page="psk-web-components/ui-loader">psk-ui-loader</psk-link> as a mean to
+            mark the loading process.</span>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-page data-define-props="true">
+        </psk-page>
+    </psk-property-descriptor>
+
+    <psk-chapter title="HTML Children">
+        <p>If the loading has finished then the information between the two tags will be rendered on the UI in a slot
+            child.
+        </p>
+    </psk-chapter>
+
+    <psk-chapter title="Code Example">
+        <psk-code>
+            <psk-page title="Title Example">
+            </psk-page>
+        </psk-code>
+    </psk-chapter>
+    <psk-example title="Live Example">
+        <psk-page title="PSK-page Example">
+            <p>Lorem ipsum dolor sit amet, pellentesque nec aenean quam, et lorem suscipit quisque, eget lorem
+                aliquam et vestibulum suscipit id, euismod amet, sem mollit dolor nullam lacus accumsan sed. Sem
+                vitae aliquet, nec tempus interdum morbi, ac id facilis.</p>
+            <p>Nascetur enim id metus et, nulla velit sit bibendum vestibulum, aenean repudiandae nec id risus
+                vestibulum lobortis, nostra nunc enim donec ut in sit. Sit aperiam, blandit elit donec litora
+                convallis.</p>
+        </psk-page>
+    </psk-example>
+</psk-page>

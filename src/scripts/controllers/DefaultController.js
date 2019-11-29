@@ -1,7 +1,11 @@
+import Controller from "./Controller.js";
+
 const configUrl = "/app-config.json";
-export default class DefaultController {
+
+export default class DefaultController extends Controller {
 
     constructor(element) {
+        super(element);
         this.configIsLoaded = false;
         this.pendingRequests = [];
 
@@ -23,7 +27,7 @@ export default class DefaultController {
         element.addEventListener("getHistoryType", this._provideConfig("historyType"));
         element.addEventListener("validateUrl", (e) => {
             e.stopImmediatePropagation();
-            let {sourceUrl, callback} = e.detail;
+            let { sourceUrl, callback } = e.detail;
             if (callback && typeof callback === "function") {
                 this._parseSourceUrl(sourceUrl, callback);
             } else {
@@ -44,7 +48,7 @@ export default class DefaultController {
                     }
                     callback(null, this.configuration[configName]);
                 } else {
-                    this.pendingRequests.push({configName: configName, callback: callback});
+                    this.pendingRequests.push({ configName: configName, callback: callback });
                 }
             }
         }
@@ -76,7 +80,7 @@ export default class DefaultController {
         }
 
 
-        let fillOptionalPageProps = function (navigationPages, pathPrefix) {
+        let fillOptionalPageProps = function(navigationPages, pathPrefix) {
             navigationPages.forEach(page => {
 
                 if (!page.path) {
@@ -113,7 +117,7 @@ export default class DefaultController {
                         if (page.pageSrc) {
                             page.componentProps.pageUrl = basePagesUrl + page.pageSrc;
                         } else {
-                            let filename = page.name.replace(/[:.!?]/g,"").replace(/\s/g, '-').toLowerCase();
+                            let filename = page.name.replace(/[:.!?]/g, "").replace(/\s/g, '-').toLowerCase();
 
                             let prefix = "";
                             if (pathPrefix) {
@@ -146,7 +150,7 @@ export default class DefaultController {
             if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
                 pagePrefix = rawConfig.menu.defaultMenuConfig.pagePrefix;
             }
-            let addPathPrefix = function (pages) {
+            let addPathPrefix = function(pages) {
                 pages.forEach(page => {
                     let pagePath = page.path;
                     if (pagePath.indexOf("/") === 0) {
@@ -166,10 +170,10 @@ export default class DefaultController {
     }
 
     static _prepareMenuTree(menuPages, historyType) {
-        let leafSearch = function (menu) {
+        let leafSearch = function(menu) {
             let tree = {};
             menu.forEach((leaf) => {
-                let pageName = leaf.name.replace(/(\s+)/g, '').toLowerCase();
+                let pageName = leaf.name.replace(/(\s+|-)/g, '').toLowerCase();
 
                 if (!tree[pageName]) {
                     let leafPath = leaf.path;
@@ -198,20 +202,20 @@ export default class DefaultController {
     }
 
     _parseSourceUrl(sourceUrl, callback) {
-        sourceUrl = sourceUrl.replace(/(\s+)/g, '').toLowerCase();
+        sourceUrl = sourceUrl.replace(/(\s+|-)/g, '').toLowerCase();
         let paths = sourceUrl.split("/");
 
         let root = this.configuration.pagesHierarchy;
         for (let i = 0; i < paths.length; i++) {
             if (!root[paths[i]]) {
-                return callback(`${sourceUrl} is not a valid path in the application!`);
+                callback(`${sourceUrl} is not a valid path in the application!`);
             }
 
             if (root[paths[i]].children && i !== paths.length) {
                 root = root[paths[i]].children;
                 continue;
             }
-            return callback(null, root[paths[i]].path)
+            callback(null, root[paths[i]].path)
         }
     }
 

@@ -1,0 +1,44 @@
+<psk-page title="psk-example">
+
+    <psk-toc title="PSK Example - TOC">
+    </psk-toc>
+
+    <psk-description>
+        <span>This component will create a <code>psk-chapter</code> using the given title property .</span>
+        <p>This components role is to show examples to the UI so the explanations can be done easier.</p>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-example data-define-props="true">
+        </psk-example>
+    </psk-property-descriptor>
+
+    <psk-chapter title="HTML Children">
+        <p>This component has a slot,as a HTML child, that renders the data between the tags in the new
+            <code>psk-chapter</code>.</p>
+    </psk-chapter>
+
+    <psk-chapter title="Code Example">
+        <psk-code>
+            <psk-example title="Title Example">
+                <psk-list list-type="bullet">
+                    <p>First entry</p>
+                    <p>Second entry</p>
+                    <p>Third entry</p>
+                    <p>Fourth entry</p>
+                </psk-list>
+            </psk-example>
+        </psk-code>
+    </psk-chapter>
+
+    <psk-chapter title="Live Example">
+        <psk-example title="Title Example">
+            <psk-list list-type="bullet">
+                <p>First entry</p>
+                <p>Second entry</p>
+                <p>Third entry</p>
+                <p>Fourth entry</p>
+            </psk-list>
+        </psk-example>
+    </psk-chapter>
+</psk-page>

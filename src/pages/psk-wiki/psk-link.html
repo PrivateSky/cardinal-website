@@ -1,0 +1,42 @@
+<psk-page title="psk-link">
+
+    <psk-toc title="PSK Link - TOC">
+    </psk-toc>
+
+    <psk-description>
+        <p>This component role is to create a link that will respond with a redirect inside that website the moment it
+            is clicked.</p>
+        <p>The path to redirect is given using the properties and if it is not given then the component will not be
+            rendered.</p>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-link data-define-props="true">
+        </psk-link>
+    </psk-property-descriptor>
+
+    <psk-controller-descriptor title="Events that supports Controller">
+        <psk-link data-define-controller="true">
+        </psk-link>
+    </psk-controller-descriptor>
+
+    <psk-chapter title="HTML Children">
+        <p>This component child is a span that will render the info on the<code>button</code>.</p>
+    </psk-chapter>
+
+    <psk-chapter title="Code Example">
+        <psk-code>
+            <psk-link page="https://www.privatesky.xyz">
+                Click me to get redirected!
+            </psk-link>
+        </psk-code>
+    </psk-chapter>
+    <psk-chapter title="Live Example">
+        <psk-example>
+            <psk-link page="https://www.privatesky.xyz">
+                Click me to get redirected!
+            </psk-link>
+        </psk-example>
+    </psk-chapter>
+
+</psk-page>
