@@ -13,7 +13,8 @@
       "component": "psk-page-loader",
       "exact": true,
       "pagePrefix": "?page=",
-      "historyType":"query"
+      "historyType":"query",
+      "404": "/pages/404.html"
     },
     "pages": [{
       "name": "Home",
