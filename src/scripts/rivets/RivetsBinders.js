@@ -1,6 +1,5 @@
 export default class RivetsBinders {
     static init() {
-        console.log('init rivets binders');
         rivets.binders.title = (el, value) => {
             if (el && value) {
                 el.title = value;
@@ -26,7 +25,6 @@ export default class RivetsBinders {
         }
 
         rivets.binders.model = (el, model) => {
-            console.log(el, model);
             if (model) {
                 el.setAttribute('model', JSON.stringify(model));
             }

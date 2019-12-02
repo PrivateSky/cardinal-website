@@ -50,18 +50,92 @@ export default class FormController extends Controller {
                         placeHolder: "Your name is..."
                     }, {
                         componentName: "psk-checkbox",
-                        label: "GRDP Consent"
+                        label: "GRDP Consent",
+                        checkboxLabel: "Label for checkbox"
+                    }, {
+                        componentName: "psk-radio",
+                        label: "Choose only one. Choose wisely",
+                        options: "Romania | Italia | Franta"
                     }],
                     rowType: "normal"
+                }, {
+                    row: [{
+                        componentName: "psk-radio",
+                        label: "Choose only one. Choose wisely",
+                        options: [{
+                                label: "Romanica Mare"
+                            },
+                            {
+                                label: "Frantuzica Mica",
+                                name: "framica"
+                            },
+                            {
+                                label: "Italia de pe Marte",
+                                name: "martinica"
+                            }
+                        ]
+                    }],
+                    rowType: 'wide'
+                }, {
+                    row: [{
+                        componentName: "psk-select",
+                        label: "Choose wisely.",
+                        selectionType: "single",
+                        options: [{
+                                label: "Romanica Mare"
+                            },
+                            {
+                                label: "Frantuzica Mica",
+                                name: "framica"
+                            },
+                            {
+                                label: "Italia de pe Marte",
+                                name: "martinica"
+                            }
+                        ]
+                    }, {
+                        componentName: "psk-select",
+                        label: "Choose only one.",
+                        selectionType: "multiple",
+                        options: [{
+                                label: "Romanica Mare"
+                            },
+                            {
+                                label: "Frantuzica Mica",
+                                name: "framica"
+                            },
+                            {
+                                label: "Italia de pe Marte",
+                                name: "martinica"
+                            }
+                        ]
+                    }, {
+                        componentName: "psk-select",
+                        label: "Choose only one.",
+                        selectionType: "di' cari-o vrut calculatoru'",
+                        options: [{
+                                label: "Romanica Mare"
+                            },
+                            {
+                                label: "Frantuzica Mica",
+                                name: "framica"
+                            },
+                            {
+                                label: "Italia de pe Marte",
+                                name: "martinica"
+                            }
+                        ]
+                    }],
+                    rowType: 'normal'
                 }
             ],
             actions: [{
-                    actionName: "Reset Form",
-                    actionType: "reset"
+                    name: "Reset Form",
+                    type: "reset"
                 },
                 {
-                    actionName: "Go for it",
-                    actionType: "submit"
+                    name: "Go for it",
+                    type: "submit"
                 }
             ]
         });

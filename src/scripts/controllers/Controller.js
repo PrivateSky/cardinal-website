@@ -6,7 +6,6 @@ export default class Controller {
     }
 
     bind(data) {
-        console.log(data);
         if (!data || !this._element) {
             return;
         }
