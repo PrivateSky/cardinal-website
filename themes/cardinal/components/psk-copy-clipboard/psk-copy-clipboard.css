@@ -13,12 +13,7 @@ a:active {
   text-decoration: none !important;
 }
 
-h1 span a,
-h2 span a,
-h3 span a,
-h4 span a,
-h5 span a,
-h6 span a {
+span a {
   color: #000;
   text-decoration: none;
   font-weight: bold;
@@ -53,31 +48,37 @@ psk-chapter psk-chapter .mark {
   opacity: 0;
 }
 
-#tooltip {
+.tooltip_container {
   display: inline !important;
   color: #fff;
   cursor: pointer;
+  position: absolute;
+  right:0;
 }
 
-#tooltip:hover .tooltip {
+.tooltip_container:hover .copy-tooltip {
   opacity: 1;
-  background-color: #224abe;
+  background-color: #7aa354;
 }
 
-.tooltip {
+.copy-tooltip {
   margin-top: 10px;
   margin-right: 35px;
   padding: 6px 12px;
   color: rgba(255, 255, 255, .7);
-  font-size: 11px;
   border-radius: 4px;
+  background:#7aa354 ;
+  display: block;
+  opacity: 0;
+  font-size: 13px;
+  position: relative;
 }
 
-.tooltip.copied {
+.copy-tooltip.copied {
   color: rgba(255, 255, 255, 1);
 }
 
-.tooltip:after {
+.copy-tooltip:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -86,5 +87,5 @@ psk-chapter psk-chapter .mark {
   border-width: 5px;
   margin-top: -5px;
   border-style: solid;
-  border-color: transparent transparent transparent #224abe;
+  border-color: transparent transparent transparent #7aa354;
 }
