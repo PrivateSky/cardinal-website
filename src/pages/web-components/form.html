@@ -1,5 +1,17 @@
 <psk-page title="Form Example">
-    <psk-container controller-name="FormController">
-        <psk-form rv-model="data.model"></psk-form>
-    </psk-container>
+    <psk-form controller-name="FormController">
+        <psk-row>
+            <psk-input label="My Name" type="email" required="true" bind="email"/>
+            <psk-input label="My Name" type="text" required="true" bind="name.firstname"/>
+        </psk-row>
+        <psk-row>
+
+            <psk-template-iterator model="countries">
+                <psk-label bind="name"></psk-label>
+                <psk-label bind="countryCode"></psk-label>
+                <psk-label bind="countryFlag"></psk-label>
+                <psk-button event-name="visitCountry">Visit</psk-button>
+            </psk-template-iterator>
+        </psk-row>
+    </psk-form>
 </psk-page>
