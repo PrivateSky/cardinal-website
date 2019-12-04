@@ -22,12 +22,13 @@ export default class DefaultController extends Controller {
             }
         });
 
+        element.addEventListener("needRoutes", this._provideConfig("routes"));
         element.addEventListener("needMenuItems", this._provideConfig("menu"));
         element.addEventListener("getUserInfo", this._provideConfig("profile"));
         element.addEventListener("getHistoryType", this._provideConfig("historyType"));
         element.addEventListener("validateUrl", (e) => {
             e.stopImmediatePropagation();
-            let { sourceUrl, callback } = e.detail;
+            let {sourceUrl, callback} = e.detail;
             if (callback && typeof callback === "function") {
                 this._parseSourceUrl(sourceUrl, callback);
             } else {
@@ -48,7 +49,7 @@ export default class DefaultController extends Controller {
                     }
                     callback(null, this.configuration[configName]);
                 } else {
-                    this.pendingRequests.push({ configName: configName, callback: callback });
+                    this.pendingRequests.push({configName: configName, callback: callback});
                 }
             }
         }
@@ -79,8 +80,20 @@ export default class DefaultController extends Controller {
             configuration.profile = rawConfig.profile;
         }
 
+        let filterIndexedItems = function (menuItems) {
+            for(let i = 0; i<menuItems.length; i++){
+                if (menuItems[i].children) {
+                    filterIndexedItems(menuItems[i].children);
+                } else {
+                    if (menuItems[i].indexed === false) {
+                        menuItems.splice(i,1) ;
+                    }
+                }
+            }
+            return menuItems;
+        };
 
-        let fillOptionalPageProps = function(navigationPages, pathPrefix) {
+        let fillOptionalPageProps = function (navigationPages, pathPrefix) {
             navigationPages.forEach(page => {
 
                 if (!page.path) {
@@ -105,7 +118,7 @@ export default class DefaultController extends Controller {
                     }
                 } else {
                     for (let prop in defaultMenuConfig) {
-                        if (!page[prop]) {
+                        if (!page.hasOwnProperty(prop)) {
                             page[prop] = defaultMenuConfig[prop];
                         }
                     }
@@ -135,8 +148,7 @@ export default class DefaultController extends Controller {
             return navigationPages
         };
 
-
-        configuration.menu = fillOptionalPageProps(rawConfig.menu.pages);
+        configuration.routes = fillOptionalPageProps(rawConfig.menu.pages);
 
         configuration.historyType = "browser";
         let historyType = rawConfig.menu.defaultMenuConfig.historyType;
@@ -150,7 +162,7 @@ export default class DefaultController extends Controller {
             if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
                 pagePrefix = rawConfig.menu.defaultMenuConfig.pagePrefix;
             }
-            let addPathPrefix = function(pages) {
+            let addPathPrefix = function (pages) {
                 pages.forEach(page => {
                     let pagePath = page.path;
                     if (pagePath.indexOf("/") === 0) {
@@ -162,15 +174,17 @@ export default class DefaultController extends Controller {
                     }
                 });
             };
-            addPathPrefix(configuration.menu);
+            addPathPrefix(configuration.routes);
         }
 
-        configuration.pagesHierarchy = DefaultController._prepareMenuTree(configuration.menu, historyType);
+        let routes = Object.assign([], configuration.routes);
+        configuration.menu = filterIndexedItems(routes);
+        configuration.pagesHierarchy = DefaultController._prepareRoutesTree(configuration.routes, historyType);
         return configuration;
     }
 
-    static _prepareMenuTree(menuPages, historyType) {
-        let leafSearch = function(menu) {
+    static _prepareRoutesTree(menuPages, historyType) {
+        let leafSearch = function (menu) {
             let tree = {};
             menu.forEach((leaf) => {
                 let pageName = leaf.name.replace(/(\s+|-)/g, '').toLowerCase();

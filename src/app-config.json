@@ -12,6 +12,7 @@
             "type": "route",
             "component": "psk-page-loader",
             "exact": true,
+            "indexed": true,
             "pagePrefix": "?",
             "historyType": "query"
         },
@@ -250,6 +251,12 @@
                         "name": "App Menu"
                     }
                 ]
+            },
+            {
+                "name": "404",
+                "path": "/404",
+                "pageSrc": "404.html",
+                "indexed": false
             }
         ]
     }
