@@ -126,6 +126,9 @@
                         "name": "Controllers"
                     },
                     {
+                        "name": "Model"
+                    },
+                    {
                         "name": "Themes"
                     },
                     {

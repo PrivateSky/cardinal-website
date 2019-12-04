@@ -19,36 +19,59 @@ export default class Controller {
         this._state = newState;
     }
 
-    set model(_model) {
+    setModel(_model) {
         let root = undefined;
+
+        function makeChain(parentChain, currentChain) {
+            return parentChain ? parentChain + "." + currentChain : currentChain
+        }
 
         function makeSetter(parentChain) {
             return function (obj, prop, value) {
-                if (typeof value === "object") {
-                    obj[prop] = proxify(value, parentChain);
-                } else {
-                    obj[prop] = value;
+                let chain = makeChain(parentChain, prop);
+                switch (typeof value) {
+                    case "object":
+                        if (Array.isArray(value)) {
+                            obj[prop] = proxifyArray(value, chain);
+                        } else {
+                            obj[prop] = proxify(value, chain);
+                        }
+                        proxifyNestedObjects(obj[prop]);
+                        break;
+                    default:
+                        obj[prop] = value;
                 }
 
                 root.notify(parentChain, prop);
+                return true;
+            }
+        }
+
+        function proxifyNestedObjects(obj) {
+            for (let prop in obj) {
+                if (typeof obj[prop] === "object") {
+                    obj[prop] = obj[prop];
+                    proxifyNestedObjects(obj[prop]);
+                }
             }
         }
 
         function proxify(obj, parentChain) {
             let isRoot = !parentChain;
             let notify, onChange;
-
             if (isRoot) {
                 let observers = {};
                 notify = function (parentChain, property) {
+                    let changedChain = property;
+                    if (parentChain) {
+                        changedChain = parentChain + "." + changedChain;
+                    }
 
-                    let changedChain = parentChain + "." + property;
-
-                    function notifyChain(changedChain) {
-                        let chain = observers[changedChain];
+                    function notifyChain(queryChain) {
+                        let chain = observers[queryChain];
                         if (chain) {
                             chain.forEach(callback => {
-                                callback();
+                                callback(changedChain);
                             });
                         }
                     }
@@ -70,7 +93,7 @@ export default class Controller {
 
             return new Proxy(obj, {
                 get: function (obj, prop) {
-                    if(isRoot){
+                    if (isRoot) {
                         switch (prop) {
                             case "onChange":
                                 return onChange;
@@ -88,7 +111,7 @@ export default class Controller {
                 },
 
                 ownKeys: function (oTarget) {
-                    return oTarget.keys();
+                    return Object.keys(oTarget);
                 },
                 has: function (oTarget, sKey) {
                     return sKey in oTarget
@@ -135,6 +158,7 @@ export default class Controller {
         }
 
         root = proxify(_model);
+        proxifyNestedObjects(root);
         this.model = root;
     }
 
