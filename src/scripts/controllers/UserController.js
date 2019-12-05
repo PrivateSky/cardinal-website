@@ -19,7 +19,7 @@ export default class UserController extends Controller {
             accounts:["account 1","account 2"]
         };
 
-        this.setModel(this.user);
+        this.model = this.setModel(this.user);
         console.log(this.model);
         setTimeout(() => {
 
@@ -46,19 +46,18 @@ export default class UserController extends Controller {
                 country: "Romania"
             };
 
-            this.model.birthdate.day=2;
-            this.model.birthdate.month.number=11;
-
-            setTimeout((() => {
-                this.model.address.city.street.number = "2bis";
-            }), 2000);
+            // this.model.birthdate.day=2;
+            // this.model.birthdate.month.number=11;
+            //
+            // setTimeout((() => {
+            //     this.model.address.city.street.number = "2bis";
+            // }), 2000);
 
             setTimeout((() => {
                 this.model.accounts.push("master account")
-            }), 4000);
+                console.log(this.model.accounts);
+            }), 1000);
 
         }, 2000)
-
-
     }
 }
