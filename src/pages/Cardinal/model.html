@@ -1,8 +1,13 @@
 <psk-page title="Model">
 
     <psk-container controller-name="UserController">
-        <psk-input label="My Name 1" type="email" required="true" bind="name"/>
-        <psk-input label="My Name 2" type="email" required="true" bind="name"/>
+        <psk-input label="My Name 1" type="text" required="true" bind="name.firstname"/>
+        <psk-input label="My Name 1" type="email" required="true" bind="name.firstname"/>
+
+        <psk-input label="Email1" type="email" required="true" bind="email"/>
+        <psk-input label="Email2" type="email" required="true" bind="email"/>
+
+        <psk-input label="@label" type="@type" required="@required" value="@value"/>
     </psk-container>
 
 </psk-page>
