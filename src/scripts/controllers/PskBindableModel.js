@@ -1,4 +1,4 @@
-export default class PskModel {
+export default class PskBindableModel {
 
     static setModel(_model) {
         let root = undefined;
@@ -55,7 +55,7 @@ export default class PskModel {
 
         function proxify(obj, parentChain) {
             let isRoot = !parentChain;
-            let notify, onChange;
+            let notify, onChange, getChainValue, setChainValue;
             if (isRoot) {
                 let observers = {};
                 notify = function (parentChain, property) {
@@ -64,17 +64,56 @@ export default class PskModel {
                         changedChain = parentChain + "." + changedChain;
                     }
 
-                    function notifyChain(queryChain) {
-                        let chain = observers[queryChain];
-                        if (chain) {
-                            chain.forEach(callback => {
-                                callback(changedChain);
-                            });
-                        }
-                    }
+                    function notifyChain(chain) {
+                        let chainSequence = chain.split(".").map(el => el.trim());
+                        let notifierReducer = (accumulator, currentValue, index) => {
 
+                            if (index === 0) {
+                                accumulator = currentValue;
+                            } else {
+                                accumulator += "." + currentValue;
+                            }
+                            if (accumulator !== null && typeof accumulator !== 'undefined') {
+                                if (observers[accumulator]) {
+                                    observers[accumulator].forEach(callback => {
+                                        callback(chain);
+                                    })
+                                }
+                            }
+                            return accumulator;
+                        };
+                        return chainSequence.reduce(notifierReducer, "");
+                    }
                     notifyChain(changedChain);
                     notifyChain("*");
+                };
+
+                getChainValue = function (chain) {
+                    let chainSequence = chain.split(".").map(el => el.trim());
+                    let reducer = (accumulator, currentValue) => {
+                        if (accumulator !== null && typeof accumulator !== 'undefined') {
+                            return accumulator[currentValue];
+                        }
+                        return undefined;
+                    };
+                    return chainSequence.reduce(reducer, root);
+                };
+
+                setChainValue = function (chain, value) {
+                    let chainSequence = chain.split(".").map(el => el.trim());
+
+                    let reducer = (accumulator, currentValue, index, array) => {
+                        if (accumulator !== null && typeof accumulator !== 'undefined') {
+                            if (index === array.length - 1) {
+                                accumulator[currentValue] = value;
+                                return true;
+                            }
+                            accumulator = accumulator[currentValue];
+                            return accumulator;
+                        }
+                        return undefined;
+                    };
+                    return chainSequence.reduce(reducer, root);
                 };
 
                 onChange = function (chain, callback) {
@@ -96,6 +135,10 @@ export default class PskModel {
                                 return onChange;
                             case "notify":
                                 return notify;
+                            case "getChainValue":
+                                return getChainValue;
+                            case "setChainValue":
+                                return setChainValue;
                         }
                     }
 

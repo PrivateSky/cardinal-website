@@ -1,9 +1,9 @@
-import PskModel from "./PskModel.js";
+import PskBindableModel from "./PskBindableModel.js";
 export default class BaseController{
 
     constructor(element){
         this._element = element;
-        this.setModel = PskModel.setModel;
+        this.setModel = PskBindableModel.setModel;
     }
 
 }

@@ -5,53 +5,65 @@ export default class UserController extends Controller {
     constructor(element) {
         super(element);
 
+        let _addModelListeners = (element) => {
+            element.addEventListener("getModelEvent", (e) => {
+                e.stopImmediatePropagation();
+                let eventData = e.detail;
+                let callback = eventData.callback;
+
+                if (typeof callback === "function") {
+                    if (eventData.bindValue && this.model[eventData.bindValue]) {
+                        console.log(this.model[eventData.bindValue]);
+                        return callback(null, this.model[eventData.bindValue])
+                    }
+
+                    if (!eventData.bindValue) {
+                        return callback(null, this.model);
+                    }
+                }
+                return callback(new Error("No callback provided"));
+            })
+        };
+
+        _addModelListeners(element);
         this.user = {
-            name: "Rafael",
+            name: {
+                label:"First Name",
+                required:"true",
+                value:"",
+                placeholder:"Enter your name here"
+            },
             email: "raf@rms.ro",
-            birthdate:{
-                day:1,
-                year:1988,
-                month:{
-                    name:"December",
-                    number:12
+            birthdate: {
+                day: 1,
+                year: 1988,
+                month: {
+                    name: "December",
+                    number: 12
                 }
             },
-            accounts:["account 1","account 2"]
+            accounts: ["account 1", "account 2"]
         };
 
         this.model = this.setModel(this.user);
-        console.log(this.model);
+
         setTimeout(() => {
 
             this.model.onChange("*", (chain) => {
-                console.log("Chain changed: ", chain)
+                console.log("Wildcard triggered: ", chain)
             });
 
-
-            this.model.onChange("address.city.street.number", () => {
-                console.log("city number changed");
+            this.model.onChange("name", (chain) => {
+                console.log("Chain with wildcard triggered: ", chain)
             });
 
-            this.model.onChange("address", () => {
-                console.log("address changed");
+            this.model.onChange("name.firstnamse", (chain) => {
+                console.log("Chain with wildcard triggered: ", chain)
             });
 
+            this.model.name.firstname="Alexandru";
+            this.model.name.required=true;
 
-            this.model.address = {
-                city: {
-                    name: "Iasi",
-                    street: {name:"Chimiei",
-                        number:"2"}
-                },
-                country: "Romania"
-            };
-
-            // this.model.birthdate.day=2;
-            // this.model.birthdate.month.number=11;
-            //
-            // setTimeout((() => {
-            //     this.model.address.city.street.number = "2bis";
-            // }), 2000);
 
             setTimeout((() => {
                 this.model.accounts.push("master account")
