@@ -40,6 +40,12 @@ export default class PskBindableModel {
 
                     return val.bind(target);
                 }
+                /**
+                 * check this and check if Array.isArray(proxified array) works
+                 */
+                if(prop === "isArray"){
+                    return true;
+                }
                 return val;
             }
         }
@@ -76,7 +82,9 @@ export default class PskBindableModel {
                             if (accumulator !== null && typeof accumulator !== 'undefined') {
                                 if (observers[accumulator]) {
                                     observers[accumulator].forEach(callback => {
-                                        callback(chain);
+                                        setTimeout(() => {
+                                            callback(chain)
+                                        }, 0);
                                     })
                                 }
                             }

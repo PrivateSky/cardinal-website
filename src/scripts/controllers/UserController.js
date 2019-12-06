@@ -30,7 +30,7 @@ export default class UserController extends Controller {
             name: {
                 label:"First Name",
                 required:"true",
-                value:"",
+                firstname:"Raf",//should become value
                 placeholder:"Enter your name here"
             },
             email: "raf@rms.ro",
@@ -57,7 +57,7 @@ export default class UserController extends Controller {
                 console.log("Chain with wildcard triggered: ", chain)
             });
 
-            this.model.onChange("name.firstnamse", (chain) => {
+            this.model.onChange("name.firstname", (chain) => {
                 console.log("Chain with wildcard triggered: ", chain)
             });
 
