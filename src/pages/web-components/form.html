@@ -9,8 +9,13 @@
         </psk-controller>
         <psk-row>
             <psk-input label="@label" type="@text" required="@required" value="@value"/>
+            <psk-input label="My Name" type="text" required="true" bind="name.firstname" />
+            <psk-radio-group>
+                <psk-radio label="Radio 1" name="radio1" value="radio1"></psk-radio>
+                <psk-radio label="Radio 2" name="radio2" value="radio2"></psk-radio>
+                <psk-radio label="Radio 3" name="radio3" value="radio3"></psk-radio>
+            </psk-radio-group>
         </psk-row>
-        <psk-row>
 
             <psk-for-each data="@countries">
 

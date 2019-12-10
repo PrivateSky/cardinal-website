@@ -1,5 +1,34 @@
 <psk-page title="What is swarm communication?">
-  <psk-chapter title="Technology neutral presentation of Swarm Communication">
+
+  <psk-tok></psk-tok>
+
+  <psk-chapter title="Procese si fenomene intilnite in programare">
+    <p>In definitia de zi cu zi, un process este inteles ca o serie de evenimente si pasi inruditi (au ceva in comun) cu un input si output cunoscut. Ordinea in care se intimpla aceste evenimente sau pasi este de obicei bine definita.
+    </p>
+    <p>Tot in definitia de zi cu zi, un fenomen (phenomenon) este un nume dat situatiilor in care relatia de cauzalitate dintre evenimentele observate nu este bine inteleasa sau chiar nu poate fi observata.  In esenta un fenomen este ceva ce nu este inteles in detaliu sau rezultatul unui proces cu stari interne neobservabile (greu observabile sau nu ne pasa suficient ca sa le observam). Ca atare, orice fenomen tinde sa fie un concept destul de vag. O cautare pe internet sau in literatura ne lasa cu definitii si impresii contradictorii dar in acceptiunea cea mai intilnita in stiinta un fenomen este de fapt un proces sau macar se incearca definirea fenomenului sub forma cit mai riguroasa a unui proces.
+    </p>
+    <p>Putem considera fara mari rezerve ca activitatea de programare este activitatea de a transcrie in cod inteligibil de un computer diverse aspecte ale unor procese sau a unor fenomene privite ca procese. Aceasta modelare de procese implica dezvoltarea unor artefacte de programare ce sunt descrise sintatic in cod dar care au si o semantica si pragmatica ce exista in mintea programatorului si in calculator. Ca exemple de artefacte de programare (concepte fundamentale) pot fi enumerate: definitiile de functii, descrierea de clase, servicii, apelarea  functiilor, instantierea obiectelor, apelarea si compunerea  serviciilor
+    </p>
+
+    <psk-img src="/assets/images/swarmComm/paradigms.png" title="Programming paradigms"></psk-img>
+
+    <p>Echipa noastra a fost preocupata de a studia mecanismele de programare sub lupa caracterului lor de procese  si de a le rafina in vederea obtinerii unei unitati conceptuale, obtinerea unei composabilitati bune a unor concepte artificial greu de compus sau obtinerea altor avantaje progmatice.</p>
+    <p>In acest sens, principalul rezultat obtinut este conceptul “comunicarii de tip swarm”. Este bine cunoscut ca la baza programarii orientate obiect a stat comunicarea de mesaje din modelul actorilor.  Comunicarea de tip swarm poate fi inteleasa ca o incercare de a schimba paradigma centrala a programarii spre procese explicite. Din perspectiva noastra obiecte ce comunica one to one din OOP, functii in programarea logica, predicatele din programarea logica sunt exemple de procese si in multe situatii merita tratate si gandite in acest fel.   Programarea este un proces de modelare a unor “concepte” ce vor sa reflecte mai mult sau mai putin fidel relatii, procese si fenomene ce se intimpla in afara calculatorului.  In tabelul urmator identificam ca fiind importanta categorisirea proceselor ce apar in programare din privinta duratei de viata a proceselor.</p>
+
+  <psk-table title= "Tipuri de procese intilnite de programatori" dimensions="20|30|50" header="true" >
+    <b>Fenome</b> |    <b>Tip de proces</b> |  <b>De ce este un proces </b>
+    Instanta unei clase (Obiect) |     Short living process |    Un obiect nu este static, toate modificarile care au loc in timp ne forteaza sa privim obiectele ca procese
+    Un apel de functie sau de API |     Short living process |     Chiar si functiile fara side effects (pure functions) pentru a fi executate de calculatoare schimba starea memoriei in timp.  Ca atare nu pot fi privite decit ca fiind in procese cu viata scurta.
+    Controlul operatiilor asincone|    Short living process |     In programarea cu functii asincrone intalnite in multe limbaje si platforme, o metoda eleganta de programare este gruparea unui set inrudit de operatii asincrone intr-un singur artefact (obiect, chain de promises etc). De obicei aceste operatii asincrone schimba starea unui obiect (sau a mai multor obiecte). Prin gruparea acestor obiecte intr-un singur concept putem vedea cum un task ce necesita executia unuia sau mai multor operatii asincrone poate fi inteles ca un proces.
+    Compunerea de servicii prin coreografii |     Integration short living processes|     Compunerea de servicii in mod centralizat sau decentralizat poate fi inteles ca un proces format din toate evenimentele care au loc in diferitele locatii unde serviciile sunt realizate.
+    Business process |    Long living processes |    Un process de busines este evident un proces ce se desfasoara  in timp si este reflectat de schimbari de stare in baze de date.  Prin  unificarea locurile din baza de date care sufera in timp schimbari, putem vedea esenta acestui proces.
+    Smart contracts |     Long living processes |    Un contract smart este evident un proces long living ce foloseste blockchain-ul pe post de baza de date.
+
+  </psk-table>
+  </psk-chapter>
+
+
+  <psk-chapter title="Summary: Technology neutral presentation of Swarm Communication">
     <p>
       Swarm communication is an concept introduced in 2013 in an article with title "Swarm Communication - a Messaging Pattern proposal for Dynamic Scalability in Cloud."[1]
       and extend and discussed in other articles regarding privacy and executable choreographies[2][3].

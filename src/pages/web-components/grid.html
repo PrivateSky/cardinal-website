@@ -1,0 +1,42 @@
+<psk-page title="psk-grid">
+
+    <psk-toc title="PSK Grid - TOC">
+    </psk-toc>
+
+    <psk-description>
+        <p>This component is dividing a table's columns down to the number that was given to the <code>number</code>
+            property.</p>
+        <p>If you want to know more about bootstrap grid:</p>
+        <a href="https://getbootstrap.com/docs/4.1/layout/grid/">bootstrap grid</a>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-grid data-define-props="true">
+        </psk-grid>
+    </psk-property-descriptor>
+
+    <psk-chapter title="HTML Children">
+        <p>The slot inside the component will render the text between the tags.</p>
+    </psk-chapter>
+
+    <psk-chapter title="Code Example">
+        <psk-code>
+            <psk-grid numbers="6">One
+            </psk-grid>
+            <psk-grid numbers="4">Two
+            </psk-grid>
+            <psk-grid numbers="3">Three
+            </psk-grid>
+        </psk-code>
+    </psk-chapter>
+
+    <psk-example title="Live Example">
+        <psk-grid numbers="6">One
+        </psk-grid>
+        <psk-grid numbers="4">Two
+        </psk-grid>
+        <psk-grid numbers="3">Three
+        </psk-grid>
+    </psk-example>
+
+</psk-page>

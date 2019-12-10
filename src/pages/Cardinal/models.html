@@ -1,0 +1,29 @@
+<psk-page title="Observable Models">
+  <psk-chapter title="makeObservable">
+    <psk-code>
+
+      makeObservable(oldModel) returns an observable model
+
+      function bind(base, el, varname) {
+      Object.defineProperty(base, varname, {
+          get: () => {
+          return el.value;
+          },
+          set: (value) => {
+          el.value = value;
+          }
+        })
+      }
+    </psk-code>
+
+
+  </psk-chapter>
+
+  <psk-chapter title="onChain">
+
+    model.onChain("a.b.c", function(newValue){
+
+    });
+
+  </psk-chapter>
+</psk-page>

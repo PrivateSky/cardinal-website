@@ -23,6 +23,21 @@
                 "pageSrc": "index.html"
             },
             {
+                "name": "About",
+                "path": "/About",
+                "icon": "fa-cog",
+                "children": [{
+                        "name": "About"
+                    },
+                    {
+                        "name": "How to create a new site with Cardinal"
+                    },
+                    {
+                        "name": "How to write documentation pages"
+                    }
+                ]
+            },
+            {
                 "name": "PrivateSky",
                 "path": "/PrivateSky",
                 "icon": "fa-cog",
@@ -39,6 +54,9 @@
                         "name": "Swarms Explained"
                     },
                     {
+                        "name": "Interactions"
+                    },
+                    {
                         "name": "Installation"
                     },
                     {
@@ -47,17 +65,32 @@
                 ]
             },
             {
-                "name": "EDFS",
-                "path": "/EDFS",
+                "name": "APIs",
+                "path": "/API",
                 "icon": "fa-cog",
                 "children": [{
-                        "name": "EDFS"
+                        "name": "PrivateSky  APIs"
                     },
                     {
-                        "name": "Brick Archives"
+                        "name": "Swarms"
                     },
                     {
-                        "name": "Cloud Safe Boxes"
+                        "name": "Interactions"
+                    },
+                    {
+                        "name": "Error Handling"
+                    },
+                    {
+                        "name": "Domains"
+                    },
+                    {
+                        "name": "Blockchain"
+                    },
+                    {
+                        "name": "BARs"
+                    },
+                    {
+                        "name": "CSBs"
                     }
                 ]
             },
@@ -81,10 +114,31 @@
                         "name": "Encrypted Choreographies"
                     },
                     {
+                        "name": "Development guide"
+                    },
+                    {
                         "name": "Communication"
                     },
                     {
                         "name": "Advanced"
+                    }
+                ]
+            },
+            {
+                "name": "EDFS",
+                "path": "/EDFS",
+                "icon": "fa-cog",
+                "children": [{
+                        "name": "EDFS"
+                    },
+                    {
+                        "name": "Brick Archives"
+                    },
+                    {
+                        "name": "Cloud Safe Boxes"
+                    },
+                    {
+                        "name": "SSApps"
                     }
                 ]
             },
@@ -99,13 +153,13 @@
                         "name": "bar"
                     },
                     {
-                        "name": "PSKAdmin"
+                        "name": "PSKDomain"
                     },
                     {
                         "name": "PSKWallet"
                     },
                     {
-                        "name": "CSBWizzard"
+                        "name": "CSBWizard"
                     },
                     {
                         "name": "PSKMonitor"
@@ -126,9 +180,6 @@
                         "name": "Controllers"
                     },
                     {
-                        "name": "Model"
-                    },
-                    {
                         "name": "Themes"
                     },
                     {
@@ -138,29 +189,6 @@
                         "name": "Services"
                     }
                 ]
-            },
-            {
-                "name": "About",
-                "path": "/About",
-                "icon": "fa-cog",
-                "children": [{
-                        "name": "How to write pages"
-                    },
-                    {
-                        "name": "How to create a new site with this approach"
-                    },
-                    {
-                        "name": "Contributors"
-                    },
-                    {
-                        "name": "Copyright"
-                    }
-                ]
-            },
-            {
-                "name": "Glossary",
-                "path": "/glossary",
-                "pageSrc": "About/glossary.html"
             },
             {
                 "name": "PSK Wiki",
@@ -200,9 +228,6 @@
                         "name": "psk-table"
                     },
                     {
-                        "name": "psk-tag"
-                    },
-                    {
                         "name": "psk-toc"
                     }
                 ]
@@ -213,9 +238,6 @@
                 "icon": "fa-cog",
                 "children": [{
                         "name": "Page Not Found"
-                    },
-                    {
-                        "name": "Form"
                     },
                     {
                         "name": "Feedback List"
@@ -251,14 +273,26 @@
                         "name": "Icon"
                     },
                     {
+                        "name": "Grid"
+                    },
+                    {
+                        "name": "Container"
+                    },
+                    {
+                        "name": "Toolbar"
+                    },
+                    {
                         "name": "App Menu"
                     }
                 ]
             },
             {
+                "name": "Glossary",
+                "path": "/glossary",
+                "pageSrc": "About/glossary.html"
+            },
+            {
                 "name": "404",
-                "path": "/404",
-                "pageSrc": "404.html",
                 "indexed": false
             }
         ]

@@ -6,7 +6,7 @@
     <psk-description>
         <p>This component will render either a bullet list(using the same special characters as in Office) or an numeric
             list, based on the values given to the properties .</p>
-        <p>Every element in this list will be delimited by a <code>new line</code>(<b>\n</b>).</p>
+        <p>Every element in this list will be delimited by a <code>new line</code> .</p>
     </psk-description>
 
     <psk-property-descriptor title="Supported properties">
@@ -16,7 +16,8 @@
 
     <psk-chapter title="HTML Children">
         <p>The info sent between the tags will be processed in this way:</p>
-        <p>First of all every element delimited by <b>\n</b> with a length bigger than 0 will be passed in a array.</p>
+        <p>First of all every element delimited by <code>new line</code> with a length bigger than 0 will be passed in a
+            array.</p>
         <p>After this for every array element we verify if it's either a inline,start or end tag.</p>
         <p>If it is any of the above we check for children,in a positive case we add them to a final array that will
             be rendered, and in a negative case we add only the line to the final array.</p>

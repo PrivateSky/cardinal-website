@@ -1,0 +1,41 @@
+<psk-page title="psk-container">
+
+    <psk-toc title="PSK Container - TOC">
+    </psk-toc>
+
+    <psk-description>
+        <p>This component uses the controller passed in <code>controllerName</code>(inside the
+            <code>ControllerFactory</code> service) or the default <code>Controller</code>.</p>
+        <p>It can also render javascript code inside the component if it is written :
+            <psk-code>
+                <psk-controller></psk-controller>
+            </psk-code>
+        </p>
+        <span>It also uses <psk-link page="web-components/psk-page-loader">psk-page-loader</psk-link>.</span>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-container data-define-props="true">
+        </psk-container>
+    </psk-property-descriptor>
+
+    <psk-chapter title="HTML Children">
+        <p>This component has a <code>slot</code> tag so the data you enter between the tags can be rendered before the
+            content obtained from the <code>htmlFilePath</code> page.</p>
+    </psk-chapter>
+
+    <psk-chapter title="Code Example">
+        <psk-code>
+            <psk-container htmlFilePath="EDFS/brick-archives">
+                Some important info to be taken into consideration.
+            </psk-container>
+        </psk-code>
+    </psk-chapter>
+
+    <psk-example title="Live Example">
+        <psk-container htmlFilePath="EDFS/brick-archives">
+            Some important info to be taken into consideration.
+        </psk-container>
+    </psk-example>
+
+</psk-page>
