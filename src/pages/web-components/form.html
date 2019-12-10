@@ -1,17 +1,27 @@
 <psk-page title="Form Example">
     <psk-form controller-name="FormController">
+        <psk-controller>
+            <script>
+                controller.receive("editCountry",function(event){
+                    console.log(event.detail);
+            })
+            </script>
+        </psk-controller>
         <psk-row>
-            <psk-input label="My Name" type="email" required="true" bind="email"/>
-            <psk-input label="My Name" type="text" required="true" bind="name.firstname"/>
+            <psk-input label="@label" type="@text" required="@required" value="@value"/>
         </psk-row>
         <psk-row>
 
-            <psk-template-iterator each="@countries">
-                <psk-label bind="name"></psk-label>
-                <psk-label bind="countryCode"></psk-label>
-                <psk-label bind="countryFlag"></psk-label>
-                <psk-button event-name="visitCountry">Visit</psk-button>
-            </psk-template-iterator>
+            <psk-for-each data="@countries">
+
+                <psk-label label="@name"></psk-label>
+                <psk-label label="@countryCode"></psk-label>
+                <psk-label label="@countryFlag"></psk-label>
+                <psk-button event-name="editCountry" event-data="@model">Visit</psk-button>
+                <psk-button event-name="configCountry" event-data="@model">Visit</psk-button>
+
+            </psk-for-each>
         </psk-row>
+        <psk-button event-name="submitData" label="Submit"></psk-button>
     </psk-form>
 </psk-page>
