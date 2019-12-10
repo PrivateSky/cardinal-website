@@ -40,11 +40,13 @@ export default class PskBindableModel {
 
                     return val.bind(target);
                 }
-                /**
-                 * check this and check if Array.isArray(proxified array) works
+                /**TODO
+                 * do we need this? Array.isArray(proxified array) works as expected
                  */
                 if(prop === "isArray"){
-                    return true;
+                    return function(){
+                        return true;
+                    };
                 }
                 return val;
             }
