@@ -1,101 +1,110 @@
-<psk-page title="Controllers. Integration with Rivets.Js">
+<psk-page title="Controllers. How to write controllers. How to use controllers.">
+    <psk-toc title="Controllers - Table of Contents"></psk-toc>
 
     <psk-description>
-        <p>This page is intending to display how <strong>Controllers</strong> are written in this framework and how it is combined with <a href="http://rivetsjs.com/" title="Rivets.Js">Rivets.Js</a>, a framework used for data-binding.</p>
-        <p>In this page, we will display 3 examples of templates, all of them being displayed using the same defined model.</p>
-        <p>On the top of the container, stands a button which is responsable for manipulating the model. So, everytime when that button is clicked, a new card is added in the page.</p>
-        <p>A great feature from Rivets is that you can customize the view as you want, so for all these examples, some custom binders and formatter have been implemented.</p>
+        <p>This page is intending to display how <strong>Controllers</strong> are written in this framework and the ways of how to use the controllers.</p>
+
+        <p>At this moment, the following ways of implementing a controller are available (we will get into detail in the chapters below):</p>
+        <psk-list list-type="ordered">
+            By creating a javascript class inside <code>controller</code> folder of the application. This class needs to be registered. 
+            By writting javascript code inside the tag <code>psk-controller</code>. This tag is available only inside <code><psk-link page="web-components/container">psk-container</psk-link></code>.
+        </psk-list>
+
+        <p>There is also a default controller that is available, which is named <code>"Controller"</code>. Our suggestion is that when you want to create a controller, is to extend this already available controller.</p>
+        <p>Why? There are two reasons for this: First, we already handle the HTML container where you desire to use the controller and the second reason is that the controller already handles the possibility to listen or to trigger events. More about these,
+            in the chapters below.</p>
+
+        <p>Also, after you define your custom controllers, or maybe you want to use the provided controller, you have the following ways to include the controller inside your components, all of them by using the component <code><psk-link page="web-components/container">psk-container</psk-link></code>            (we will get into detail in the chapters below): </p>
+        <psk-list list-type="ordered">
+            Load the <psk-link page="web-components/container">psk-container</psk-link> component without any attribute.
+            Load the <psk-link page="web-components/container">psk-container</psk-link> component by giving the <code>controller-name</code> attribute. The controller needs to be registered in order to be loaded, otherwise you will not have a controller. 
+            Load the <psk-link page="web-components/container">psk-container</psk-link> component with our without the <code>controller-name</code> attribute, and also, write javascript source code inside <code>psk-controller</code> tag.
+        </psk-list>
     </psk-description>
 
-    <psk-container>
-        <psk-controller>
-            var state = { 
-                name: "Controllers. Integration with Rivets.Js", 
-                cardList: controller.generateList(1) 
-            }; 
-            controller.setState(state); 
-            controller.bind(state);
-        </psk-controller>
-        <button class="btn btn-primary" rv-on-click="controller.addItem">ADD ITEM IN STATE</button>
+    <psk-chapter title="Create a controller">
+        <psk-chapter title="Create a controller by creating a Javascript class">
+			<p>Javascript classes that will serve as controllers should be created in the directory <code>/src/scripts/controllers</code> in order to mentain the project structure.</p>
+            <p>After the creation of this class, you have two possible choises, to extend or not the base controller named <code>Controller</code>.</p>
+            <p>The base controller has already some functionalities provided, like triggering and listening to events, and maybe in the future we will bring other features.</p>
+            <p>If you choose to extend the base controller, then the starting point of your class should look like the below one (assuming you are creating the class in the base path of controllers - <code>/src/scripts/controllers</code>):</p>
+<psk-code language="js">
+    import Controller from "./Controller.js";
 
-        <psk-code language="js" lines="5">
-            var state = { 
-                name: "Controllers. Integration with Rivets.Js", 
-                cardList: controller.generateList(1) 
-            }; 
-            controller.setState(state); 
-            controller.bind(state);
-        </psk-code>
-
-        <psk-code lines="5">
-            <psk-grid columns="2">
-                <psk-card rv-each-card="data.cardList" rv-title="card.name">
-                    <psk-toolbar slot="toolbar" actions="view, edit, cancel" rv-event="card">
-                    </psk-toolbar>
-                    {card.startDate}
-                    <psk-description>{card.description}</psk-description>
-                </psk-card>
-            </psk-grid>
-        </psk-code>
-
-        <psk-grid columns="2">
-            <psk-card rv-each-card="data.cardList" rv-title="card.name">
-                <psk-toolbar slot="toolbar" actions="view, edit, cancel" rv-event="card">
-                </psk-toolbar>
-                {card.startDate}
-                <psk-description>{card.description}</psk-description>
-            </psk-card>
-        </psk-grid>
-
-        <psk-code lines="5">
-            <psk-grid columns="3">
-                <psk-card rv-each-card="data.cardList" rv-title="card.name">
-                    <psk-toolbar slot="toolbar" actions="active, notifications">
-                        <psk-icon slot="active" rv-remove="card.active | neq true" icon="check-circle" title="Active Tender"></psk-icon>
-                        <psk-icon slot="active" rv-remove="card.active | neq false" icon="circle" title="Inactive Tender" disable-color="true"></psk-icon>
-
-                        <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq true" icon="circle" title="Receive notifications"></psk-icon>
-                        <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq false" icon="circle" disable-color="true" title="Without notifications"></psk-icon>
-                    </psk-toolbar>
-                    {card.startDate}
-                    <psk-description>{card.description}</psk-description>
-                </psk-card>
-            </psk-grid>
-        </psk-code>
-
-        <psk-grid columns="3">
-            <psk-card rv-each-card="data.cardList" rv-title="card.name">
-                <psk-toolbar slot="toolbar" actions="active, notifications">
-                    <psk-icon slot="active" rv-remove="card.active | neq true" icon="check-circle" title="Active Tender"></psk-icon>
-                    <psk-icon slot="active" rv-remove="card.active | neq false" icon="circle" title="Inactive Tender" disable-color="true"></psk-icon>
-
-                    <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq true" icon="circle" title="Receive notifications"></psk-icon>
-                    <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq false" icon="circle" disable-color="true" title="Without notifications"></psk-icon>
-                </psk-toolbar>
-                {card.startDate}
-                <psk-description>{card.description}</psk-description>
-            </psk-card>
-        </psk-grid>
-
-        <psk-code lines="5">
-            <psk-grid columns="4">
-                <psk-card rv-each-card="data.cardList" rv-title="card.name">
-                    <psk-toolbar slot="toolbar" actions="view, edit, cancel" rv-event="card" icons="true">
-                    </psk-toolbar>
-                    {card.startDate}
-                    <psk-description>{card.description}</psk-description>
-                </psk-card>
-            </psk-grid>
-        </psk-code>
-
-        <psk-grid columns="4">
-            <psk-card rv-each-card="data.cardList" rv-title="card.name">
-                <psk-toolbar slot="toolbar" actions="view, edit, cancel" rv-event="card" icons="true">
-                </psk-toolbar>
-                {card.startDate}
-                <psk-description>{card.description}</psk-description>
-            </psk-card>
-        </psk-grid>
+    export default class MySuperAwesomeController extends Controller {
+        constructor(element) {
+            super(element);
+        }
+    }
+</psk-code>
         </psk-chapter>
+        <psk-chapter title="Create a controller by writting javascript source code">
+            <p>Let's assume that you want to have displayed a list of sale products on a page, but for some of them you want a specific behavior, like triggering an event when a special product has been clicked. In order to do this, you can write some javascript logic only for that product.</p>
+            <p>The source code for that product will look something like the following one:</p>
+<psk-code>
+    <!-- The controller name is not mandatory, an instance of the default controller is being attached to the container in case no controller is provided. -->
+    <psk-container controller="YourControllerName">
+        <psk-controller>
+            <!-- The script tag is not mandatory, but it can be helpful if you write javascript code using an IDE -->
+            <script type="text/javascript">
+                // The variable "controller" is mandatory to be used like this, named controller.
+                // The method "receive" is defined in the default controller, and it adds and event listener to the container.
+                // If you do not extend the default controller, you will need to define your own functionalities
+                controller.receive('clickOnSpecialProduct', function() {
+                    // Define what should happen
+                });
+            </script>
+        </psk-controller>
+
+        <!-- YOUR WEB COMPONENTS HERE -->
     </psk-container>
+</psk-code>
+        </psk-chapter>
+    </psk-chapter>
+
+    <psk-chapter title="Loading a controller">
+            <p>To load a controller by name is possible using one of the following methods:</p>
+            <psk-list>
+                    Load the <psk-link page="web-components/container">psk-container</psk-link> component without any attribute.
+                    Load the <psk-link page="web-components/container">psk-container</psk-link> component by giving the <code>controller-name</code> attribute.
+                    Load the <psk-link page="web-components/container">psk-container</psk-link> component and define <code>psk-controller</code> source code.
+            </psk-list>
+            <psk-chapter title="Loading a controller by default">
+                <p>This type of controller is the easiest to be instantiated. You just need to load the <psk-link page="web-components/container">psk-container</psk-link> component, and inside it you only need to write down the web components you desire for the layout. The source code should look like the following: </p>
+<psk-code>
+    <!-- In this way, the default controller named "Controller" is loaded inside the container -->
+    <psk-container>
+        <!-- YOUR WEB COMPONENTS HERE -->
+    </psk-container>
+</psk-code>
+            </psk-chapter>
+            <psk-chapter title="Loading a controller by name">
+                <p>This type of controller can be loaded by providing to <psk-link page="web-components/container">psk-container</psk-link> component, the attribute contrller-name with the name of the registered controller.</p>
+                <p>The registration of a controller is made in a Javascript file name <code>app.js</code>, on the following location: <code>/src/scripts/app.js</code></p>
+                <p>In this file, you should register all the controllers you want to use in the application.</p>
+                <p>Source code example of the registered controllers: </p>
+<psk-code language="js">
+    import MySuperAwesomeController from "./controllers/MySuperAwesomeController.js";
+    import Controller from "./controllers/Controller.js";
+    
+    document.addEventListener("controllerFactoryIsReady", (e) => {
+        let ControllerFactory = e.detail;
+    
+        ControllerFactory.registerController("Controller", Controller);
+        ControllerFactory.registerController("MySuperAwesomeController", DefaultController);
+    });
+</psk-code>
+                <p>After the registration of the controller, your source code should look like:</p>
+<psk-code>
+    <!-- In this way, your controller is instantiated on this container -->
+    <psk-container controller-name="MySuperAwesomeController">
+        <!-- YOUR WEB COMPONENTS HERE -->
+    </psk-container>
+</psk-code>
+            </psk-chapter>
+            <psk-chapter title="Loading a controller by defining Javascript source code">
+                <p>In the chapter above, <code>Create a controller by writting javascript source code</code>, we have described how to create a controller inside the HTML tag <code>psk-controller</code> and provided a small example of usage.</p>
+                <p>That controller is automatically loaded, so no other actions are required from your side on this case.</p>
+            </psk-chapter>
+    </psk-chapter>
 </psk-page>

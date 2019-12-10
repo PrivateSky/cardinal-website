@@ -4,10 +4,13 @@
     </psk-toc>
 
     <psk-description>
-        <p>This component creates a Table of Content in which every item is a link to that item's position in our
-            <code>psk-page</code>.</p>
-        <p>It renders a psk-card with the given <code>title</code> in which every <code>psk-page</code>
-            and <code>psk-chapter</code> is rendered.</p>
+        <span>This component creates a Table of Content in which every item is a link to that item's position in our
+            <psk-link page="psk-wiki/psk-page">psk-page</psk-link>.</span>
+        <span>It renders a psk-card with the given <code>title</code> in which every <code>psk-page</code>
+            and <psk-link page="psk-wiki/psk-chapter">psk-chapter</psk-link> is rendered.</span>
+        <p>This components selects all <code>psk-chapter</code> components and creates a ordered list based on each
+            chapter <code>guid</code>.</p>
+        <p>It renders a unordered list with it's HTML children.</p>
     </psk-description>
 
     <psk-property-descriptor title="Supported properties">
@@ -16,16 +19,21 @@
     </psk-property-descriptor>
 
     <psk-chapter title="HTML Children">
-        <p>This component has no HTML children.</p>
+        <p>This component has two child components:</p>
+        <ul>
+            <li>First is the index of the element (table of content item index).</li>
+            <li>Second is the title of each <code>chapter</code> that is rendered on that <code>psk-page</code>.</li>
+        </ul>
     </psk-chapter>
 
     <psk-chapter title="Code Example">
         <psk-code>
-            <psk-toc title="Title Example">
+            <psk-toc title="PSK-toc Example">
             </psk-toc>
         </psk-code>
     </psk-chapter>
     <psk-example title="Live Example">
-        <p>The example for this component can be seen at the beggining of every documentation page as the page TOC.</p>
+        <psk-toc title="PSK-toc Example">
+        </psk-toc>
     </psk-example>
 </psk-page>

@@ -1,0 +1,57 @@
+<psk-page title="psk-toolbar">
+
+    <psk-toc title="PSK Toolbar - TOC">
+    </psk-toc>
+
+    <psk-description>
+        <p>This component creates a toolbar using the given properties and the HTML children.</p>
+        <span>If the property <code>icons</code> is passed ,then a pool of <psk-link page="web-components/icon">psk-icon
+            </psk-link>, else a pool of <code>button</code> will be instantiated.</span>
+        <p>Each time a pool item is clicked a new event is created with the <code>eventData</code> property passed
+            along.</p>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-toolbar data-define-props="true">
+        </psk-toolbar>
+    </psk-property-descriptor>
+
+    <psk-chapter title="HTML Children">
+        <p>This component consumes properties inside the HTML children in this way:</p>
+        <ul>
+            <li>If the slot has the same name as one of the actions, then a new slot with that name is created.</li>
+            <li>The icon sent as property will be rendered just like a normal <code>psk-icon</code>.</li>
+        </ul>
+    </psk-chapter>
+
+    <psk-chapter title="Code Example">
+        <psk-code>
+            <psk-toolbar slot="toolbar" actions="active, notifications">
+                <psk-icon slot="active" rv-remove="card.active | neq true" icon="check-circle" title="Active Tender">
+                </psk-icon>
+                <psk-icon slot="active" rv-remove="card.active | neq false" icon="circle" title="Inactive Tender"
+                    disable-color="true"></psk-icon>
+
+                <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq true" icon="circle"
+                    title="Receive notifications"></psk-icon>
+                <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq false" icon="circle"
+                    disable-color="true" title="Without notifications"></psk-icon>
+            </psk-toolbar>
+        </psk-code>
+    </psk-chapter>
+
+    <psk-example title="Live Example">
+        <psk-toolbar slot="toolbar" actions="active, notifications">
+            <psk-icon slot="active" rv-remove="card.active | neq true" icon="check-circle" title="Active Tender">
+            </psk-icon>
+            <psk-icon slot="active" rv-remove="card.active | neq false" icon="circle" title="Inactive Tender"
+                disable-color="true"></psk-icon>
+
+            <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq true" icon="circle"
+                title="Receive notifications"></psk-icon>
+            <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq false" icon="circle"
+                disable-color="true" title="Without notifications"></psk-icon>
+        </psk-toolbar>
+    </psk-example>
+
+</psk-page>

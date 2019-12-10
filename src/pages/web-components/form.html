@@ -1,17 +1,28 @@
 <psk-page title="Form Example">
     <psk-form controller-name="FormController">
-        <psk-row>
-            <psk-input label="My Name" type="email" required="true" bind="email"/>
-            <psk-input label="My Name" type="text" required="true" bind="name.firstname"/>
-        </psk-row>
-        <psk-row>
 
-            <psk-template-iterator each="@countries">
+        <psk-controller>
+            console.log("I am here!!!!");
+        </psk-controller>
+
+        <psk-row>
+            <psk-input label="My Name" type="email" required="true" bind="email" />
+            <psk-input label="My Name" type="text" required="true" bind="name.firstname" />
+            <psk-radio-group>
+                <psk-radio label="Radio 1" name="radio1" value="radio1"></psk-radio>
+                <psk-radio label="Radio 2" name="radio2" value="radio2"></psk-radio>
+                <psk-radio label="Radio 3" name="radio3" value="radio3"></psk-radio>
+            </psk-radio-group>
+        </psk-row>
+
+        <psk-template-iterator each="@countries">
+            <psk-row>
                 <psk-label bind="name"></psk-label>
                 <psk-label bind="countryCode"></psk-label>
                 <psk-label bind="countryFlag"></psk-label>
                 <psk-button event-name="visitCountry">Visit</psk-button>
-            </psk-template-iterator>
-        </psk-row>
+            </psk-row>
+        </psk-template-iterator>
+
     </psk-form>
 </psk-page>
