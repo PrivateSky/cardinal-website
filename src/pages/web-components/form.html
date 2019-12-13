@@ -1,32 +1,29 @@
 <psk-page title="Form Example">
     <psk-form controller-name="FormController">
-        <psk-controller>
-            <script>
-                controller.receive("editCountry",function(event){
-                    console.log(event.detail);
-            })
-            </script>
-        </psk-controller>
+
+        <!-- <psk-for-each data="@countries">
+
+            <psk-label label="@name"></psk-label>
+            <psk-label label="@countryCode"></psk-label>
+            <psk-label label="@countryFlag"></psk-label>
+            <psk-button event-name="editCountry" event-data="@model">Visit</psk-button>
+            <psk-button event-name="configCountry" event-data="@model">Visit</psk-button>
+
+        </psk-for-each> -->
+
         <psk-row>
-            <psk-input label="@label" type="@text" required="@required" value="@value"/>
-            <psk-input label="My Name" type="text" required="true" bind="name.firstname" />
-            <psk-radio-group>
-                <psk-radio label="Radio 1" name="radio1" value="radio1"></psk-radio>
-                <psk-radio label="Radio 2" name="radio2" value="radio2"></psk-radio>
-                <psk-radio label="Radio 3" name="radio3" value="radio3"></psk-radio>
+            <psk-input view-model="name"></psk-input>
+
+            <psk-radio-group view-model="gender">
             </psk-radio-group>
+
         </psk-row>
 
-            <psk-for-each data="@countries">
-
-                <psk-label label="@name"></psk-label>
-                <psk-label label="@countryCode"></psk-label>
-                <psk-label label="@countryFlag"></psk-label>
-                <psk-button event-name="editCountry" event-data="@model">Visit</psk-button>
-                <psk-button event-name="configCountry" event-data="@model">Visit</psk-button>
-
-            </psk-for-each>
+        <psk-row>
+            <psk-select view-model="nationality"> </psk-select>
         </psk-row>
-        <psk-button event-name="submitData" label="Submit"></psk-button>
+
+        <psk-input view-model="email"></psk-input>
+
     </psk-form>
 </psk-page>
