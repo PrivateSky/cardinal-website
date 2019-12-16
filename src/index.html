@@ -22,9 +22,14 @@
 
     <script>
         globalConfig = {
-            theme: "default",
-            pagesBasePath: "https://raw.githubusercontent.com/PrivateSky/pwc-apps/master/pages/"
+            theme: "default"
         }
+    </script>
+    <script  src="/scripts/webshims.js"></script>
+    <script  src="/scripts/bindableModel.js"></script>
+    <script>
+        //temporary fix
+        $$.log = $$.err = console.log;
     </script>
     <script type="module" src="/scripts/app.js"></script>
     <script type="module" src="/cardinal/cardinal.esm.js"></script>

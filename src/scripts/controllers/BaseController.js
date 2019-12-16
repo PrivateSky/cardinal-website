@@ -1,4 +1,5 @@
-import PskBindableModel from "./PskBindableModel.js";
+const PskBindableModel = require("psk-bindable-model");
+
 
 export default class BaseController {
 
