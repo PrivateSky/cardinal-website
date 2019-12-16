@@ -1,8 +1,9 @@
 import BaseController from "./BaseController.js";
-export default class Controller extends BaseController{
+export default class Controller extends BaseController {
     constructor(element) {
         super(element);
     }
+
     receive(eventName, callback) {
         if (!eventName || eventName.trim().length === 0 ||
             !callback || typeof callback !== 'function' ||

@@ -28,10 +28,10 @@ export default class UserController extends Controller {
         _addModelListeners(element);
         this.user = {
             name: {
-                label:"First Name",
-                required:"true",
-                firstname:"Raf",//should become value
-                placeholder:"Enter your name here"
+                label: "First Name",
+                required: "true",
+                firstname: "Raf", //should become value
+                placeholder: "Enter your name here"
             },
             email: "raf@rms.ro",
             birthdate: {
@@ -61,8 +61,8 @@ export default class UserController extends Controller {
                 console.log("Chain with wildcard triggered: ", chain)
             });
 
-            this.model.name.firstname="Alexandru";
-            this.model.name.required=true;
+            this.model.name.firstname = "Alexandru";
+            this.model.name.required = true;
 
 
             setTimeout((() => {
