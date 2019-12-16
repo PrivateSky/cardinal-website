@@ -220,6 +220,7 @@ export default class DefaultController extends Controller {
         for (let i = 0; i < paths.length; i++) {
             if (!root[paths[i]]) {
                 callback(`${sourceUrl} is not a valid path in the application!`);
+                break;
             }
 
             if (root[paths[i]].children && i !== paths.length) {
