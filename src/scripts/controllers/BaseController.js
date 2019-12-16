@@ -1,6 +1,5 @@
 const PskBindableModel = require("psk-bindable-model");
 
-
 export default class BaseController {
 
     constructor(element) {

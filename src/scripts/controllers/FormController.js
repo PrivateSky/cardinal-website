@@ -48,17 +48,22 @@ export default class FormController extends Controller {
                 }, {
                     label: "Italian"
                 }]
+            },
+            gdpr: {
+                label: "Check if you agree with GDPR regulations",
+                name: "gdpr",
+                required: true,
+                checkboxLabel: "GDPR Consent",
+                checkedValue: "yes",
+                uncheckedValue: "no"
             }
         });
 
-        const modelReadyEvent = new CustomEvent('modelReady', {
+        document.dispatchEvent(new CustomEvent('modelReady', {
             bubbles: true,
             cancelable: true,
-            composed: true,
-            detail: this.model
-        });
-
-        document.dispatchEvent(modelReadyEvent);
+            composed: true
+        }));
     }
 
     __initDefaultFormListeners() {
