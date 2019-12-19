@@ -37,6 +37,28 @@
                 ]
             },
             {
+                "name": "SSApps",
+                "path": "/SSApps",
+                "children": [
+                    {
+                        "name": "SSApp Host",
+                        "indexed": true
+                    },
+                    {
+                        "name": "SSApp1",
+                        "indexed": false
+                    },
+                    {
+                        "name": "SSApp2",
+                        "indexed": false
+                    },
+                    {
+                        "name": "SSApp3",
+                        "indexed": false
+                    }
+                ]
+            },
+            {
                 "name": "PrivateSky",
                 "path": "/PrivateSky",
                 "icon": "fa-cog",

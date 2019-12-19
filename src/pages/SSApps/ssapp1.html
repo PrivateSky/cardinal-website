@@ -1,0 +1,21 @@
+<psk-page title="SSApp1 App 1">
+    <psk-container>
+        <script>
+
+            controller.receive("fetchItems", function (evt) {
+                console.log("event",evt);
+                evt.stopImmediatePropagation();
+                fetch("/vmq/MyChannel-1").then(response => {
+                    response.text().then(console.log);
+                    response.json().then(data => console.log(data));
+                });
+            });
+
+        </script>
+
+
+        <psk-button event-name="fetchItems">
+            Fetch My Data
+        </psk-button>
+    </psk-container>
+</psk-page>
