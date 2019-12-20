@@ -1,13 +1,4 @@
-const version = "swr_v6::"
-
-const staticCacheName = `${version}static-resources`;
-
-//const cachePrefix = "https://raw.githubusercontent.com/PrivateSky/browser-server/master/webroot";
-//const cachePrefix  = "https://cdn.jsdelivr.net/gh/PrivateSky/browser-server/webroot";
 const cachePrefix = "http://127.0.0.1:8000";
-
-
-
 
 self.addEventListener('activate',  (event) => {
     try{
@@ -18,18 +9,30 @@ self.addEventListener('activate',  (event) => {
 
 });
 
-
 function createResponse(event) {
     return new Promise((resolve) => {
         let str = event.request.url;
         let newUrl = str;
-        if (str.indexOf("~") != -1) {
-            newUrl = cachePrefix + str.substring(str.indexOf("~") + 1);
+        if (str.indexOf("SSApps/ssapp-host/app") != -1) {
+            let url = new URL(str);
+            newUrl = cachePrefix + "/pages/SSApps/iframe.html";
         }
         //event.request.url =  newUrl;
 
-        var mimeType = (newUrl.indexOf(".js") != newUrl.length - 3)?'text/html':'text/javascript';
-        console.log("Loading resource from:",newUrl, mimeType);
+        let mimeType = "text/html";
+        switch (true) {
+            case newUrl.indexOf(".js")!==-1:
+                mimeType = 'text/javascript';
+                break;
+            case newUrl.indexOf(".css") !==-1:
+                mimeType = 'text/css';
+                break;
+            case newUrl.indexOf(".html")!==-1:
+                mimeType = 'text/html';
+                break;
+        }
+
+       // console.log("Loading resource from:",newUrl, mimeType);
 
         return fetch(newUrl).then((remoteResponse) => {
             var init = {"status": 200, "statusText": "File was successfully extracted"};
@@ -43,8 +46,7 @@ function createResponse(event) {
     });
 }
 
-/*self.addEventListener('fetch', (event) => {
-    console.log(version, ": got request for ", event.request.url);
+self.addEventListener('fetch', (event) => {
+    //console.log(version, ": got request for ", event.request.url);
     event.respondWith(createResponse(event));
-
-});*/
+});

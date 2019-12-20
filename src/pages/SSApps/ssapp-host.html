@@ -1,25 +1,46 @@
 <psk-container>
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw-root.js', {scope: "/"}).then(function(reg) {
+            navigator.serviceWorker.register('/sw-root.js', {scope: "/SSApps"}).then(function(reg) {
                 console.log('Yay, service worker is live!', reg);
             }).catch(function(err) {
                 console.log('No oats for you.', err);
             });
         }
+
+
+
+        let appIndex = 1;
+        let apps = [];
+        let addIframe = function(){
+            let appName = "app"+appIndex + "_" + Math.floor(Math.random()*100000000)+"~";
+            let newIframe = document.createElement("iframe");
+            newIframe.setAttribute("sandbox","allow-scripts allow-same-origin allow-downloads-without-user-activation allow-forms");
+            newIframe.src="/SSApps/ssapp-host/"+appName+"/ssapp1.html?"+appName;
+            document.body.appendChild(newIframe);
+            apps.push(appName);
+
+            //hub.addSpoke(appName,newIframe.contentWindow, newIframe.src);
+            appIndex++;
+        };
+        controller.receive("addIframe",addIframe);
+
+
     </script>
 
-<psk-grid columns="3">
+    <psk-button id="add_iframe" event-name="addIframe">Add new iframe</psk-button>
 
-    <psk-ss-app iframe-src = "http://localhost:8000?SSApps/ssapp1" app-name="app1" sw-path = "http://localhost:8000/sw-browserified.js">
-    </psk-ss-app>
+<!--<psk-grid columns="3">-->
 
-    <psk-ss-app iframe-src = "http://localhost:8000?SSApps/ssapp2" app-name="app2" sw-path = "http://localhost:8000/sw-browserified.js">
-    </psk-ss-app>
+<!--    <psk-ss-app iframe-src = "/SSApps/ssapp/appIndex1" app-name="SSApps/ssapp1" sw-path = "http://localhost:8000/sw-browserified.js">-->
+<!--    </psk-ss-app>-->
 
-    <psk-ss-app iframe-src = "http://localhost:8000?SSApps/ssapp3" app-name="app3" sw-path = "http://localhost:8000/sw-browserified.js">
-    </psk-ss-app>
-</psk-grid>
+<!--    <psk-ss-app iframe-src = "/SSApps/ssapp/appIndex2" app-name="SSApps/ssapp2" sw-path = "http://localhost:8000/sw-browserified.js">-->
+<!--    </psk-ss-app>-->
+
+<!--    <psk-ss-app iframe-src = "/SSApps/ssapp/appIndex3" app-name="SSApps/ssapp3" sw-path = "http://localhost:8000/sw-browserified.js">-->
+<!--    </psk-ss-app>-->
+<!--</psk-grid>-->
 
 
 

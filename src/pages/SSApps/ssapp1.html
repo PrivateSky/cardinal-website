@@ -6,8 +6,7 @@
                 console.log("event",evt);
                 evt.stopImmediatePropagation();
                 fetch("/vmq/MyChannel-1").then(response => {
-                    response.text().then(console.log);
-                    response.json().then(data => console.log(data));
+                    response.text().then((data)=>console.log(data.length));
                 });
             });
 
