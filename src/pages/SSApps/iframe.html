@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="/scripts/webshims.js"></script>
+    <script src="/scripts/pskruntime.js"></script>
 </head>
 <body>
 <h4 id="frameName"></h4>
 <div id="log"></div><button id="doRequestButton">Do request</button>
+<button onclick="startSwarmTest()">Do swarm request</button>
 
 <form action="#">
     <div>
@@ -55,7 +58,7 @@
     function postData(url = '', data = {}) {
         // Default options are marked with *
         return fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            method: 'PUT', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, cors, *same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, *same-origin, omit
@@ -67,13 +70,13 @@
             referrer: 'no-referrer', // no-referrer, *client
             body: 'foo=bar&lorem=ipsum'
         })
-            .then(response => response.json()); // parses JSON response into native JavaScript objects
+            .then(response => response); // parses JSON response into native JavaScript objects
     }
 
 
     var folderName = "/SSApps/ssapp-host/" + appName + "/";
     //var swPath = "http://localhost:8080" + folderName+'sw.js';
-    var swPath = "http://localhost:8000" + '/sw-browserified.js';
+    var swPath = "http://localhost:8000" + '/swBrowserified.js';
     window.addEventListener('load', function () {
         console.log("Registering SW for", swPath, folderName);
         navigator.serviceWorker.register(swPath, {scope: folderName})
@@ -94,6 +97,37 @@
         console.log(str);
         let node = document.createTextNode(str + "    ");
         document.getElementById("log").appendChild(node);
+    }
+
+    function initialiazeSwarmEngine(){
+        const se = require("swarm-engine");
+        se.initialise();
+
+        const SRPC = se.SmartRemoteChannelPowerCord;
+        let swUrl = "http://privatesky.ro:8080/";
+        const powerCord = new SRPC([swUrl]);
+
+        $$.swarmEngine.plug("test/agent/agent007", powerCord);
+    }
+
+    function startSwarmTest(){
+        if(typeof $$.swarmEngine === "undefined"){
+            initialiazeSwarmEngine();
+        }
+
+        let startMessage = "Echo";
+        let sayEcho = (message)=>{
+            $$.interactions.startSwarmAs("test/agent/agent007", "echo", "say", message)
+                .onReturn(function(err, result){
+                    if(!err){
+                        console.log("Iframe received: ", result);
+                        sayEcho(result+"o");
+                    }
+                });
+        };
+        sayEcho(startMessage);
+
+
     }
 
 
@@ -138,18 +172,31 @@
     document.getElementById("doRequestButton").addEventListener("click", function () {
         //doRequest(appName);
 
-        fetch("/vmq/MyChannel-1").then(response => {
+      /*  fetch("/vmq/MyChannel-1").then(response => {
             response.json().then(data => console.log(data));
         });
 
         postData('/vmq/MyChannel-3', {csbType: "FileAttachment"})
             .then(data => console.log(data)) // JSON-string from `response.json()` call
             .catch(error => console.error(error));
+*/
 
-
-        postData('/vmq/MyChannel-4', "test")
+        postData('/create-channel/rafael', "test")
             .then(data => console.log(data)) // JSON-string from `response.json()` call
             .catch(error => console.error(error));
+
+
+        postData('/create-channel/', "test")
+            .then(data => console.log(data)) // JSON-string from `response.json()` call
+            .catch(error => console.error(error));
+
+        fetch('/creeate', {
+            method: 'post',
+            body: new ArrayBuffer(85444)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+        });
     });
 
 
