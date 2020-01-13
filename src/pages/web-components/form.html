@@ -1,21 +1,70 @@
 <psk-page title="Form Example">
     <psk-form controller-name="FormController">
 
-        <!-- <psk-for-each data="@countries">
+        <!-- <psk-for-each data-view-model="entities">
+            <template>
+            <psk-form-row>
+                <psk-label view-model="entityChapter"></psk-label>
+            </psk-form-row>
 
-            <psk-label label="@name"></psk-label>
-            <psk-label label="@countryCode"></psk-label>
-            <psk-label label="@countryFlag"></psk-label>
-            <psk-button event-name="editCountry" event-data="@model">Visit</psk-button>
-            <psk-button event-name="configCountry" event-data="@model">Visit</psk-button>
+            <psk-form-row>
+                <psk-label>Name & E-mail</psk-label>
+            </psk-form-row>
+            <psk-form-row>
+                <psk-input view-model="name"></psk-input>
+                <psk-input view-model="email"></psk-input>
+            </psk-form-row>
 
+            <psk-form-row>
+                <psk-label>Personal information</psk-label>
+            </psk-form-row>
+            <psk-form-row>
+                <psk-select view-model="nationality"></psk-select>
+                <psk-radio-group view-model="gender"> </psk-radio-group>
+            </psk-form-row>
+
+            <psk-form-row>
+                <psk-label>Agreements</psk-label>
+            </psk-form-row>
+            <psk-form-row>
+                <psk-checkbox view-model="terms"></psk-checkbox>
+                <psk-checkbox view-model="gdpr"></psk-checkbox>
+            </psk-form-row>
+        </template>
         </psk-for-each> -->
 
-        <psk-input view-model="name"></psk-input>
-        <psk-radio-group view-model="gender"> </psk-radio-group>
-        <psk-select view-model="nationality"> </psk-select>
-        <psk-input view-model="email"></psk-input>
+        <psk-form-row>
+            <psk-label view-model="entityChapter"></psk-label>
+        </psk-form-row>
 
-        <psk-checkbox view-model="gdpr"></psk-checkbox>
+        <psk-form-row>
+            <psk-label>Name, E-mail & Password</psk-label>
+        </psk-form-row>
+        <psk-form-row>
+            <psk-text-input view-model="name"></psk-text-input>
+            <psk-email-input view-model="email"></psk-email-input>
+            <psk-password-input view-model="password"></psk-password-input>
+        </psk-form-row>
+
+        <psk-form-row>
+            <psk-label>Personal information</psk-label>
+        </psk-form-row>
+        <psk-form-row>
+            <psk-select view-model="nationality"></psk-select>
+            <psk-radio-group view-model="gender"> </psk-radio-group>
+        </psk-form-row>
+        <psk-form-row>
+            <psk-date-input view-model="dateOfBirth"></psk-date-input>
+            <psk-number-input view-model="age"></psk-number-input>
+        </psk-form-row>
+
+        <psk-form-row>
+            <psk-label>Agreements</psk-label>
+        </psk-form-row>
+        <psk-form-row>
+            <psk-checkbox view-model="terms"></psk-checkbox>
+            <psk-checkbox view-model="gdpr"></psk-checkbox>
+        </psk-form-row>
+
     </psk-form>
 </psk-page>
