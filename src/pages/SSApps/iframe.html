@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <script src="/scripts/webshims.js"></script>
     <script src="/scripts/pskruntime.js"></script>
+    <script src="/scripts/parentCommunication.js"></script>
 </head>
 <body>
 <h4 id="frameName"></h4>
+<h2 id="parentMessage"></h2>
 <div id="log"></div><button id="doRequestButton">Do request</button>
 <button onclick="startSwarmTest()">Do swarm request</button>
 
@@ -21,14 +23,11 @@
 </form>
 
 
-
 <script>
-    let iframeCodeVersion = "iframeCode-v4";
     let search = window.location.search;
     let appName = search.substring(1);
     //document.getElementById("version").innerText = iframeCodeVersion + " : " + appName;
     document.getElementById("frameName").innerText=appName;
-    console.log("Loading iframe:", iframeCodeVersion)
 
     var registrationScopes = [];
     function listScopes(){
@@ -40,40 +39,6 @@
         });
     }
 
-
-    function download(filename, data) {
-        var element = document.createElement('a');
-        element.setAttribute('href', data);
-        element.setAttribute('download', filename);
-
-        element.style.display = 'none';
-        document.body.appendChild(element);
-
-        element.click();
-
-        document.body.removeChild(element);
-    }
-
-
-    function postData(url = '', data = {}) {
-        // Default options are marked with *
-        return fetch(url, {
-            method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, cors, *same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                //'Content-Type': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrer: 'no-referrer', // no-referrer, *client
-            body: 'foo=bar&lorem=ipsum'
-        })
-            .then(response => response); // parses JSON response into native JavaScript objects
-    }
-
-
     var folderName = "/SSApps/ssapp-host/" + appName + "/";
     //var swPath = "http://localhost:8080" + folderName+'sw.js';
     var swPath = "http://localhost:8000" + '/swBrowserified.js';
@@ -81,7 +46,7 @@
         console.log("Registering SW for", swPath, folderName);
         navigator.serviceWorker.register(swPath, {scope: folderName})
             .then(function (registration) {
-                    console.log(iframeCodeVersion, ': registration with scope: ', registration.scope);
+                    console.log('Iframe registration with scope: ', registration.scope);
                     if (registrationScopes.indexOf(registration.scope) == -1) {
                         //window.location.reload();
                     }
@@ -104,7 +69,7 @@
         se.initialise();
 
         const SRPC = se.SmartRemoteChannelPowerCord;
-        let swUrl = "http://privatesky.ro:8080/";
+        let swUrl = "http://localhost:8000/";
         const powerCord = new SRPC([swUrl]);
 
         $$.swarmEngine.plug("test/agent/agent007", powerCord);
@@ -131,121 +96,10 @@
     }
 
 
-    function doRequest(appname) {
-        setTimeout(function () {
-            doLog("Requesting " + "/something in " + appname);
-            fetch('/something/' + appname).then(
-                function (response) {
-                    if (response.status == 200) {
-                        response.text().then(function (text) {
-                            doLog(appname + " response is " + text)
-                        })
-                    } else {
-                        doLog(appname + " not found!!!!!!")
-                    }
-
-                }).catch(function (err) {
-                console.log(err);
-            })
-        }, 1);
-    }
-
-    /*setTimeout(()=>{
-        fetch("/file").then(response => {
-            let cdHeader = response.headers.get("Content-Disposition");
-            let filename = "data";
-            if (cdHeader) {
-                let startIndex = cdHeader.indexOf("filename=") + 10; // Adjust '+ 10' if filename is not the right one.
-                let endIndex = cdHeader.length - 1; //Check if '- 1' is necessary
-                filename = cdHeader.substring(startIndex, endIndex);
-            }
-            response.blob().then(blob => {
-                console.log(blob);
-                let downloadData = URL.createObjectURL(blob);
-                download(filename, downloadData)
-            });
-        });
-    },2000);*/
-
-
-
     document.getElementById("doRequestButton").addEventListener("click", function () {
-        //doRequest(appName);
 
-      /*  fetch("/vmq/MyChannel-1").then(response => {
-            response.json().then(data => console.log(data));
-        });
-
-        postData('/vmq/MyChannel-3', {csbType: "FileAttachment"})
-            .then(data => console.log(data)) // JSON-string from `response.json()` call
-            .catch(error => console.error(error));
-*/
-
-        postData('/create-channel/rafael', "test")
-            .then(data => console.log(data)) // JSON-string from `response.json()` call
-            .catch(error => console.error(error));
-
-
-        postData('/create-channel/', "test")
-            .then(data => console.log(data)) // JSON-string from `response.json()` call
-            .catch(error => console.error(error));
-
-        fetch('/creeate', {
-            method: 'post',
-            body: new ArrayBuffer(85444)
-        }).then(function(response) {
-            return response.json();
-        }).then(function(data) {
-        });
     });
 
-
-    function upload(ev){
-        ev.preventDefault();    //stop the form submitting
-
-        //create any headers we want
-        let h = new Headers();
-        h.append('Accept', 'application/json'); //what we expect back
-        //bundle the files and data we want to send to the server
-        let fd = new FormData();
-        fd.append('app-id', document.getElementById('app_id').value);
-
-        let myFile = document.getElementById('avatar_img').files[0];
-        fd.append('attachment', myFile, myFile.name);
-        // $_FILES['avatar']['file_name']  "avatar.png"
-        let req = new Request("/upload", {
-            method: 'POST',
-            headers: h,
-            mode: 'no-cors',
-            body: fd
-        });
-
-        fetch(req)
-            .then( (response)=>{
-                response.json().then(data=>console.log(data.status));
-            })
-            .catch( (err) =>{
-                console.log('ERROR:', err.message);
-            });
-    }
-
-    //document.getElementById('btnSubmit').addEventListener('click', upload);
-
-    /*
-    window.addEventListener("message", function(event){
-        console.log("Message received in child iframe:", event);
-    }, false); */
-
-
-    let spoke;
-    /*import('/HubAndSpoke/HubAndSpoke.js').then((module) => {
-        spoke = module.createSpoke(function (message) {
-            console.log(appName, "Message from parent ", message, spoke);
-            spoke.sendMessage({messageFrom: appName});
-        })
-    }).catch(function (err) {
-        console.log(err);
-    });*/
 
 
 </script>

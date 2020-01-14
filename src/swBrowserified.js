@@ -33,7 +33,7 @@ if (typeof $$ !== "undefined") {
     
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"browser-server":"browser-server","buffer-from":"buffer-from","callflow":"callflow","source-map":"source-map","source-map-support":"source-map-support","swarm-engine":"swarm-engine","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\ChannelsManager.js":[function(require,module,exports){
+},{"browser-server":"browser-server","buffer-from":"buffer-from","callflow":"callflow","source-map":"source-map","source-map-support":"source-map-support","swarm-engine":"swarm-engine","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\ChannelsManager.js":[function(require,module,exports){
 let Queue = require("swarmutils").Queue;
 const maxQueueSize = 100;
 const TOKEN_PLACEHOLDER = "WEB_TOKEN_PLACEHOLDER";
@@ -107,7 +107,7 @@ function sendMessage(channelName, message, callback) {
 
     if(typeof plugs[header.swarmTarget] === "undefined"){
         //we need to do this in order to ensure that we have a handler for every fake/real channel that we create
-        let PC = require("./OuterServiceWorkerPC");
+        let PC = require("./ServiceWorkerPC");
         plugs[header.swarmTarget] =  new PC();
         $$.swarmEngine.plug(header.swarmTarget, plugs[header.swarmTarget]);
     }
@@ -146,7 +146,6 @@ function receiveMessage(channelName, callback) {
     } else {
         callback(undefined, message);
     }
-
 }
 
 function ChannelsManager() {
@@ -167,7 +166,7 @@ let channelManagerInstance = new ChannelsManager();
 module.exports.getChannelsManager = function(){
     return channelManagerInstance;
 }
-},{"./OuterServiceWorkerPC":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\OuterServiceWorkerPC.js","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\EventRequest.js":[function(require,module,exports){
+},{"./ServiceWorkerPC":"D:\\work\\privatesky\\modules\\browser-server\\lib\\ServiceWorkerPC.js","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\EventRequest.js":[function(require,module,exports){
 const unsupportedMethods = ["acceptsCharsets", "acceptsEncodings", "acceptsLanguages", "param", "is", "range"];
 const unsupportedProperties = ["app", "fresh", "ip", "ips", "signedCookies", "stale", "subdomains", "xhr"];
 
@@ -272,7 +271,7 @@ function EventRequest(event) {
 
 exports.EventRequest = EventRequest;
 
-},{}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\EventResponse.js":[function(require,module,exports){
+},{}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\EventResponse.js":[function(require,module,exports){
 const unsupportedMethods = ["append", "redirect", "location", "links", "jsonp", "render", "sendFile"];
 const unsupportedProperties = ["app", "headersSent", "locals"];
 const httpStatuses = require("./HttpStatuses").httpStatuses;
@@ -407,7 +406,7 @@ function EventResponse(event) {
 
 exports.EventResponse = EventResponse;
 
-},{"./HttpStatuses":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\HttpStatuses.js"}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\HttpStatuses.js":[function(require,module,exports){
+},{"./HttpStatuses":"D:\\work\\privatesky\\modules\\browser-server\\lib\\HttpStatuses.js"}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\HttpStatuses.js":[function(require,module,exports){
 exports.httpStatuses = {
     "100": "Continue",
     "101": "Switching Protocols",
@@ -473,54 +472,7 @@ exports.httpStatuses = {
     "510": "Not Extended",
     "511": "Network Authentication Required"
 };
-},{}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\InnerServiceWorkerPC.js":[function(require,module,exports){
-function InnerServiceWorkerPC() {
-    const channelsManager = require("./ChannelsManager").getChannelsManager();
-    const SwarmPacker = require("swarmutils").SwarmPacker;
-
-    this.sendSwarm = function (swarmSerialization) {
-
-        let channelName;
-        let header;
-
-        try {
-            header = SwarmPacker.getHeader(swarmSerialization);
-
-        } catch (e) {
-            console.error("Could not deserialize swarm");
-        }
-
-        //TODO
-        //verifica header.target pt urmatoarele cazuri:
-        // -- daca targetul este un regex de forma domain/agent/agentName atunci trebuie trimis mesajul cu ajutorul lui channelsManager pe canalul Base64(numeDomeniu)
-        // -- daca targetul este un regex de forma http/https atunci trebuie verificat daca domeniul fake-uit de service worker coincide cu domeniul din url. Daca coincid atunci se trimite folosind channelsManagerul local daca nu coincide atunci se face un request http(s) (fetch)
-        // -- default ???? - posibil sa fie nevoie sa intoarcem tot in swarm engine... NU SUNT SIGUR!!!
-
-        let urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-        let regex = new RegExp(urlRegex);
-
-        if (header.swarmTarget.match(regex)) {
-            let swarmTarget = header.swarmTarget;
-            //Urls could end in "/" or not
-            if (swarmTarget[swarmTarget.length - 1] === "/") {
-                swarmTarget = swarmTarget.slice(0, -1);
-            }
-
-            let urlFragments = swarmTarget.split("/");
-            channelName = urlFragments[urlFragments.length - 1];
-            channelsManager.sendMessage(channelName,swarmSerialization,function(){
-                //what now?
-                console.log("done");
-            });
-        }
-
-    };
-
-
-}
-
-module.exports = InnerServiceWorkerPC;
-},{"./ChannelsManager":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\ChannelsManager.js","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\Middleware.js":[function(require,module,exports){
+},{}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\Middleware.js":[function(require,module,exports){
 const EventResponse = require("./EventResponse").EventResponse;
 const EventRequest = require("./EventRequest").EventRequest;
 const httpStatuses = require("./HttpStatuses").httpStatuses;
@@ -542,6 +494,8 @@ function Middleware() {
      * @param {Array} params
      * @returns {*[]}
      */
+
+    this.requestedHosts = new Set();
     function unifyArguments(params) {
         let args = ["*", "*", undefined];
         switch (params.length) {
@@ -795,7 +749,8 @@ function Middleware() {
 
     this.init = (serviceWorker) => {
         serviceWorker.addEventListener('fetch', (event) => {
-
+            let requestedUrl = new URL(event.request.url);
+            this.requestedHosts.add(requestedUrl.host);
             /**
              * A promise should be returned synchronously
              */
@@ -828,17 +783,46 @@ function Middleware() {
         console.log("Initialized! Prepared to capture requests!")
     };
 }
+let middlewareInstance = new Middleware();
 
-exports.Middleware = Middleware;
+exports.getMiddleware = function(){
+    return middlewareInstance;
+};
 
-},{"./EventRequest":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\EventRequest.js","./EventResponse":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\EventResponse.js","./HttpStatuses":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\HttpStatuses.js"}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\OuterServiceWorkerPC.js":[function(require,module,exports){
-function OuterServiceWorkerPC() {
+},{"./EventRequest":"D:\\work\\privatesky\\modules\\browser-server\\lib\\EventRequest.js","./EventResponse":"D:\\work\\privatesky\\modules\\browser-server\\lib\\EventResponse.js","./HttpStatuses":"D:\\work\\privatesky\\modules\\browser-server\\lib\\HttpStatuses.js"}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\Sandbox.js":[function(require,module,exports){
+const ServiceWorkerPC = require("./ServiceWorkerPC.js");
+const se = require("swarm-engine");
+
+se.initialise("*");
+
+$$.swarms.describe("echo", {
+    say: function(message){
+        setTimeout(()=>{
+            this.return(null, message+"O");
+        },2000);
+
+    }
+});
+
+/*
+*  InnerServiceWorkerPowerCord in functia de sendSwarm verifica SwarmTargetul din header
+*  si daca este de tip URL trebuie sa puna in canalul extrax din swarmTarget
+* */
+let pc = new ServiceWorkerPC();
+
+
+$$.swarmEngine.plug("*", pc);
+
+
+},{"./ServiceWorkerPC.js":"D:\\work\\privatesky\\modules\\browser-server\\lib\\ServiceWorkerPC.js","swarm-engine":"swarm-engine"}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\ServiceWorkerPC.js":[function(require,module,exports){
+const UtilFunctions = require("./utilFunctions");
+function ServiceWorkerPC() {
     const channelsManager = require("./ChannelsManager").getChannelsManager();
     const SwarmPacker = require("swarmutils").SwarmPacker;
+    const server = require("./Middleware").getMiddleware();
 
     this.sendSwarm = function (swarmSerialization) {
         let header;
-        let channelName;
 
         try {
             header = SwarmPacker.getHeader(swarmSerialization);
@@ -849,28 +833,46 @@ function OuterServiceWorkerPC() {
         //TODO
         //verifica header.target pt urmatoarele cazuri:
         // -- daca targetul este un regex de forma domain/agent/agentName atunci trebuie trimis mesajul cu ajutorul lui channelsManager pe canalul Base64(numeDomeniu)
-        // -- daca targetul este un regex de forma http/https atunci trebuie verificat daca domeniul fake-uit de service worker coincide cu domeniul din url. Daca coincid atunci se trimite folosind channelsManagerul local daca nu coincide atunci se face un request http(s) (fetch)
+        // -- daca targetul este un regex de forma http/https atunci trebuie verificat daca domeniul fake-uit de service worker coincide cu domeniul din url.
+        //          Daca coincid atunci se trimite folosind channelsManagerul local daca nu coincide atunci se face un request http(s) (fetch)
         // -- default ???? - posibil sa fie nevoie sa intoarcem tot in swarm engine... NU SUNT SIGUR!!!
 
+        if(UtilFunctions.isUrl(header.swarmTarget)){
+            if (!UtilFunctions.isInMyHosts(header.swarmTarget, server.requestedHosts)) {
+                fetch(header.swarmTarget,
+                    {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/octet-stream'
+                        },
+                        redirect: 'follow', // manual, *follow, error
+                        referrerPolicy: 'no-referrer', // no-referrer, *client
+                        body: swarmSerialization
+                    }).then(response => {
 
-        let urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-        let regex = new RegExp(urlRegex);
+                    //TODO
+                    //check status codes
+                    if (!response.ok) {
+                        console.error(`An error occurred:  ${response.status} - ${response.statusText}`);
+                    }
 
-        if (header.swarmTarget.match(regex)) {
-            let swarmTarget = header.swarmTarget;
-            //Urls could end in "/" or not
-            if (swarmTarget[swarmTarget.length - 1] === "/") {
-                swarmTarget = swarmTarget.slice(0, -1);
+                }).catch((err)=>{
+                    //TODO
+                    //handle error
+                    console.log(err);
+                });
+                return;
             }
-
-            let urlFragments = swarmTarget.split("/");
-            channelName = urlFragments[urlFragments.length - 1];
-            channelsManager.sendMessage(channelName,swarmSerialization,function(){
-                //what now?
-                console.log("done");
-            });
         }
 
+        let channelName = UtilFunctions.getChannelName(header.swarmTarget);
+        channelsManager.sendMessage(channelName, swarmSerialization, function () {
+            //TODO
+            //what now?
+            console.log("done");
+        });
     };
 
     let receiveSwarmSerialization = (err, message) => {
@@ -912,33 +914,14 @@ function OuterServiceWorkerPC() {
     });
 }
 
-module.exports = OuterServiceWorkerPC;
-},{"./ChannelsManager":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\ChannelsManager.js","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\Sandbox.js":[function(require,module,exports){
-const InnerServiceWorkerPC = require("./InnerServiceWorkerPC.js");
-const se = require("swarm-engine");
-
-se.initialise("*");
-
-$$.swarms.describe("echo", {
-    say: function(message){
-        setTimeout(()=>{
-            this.return(null, message+"O");
-        },2000);
-
-    }
-});
-
-/*
-*  InnerServiceWorkerPowerCord in functia de sendSwarm verifica SwarmTargetul din header
-*  si daca este de tip URL trebuie sa puna in canalul extrax din swarmTarget
-* */
-let pc = new InnerServiceWorkerPC();
+module.exports = ServiceWorkerPC;
+},{"./ChannelsManager":"D:\\work\\privatesky\\modules\\browser-server\\lib\\ChannelsManager.js","./Middleware":"D:\\work\\privatesky\\modules\\browser-server\\lib\\Middleware.js","./utilFunctions":"D:\\work\\privatesky\\modules\\browser-server\\lib\\utilFunctions.js","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\browser-server\\lib\\utilFunctions.js":[function(require,module,exports){
+const urlReg = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?([a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}|localhost)(:[0-9]{1,5})?(\/.*)?$/gi;
+const domainReg = /^([0-9a-zA-Z]*)\/agent\/([0-9a-zA-Z]*)$/gi;
+const httpUrlRegex = new RegExp(urlReg);
+const domainRegex =  new RegExp(domainReg);
 
 
-$$.swarmEngine.plug("*", pc);
-
-
-},{"./InnerServiceWorkerPC.js":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\InnerServiceWorkerPC.js","swarm-engine":"swarm-engine"}],"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\utilFunctions.js":[function(require,module,exports){
 function prepareMessage(req, callback){
     const contentType = req.headers['content-type'];
     if (contentType === 'application/octet-stream') {
@@ -959,7 +942,48 @@ function prepareMessage(req, callback){
         callback(e);
     }
 }
-module.exports.UtilFunctions = {prepareMessage};
+
+function isUrl(url){
+    return url.match(httpUrlRegex);
+}
+
+function isInMyHosts(swarmTarget, hosts) {
+    let url = new URL(swarmTarget);
+    let arrayHosts = Array.from(hosts);
+    for(let i = 0; i<arrayHosts.length; i++){
+        if (url.host === arrayHosts[i]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function getChannelName(swarmTarget){
+
+    let channelName;
+    //check against domain/agent/agentName;
+
+    if(swarmTarget.match(domainRegex)){
+        let regGroups = domainRegex.exec(swarmTarget);
+        channelName = btoa(regGroups[2]);
+        return channelName;
+    }
+
+    //check against urls;
+    if (swarmTarget.match(httpUrlRegex)) {
+
+        if (swarmTarget[swarmTarget.length - 1] === "/") {
+            swarmTarget = swarmTarget.slice(0, -1);
+        }
+
+        let urlFragments = swarmTarget.split("/");
+        channelName = urlFragments[urlFragments.length - 1];
+    }
+
+    return channelName;
+}
+module.exports = {prepareMessage, getChannelName, isUrl, isInMyHosts};
 },{}],"D:\\work\\privatesky\\modules\\callflow\\constants.js":[function(require,module,exports){
 $$.CONSTANTS = {
     SWARM_FOR_EXECUTION:"swarm_for_execution",//TODO: remove
@@ -7716,7 +7740,34 @@ exports.getTemplateHandler = function (swarmEngineApi) {
     }
 };
 
-},{"callflow":"callflow"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js":[function(require,module,exports){
+},{"callflow":"callflow"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\IframePowerCord.js":[function(require,module,exports){
+function IframePowerCord(iframe){
+
+    this.sendSwarm = function (swarmSerialization){
+        iframe.contentWindow.postMessage(swarmSerialization, iframe.src);
+    };
+
+    let receivedMessageHandler  = (event)=>{
+        console.log("Message received in parent",event);
+        this.transfer(event.data);
+    };
+
+    let subscribe = () => {
+        window.addEventListener("message",receivedMessageHandler)
+    };
+
+    return new Proxy(this, {
+        set(target, p, value, receiver) {
+            target[p] = value;
+            if(p === 'identity') {
+                subscribe.call(target);
+            }
+        }
+    });
+}
+
+module.exports = IframePowerCord;
+},{}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js":[function(require,module,exports){
 (function (global){
 function InnerIsolatePowerCord() {
 
@@ -7885,7 +7936,37 @@ function OuterThreadPowerCord(energySource, numberOfWires = 1) { // seed or arra
 
 module.exports = OuterThreadPowerCord;
 
-},{"../../syndicate":"D:\\work\\privatesky\\modules\\syndicate\\index.js","../bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js":[function(require,module,exports){
+},{"../../syndicate":"D:\\work\\privatesky\\modules\\syndicate\\index.js","../bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\ParentPowerCord.js":[function(require,module,exports){
+function ParentPowerCord(parent){
+
+    this.sendSwarm = function (swarmSerialization){
+        parent.postMessage(swarmSerialization, "*");
+    };
+
+    let receivedMessageHandler  = (event)=>{
+        console.log("Message received in iframe",event);
+        let swarmSerialization = event.data;
+        this.transfer(swarmSerialization);
+    };
+
+    let subscribe = () => {
+        window.addEventListener("message",receivedMessageHandler)
+    };
+
+
+    return new Proxy(this, {
+        set(target, p, value, receiver) {
+            target[p] = value;
+            if(p === 'identity') {
+                subscribe.call(target);
+            }
+        }
+    });
+}
+
+
+module.exports = ParentPowerCord;
+},{}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js":[function(require,module,exports){
 const outbound = "outbound";
 const inbound = "inbound";
 
@@ -43082,12 +43163,9 @@ function extend() {
 
 },{}],"browser-server":[function(require,module,exports){
 (function (Buffer){
-const Middleware = require("./utils/Middleware").Middleware;
-const ChannelsManager = require("./utils/ChannelsManager").getChannelsManager();
-const UtilFunctions = require("./utils/utilFunctions").UtilFunctions;
-
-// create a global ref
-let server = new Middleware();
+const server = require("./lib/Middleware").getMiddleware();
+const ChannelsManager = require("./lib/ChannelsManager").getChannelsManager();
+const UtilFunctions = require("./lib/utilFunctions");
 
 function createChannelHandler (req, res) {
     ChannelsManager.createChannel(req.params.channelName, function (err) {
@@ -43128,7 +43206,6 @@ function sendMessageHandler (req, res) {
                 res.end();
             });
         }
-
     })
 }
 
@@ -43187,6 +43264,8 @@ server.use(function(req,res, next){
 *
 **/
 server.use(function (req, res, next) {
+    let requestedDomain = new URL(req.originalUrl).host;
+    server.requestedHosts.delete(requestedDomain);
     res.status(404);
     res.end();
 });
@@ -43195,7 +43274,7 @@ server.init(self);
 
 self.addEventListener('activate', function (event) {
     console.log("Activating service worker", event);
-    require("./utils/Sandbox");
+    require("./lib/Sandbox");
     try {
         clients.claim();
     } catch (err) {
@@ -43205,9 +43284,9 @@ self.addEventListener('activate', function (event) {
 
 
 
-}).call(this,{"isBuffer":require("../../../../node_modules/is-buffer/index.js")})
+}).call(this,{"isBuffer":require("../../node_modules/is-buffer/index.js")})
 
-},{"../../../../node_modules/is-buffer/index.js":"D:\\work\\privatesky\\node_modules\\is-buffer\\index.js","./utils/ChannelsManager":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\ChannelsManager.js","./utils/Middleware":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\Middleware.js","./utils/Sandbox":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\Sandbox.js","./utils/utilFunctions":"D:\\work\\privatesky\\modules\\browser-server\\webroot\\swEngine\\utils\\utilFunctions.js"}],"buffer-from":[function(require,module,exports){
+},{"../../node_modules/is-buffer/index.js":"D:\\work\\privatesky\\node_modules\\is-buffer\\index.js","./lib/ChannelsManager":"D:\\work\\privatesky\\modules\\browser-server\\lib\\ChannelsManager.js","./lib/Middleware":"D:\\work\\privatesky\\modules\\browser-server\\lib\\Middleware.js","./lib/Sandbox":"D:\\work\\privatesky\\modules\\browser-server\\lib\\Sandbox.js","./lib/utilFunctions":"D:\\work\\privatesky\\modules\\browser-server\\lib\\utilFunctions.js"}],"buffer-from":[function(require,module,exports){
 (function (Buffer){
 var toString = Object.prototype.toString
 
@@ -43971,9 +44050,11 @@ module.exports = {
     InnerThreadPowerCord: require("./powerCords/InnerThreadPowerCord"),
     RemoteChannelPairPowerCord: require("./powerCords/RemoteChannelPairPowerCord"),
     RemoteChannelPowerCord: require("./powerCords/RemoteChannelPowerCord"),
-    SmartRemoteChannelPowerCord:require("./powerCords/SmartRemoteChannelPowerCord")
+    SmartRemoteChannelPowerCord:require("./powerCords/SmartRemoteChannelPowerCord"),
+    IframePowerCord:require("./powerCords/IframePowerCord"),
+    ParentPowerCord:require("./powerCords/ParentPowerCord")
 };
-},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js"}],"swarmutils":[function(require,module,exports){
+},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./powerCords/IframePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\IframePowerCord.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/ParentPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\ParentPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js"}],"swarmutils":[function(require,module,exports){
 (function (global){
 module.exports.OwM = require("./lib/OwM");
 module.exports.beesHealer = require("./lib/beesHealer");

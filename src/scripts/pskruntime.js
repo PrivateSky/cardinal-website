@@ -6332,7 +6332,34 @@ exports.getTemplateHandler = function (swarmEngineApi) {
     }
 };
 
-},{"callflow":"callflow"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js":[function(require,module,exports){
+},{"callflow":"callflow"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\IframePowerCord.js":[function(require,module,exports){
+function IframePowerCord(iframe){
+
+    this.sendSwarm = function (swarmSerialization){
+        iframe.contentWindow.postMessage(swarmSerialization, iframe.src);
+    };
+
+    let receivedMessageHandler  = (event)=>{
+        console.log("Message received in parent",event);
+        this.transfer(event.data);
+    };
+
+    let subscribe = () => {
+        window.addEventListener("message",receivedMessageHandler)
+    };
+
+    return new Proxy(this, {
+        set(target, p, value, receiver) {
+            target[p] = value;
+            if(p === 'identity') {
+                subscribe.call(target);
+            }
+        }
+    });
+}
+
+module.exports = IframePowerCord;
+},{}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js":[function(require,module,exports){
 (function (global){
 function InnerIsolatePowerCord() {
 
@@ -6501,7 +6528,37 @@ function OuterThreadPowerCord(energySource, numberOfWires = 1) { // seed or arra
 
 module.exports = OuterThreadPowerCord;
 
-},{"../../syndicate":"D:\\work\\privatesky\\modules\\syndicate\\index.js","../bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js":[function(require,module,exports){
+},{"../../syndicate":"D:\\work\\privatesky\\modules\\syndicate\\index.js","../bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\ParentPowerCord.js":[function(require,module,exports){
+function ParentPowerCord(parent){
+
+    this.sendSwarm = function (swarmSerialization){
+        parent.postMessage(swarmSerialization, "*");
+    };
+
+    let receivedMessageHandler  = (event)=>{
+        console.log("Message received in iframe",event);
+        let swarmSerialization = event.data;
+        this.transfer(swarmSerialization);
+    };
+
+    let subscribe = () => {
+        window.addEventListener("message",receivedMessageHandler)
+    };
+
+
+    return new Proxy(this, {
+        set(target, p, value, receiver) {
+            target[p] = value;
+            if(p === 'identity') {
+                subscribe.call(target);
+            }
+        }
+    });
+}
+
+
+module.exports = ParentPowerCord;
+},{}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js":[function(require,module,exports){
 const outbound = "outbound";
 const inbound = "inbound";
 
@@ -12217,9 +12274,11 @@ module.exports = {
     InnerThreadPowerCord: require("./powerCords/InnerThreadPowerCord"),
     RemoteChannelPairPowerCord: require("./powerCords/RemoteChannelPairPowerCord"),
     RemoteChannelPowerCord: require("./powerCords/RemoteChannelPowerCord"),
-    SmartRemoteChannelPowerCord:require("./powerCords/SmartRemoteChannelPowerCord")
+    SmartRemoteChannelPowerCord:require("./powerCords/SmartRemoteChannelPowerCord"),
+    IframePowerCord:require("./powerCords/IframePowerCord"),
+    ParentPowerCord:require("./powerCords/ParentPowerCord")
 };
-},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js"}],"swarmutils":[function(require,module,exports){
+},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./powerCords/IframePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\IframePowerCord.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/ParentPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\ParentPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js"}],"swarmutils":[function(require,module,exports){
 (function (global){
 module.exports.OwM = require("./lib/OwM");
 module.exports.beesHealer = require("./lib/beesHealer");
