@@ -1,0 +1,47 @@
+<psk-page title="Psk-Form Component">
+
+    <psk-toc title="Table of Contents">
+    </psk-toc>
+
+    <psk-description>
+        <p>At the bottom of the page stands a minimal example of using the component with its attributes. More examples can be found within
+            <psk-link page="forms/using-forms">Using forms</psk-link> page.</p>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-form data-define-props="true">
+        </psk-form>
+    </psk-property-descriptor>
+
+    <psk-chapter title="HTML Children">
+
+    </psk-chapter>
+
+    <psk-chapter title="Code example">
+        <psk-code>
+            <psk-form action="#" method="get" controller-name="FormController" form-actions="submit, reset-form">
+                <psk-form-row>
+                    <psk-label label="Personal information"></psk-label>
+                </psk-form-row>
+                <psk-form-row>
+                    <psk-text-input label="Name"> </psk-text-input>
+                    <psk-email-input label="Email"></psk-email-input>
+                    <psk-number-input label="Age"></psk-number-input>
+                </psk-form-row>
+            </psk-form>
+        </psk-code>
+    </psk-chapter>
+
+    <psk-example title="Live Example">
+        <psk-form action="#" method="get" controller-name="FormController" form-actions="submit, reset-form">
+            <psk-form-row>
+                <psk-label label="Personal information"></psk-label>
+            </psk-form-row>
+            <psk-form-row>
+                <psk-text-input label="Name"> </psk-text-input>
+                <psk-email-input label="Email"></psk-email-input>
+                <psk-number-input label="Age"></psk-number-input>
+            </psk-form-row>
+        </psk-form>
+    </psk-example>
+</psk-page>

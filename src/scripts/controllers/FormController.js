@@ -8,7 +8,7 @@ export default class FormController extends Controller {
 
         // this.model = this.setModel({
         //     entities: [{
-        //         entityChapter: {
+        //         sectionTitle: {
         //             label: "Chapter 1"
         //         },
         //         name: {
@@ -65,7 +65,7 @@ export default class FormController extends Controller {
         //             uncheckedValue: "no"
         //         }
         //     }, {
-        //         entityChapter: {
+        //         sectionTitle: {
         //             label: "Chapter 2"
         //         },
         //         name: {
@@ -130,7 +130,7 @@ export default class FormController extends Controller {
         // });
 
         this.model = this.setModel({
-            entityChapter: {
+            sectionTitle: {
                 label: "Chapter 1"
             },
             name: {

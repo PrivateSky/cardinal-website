@@ -1,0 +1,60 @@
+<psk-page title="Psk-Label Component">
+
+    <psk-toc title="Table of Contents">
+    </psk-toc>
+
+    <psk-description>
+        <p>This component is part of the form components and is inteded to display a text inside the form, or a label for a form component (check
+            <psk-link page="forms/using-formss">Using Forms</psk-link> for details).</p>
+        <p>The components, by their logic, already have the possiblity to display a label for them, but there are always different needs.</p>
+        <p>So this component is ment to please your needs to display a label anywhere you want it.</p>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties">
+        <psk-label data-define-props="true">
+        </psk-label>
+    </psk-property-descriptor>
+
+    <psk-chapter title="HTML Children">
+        <p>A text representing the label to be displayed in case the attribute "label" is not provided.</p>
+    </psk-chapter>
+
+    <psk-example title="Live Examples">
+        <psk-code>
+            <psk-form form-actions=''>
+                <psk-form-row>
+                    <!-- Label set as attribute -->
+                    <psk-label label="Enter your name"></psk-label>
+                    <psk-text-input></psk-text-input>
+
+                    <!-- Label set inside the psk-label component -->
+                    <psk-label>Enter your name</psk-label>
+                    <psk-text-input></psk-text-input>
+
+                    <!-- Label set in pair with input using "for" attribute.
+                    Has more sense using screen readers. -->
+                    <psk-label for="input-name">Enter your name</psk-label>
+                    <psk-text-input name="input-name"></psk-text-input>
+                </psk-form-row>
+            </psk-form>
+        </psk-code>
+
+        <psk-form form-actions=''>
+            <psk-form-row>
+                <!-- Label set as attribute -->
+                <psk-label label="Enter your name"></psk-label>
+                <psk-text-input></psk-text-input>
+
+                <!-- Label set inside the psk-label component -->
+                <psk-label>Enter your name</psk-label>
+                <psk-text-input></psk-text-input>
+
+                <!-- Label set in pair with input using "for" attribute.
+                Has more sense using screen readers. -->
+                <psk-label for="input-name">Enter your name</psk-label>
+                <psk-text-input name="input-name"></psk-text-input>
+            </psk-form-row>
+        </psk-form>
+    </psk-example>
+
+</psk-page>

@@ -39,8 +39,7 @@
             {
                 "name": "SSApps",
                 "path": "/SSApps",
-                "children": [
-                    {
+                "children": [{
                         "name": "SSApp Host",
                         "indexed": true
                     },
@@ -261,9 +260,6 @@
                         "name": "Page Not Found"
                     },
                     {
-                        "name": "Form"
-                    },
-                    {
                         "name": "Feedback List"
                     },
                     {
@@ -307,6 +303,52 @@
                     },
                     {
                         "name": "App Menu"
+                    }
+                ]
+            },
+            {
+                "name": "Forms",
+                "children": [{
+                        "name": "Using Forms"
+                    },
+                    {
+                        "name": "psk-form"
+                    },
+                    {
+                        "name": "psk-form-row"
+                    },
+                    {
+                        "name": "psk-label"
+                    },
+                    {
+                        "name": "psk-input"
+                    },
+                    {
+                        "name": "psk-date-input"
+                    },
+                    {
+                        "name": "psk-text-input"
+                    },
+                    {
+                        "name": "psk-password-input"
+                    },
+                    {
+                        "name": "psk-number-input"
+                    },
+                    {
+                        "name": "psk-email-input"
+                    },
+                    {
+                        "name": "psk-select"
+                    },
+                    {
+                        "name": "psk-radio"
+                    },
+                    {
+                        "name": "psk-checkbox"
+                    },
+                    {
+                        "name": "psk-for-each"
                     }
                 ]
             },
