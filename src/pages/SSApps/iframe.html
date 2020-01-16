@@ -4,30 +4,21 @@
     <meta charset="UTF-8">
     <script src="/scripts/webshims.js"></script>
     <script src="/scripts/pskruntime.js"></script>
-    <script src="/scripts/parentCommunication.js"></script>
+    <script src="/scripts/browserServer.js"></script>
+    <script src="/scripts/swarmsCommunication.js"></script>
 </head>
 <body>
 <h4 id="frameName"></h4>
 <h2 id="parentMessage"></h2>
-<div id="log"></div><button id="doRequestButton">Do request</button>
-<button onclick="startSwarmTest()">Do swarm request</button>
-
-<form action="#">
-    <div>
-        <input type="text" id="app_id"/>
-        <input type="file" id="avatar_img" accept="image/x-png" multiple />
-    </div>
-    <div>
-        <button id="btnSubmit">Upload Avatar</button>
-    </div>
-</form>
+<div id="log"></div><button id="doRequestButton">Do PIN request</button>
+<button id="swarmRequest">Do swarm request</button>
 
 
 <script>
     let search = window.location.search;
     let appName = search.substring(1);
-    //document.getElementById("version").innerText = iframeCodeVersion + " : " + appName;
     document.getElementById("frameName").innerText=appName;
+    const IframeSC = new SwarmsCommunication(appName);
 
     var registrationScopes = [];
     function listScopes(){
@@ -40,22 +31,20 @@
     }
 
     var folderName = "/SSApps/ssapp-host/" + appName + "/";
-    //var swPath = "http://localhost:8080" + folderName+'sw.js';
     var swPath = "http://localhost:8000" + '/swBrowserified.js';
     window.addEventListener('load', function () {
         console.log("Registering SW for", swPath, folderName);
         navigator.serviceWorker.register(swPath, {scope: folderName})
             .then(function (registration) {
                     console.log('Iframe registration with scope: ', registration.scope);
-                    if (registrationScopes.indexOf(registration.scope) == -1) {
-                        //window.location.reload();
-                    }
                     listScopes();
                 },
                 function (err) { // registration failed :(
                     console.log('ServiceWorker registration failed: ', err);
                 });
     });
+
+    document.getElementById("swarmRequest").addEventListener("click",()=>{IframeSC.swInit()})
 
 
     function doLog(str) {
@@ -64,42 +53,14 @@
         document.getElementById("log").appendChild(node);
     }
 
-    function initialiazeSwarmEngine(){
-        const se = require("swarm-engine");
-        se.initialise();
-
-        const SRPC = se.SmartRemoteChannelPowerCord;
-        let swUrl = "http://localhost:8000/";
-        const powerCord = new SRPC([swUrl]);
-
-        $$.swarmEngine.plug("test/agent/agent007", powerCord);
-    }
-
-    function startSwarmTest(){
-        if(typeof $$.swarmEngine === "undefined"){
-            initialiazeSwarmEngine();
-        }
-
-        let startMessage = "Echo";
-        let sayEcho = (message)=>{
-            $$.interactions.startSwarmAs("test/agent/agent007", "echo", "say", message)
-                .onReturn(function(err, result){
-                    if(!err){
-                        console.log("Iframe received: ", result);
-                        sayEcho(result+"o");
-                    }
-                });
-        };
-        sayEcho(startMessage);
-
-
-    }
-
-
     document.getElementById("doRequestButton").addEventListener("click", function () {
-
+        $$.interactions.startSwarmAs("parent", "pin", "enter")
+            .onReturn(function(err, result){
+                if(!err){
+                    console.log("Iframe received pin: ", result);
+                }
+            });
     });
-
 
 
 </script>

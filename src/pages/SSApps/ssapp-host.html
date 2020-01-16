@@ -8,8 +8,6 @@
             });
         }
 
-
-
         let appIndex = 1;
         let apps = [];
         let addIframe = function(){
@@ -20,12 +18,15 @@
             document.body.appendChild(newIframe);
             apps.push(appName);
 
-            //hub.addSpoke(appName,newIframe.contentWindow, newIframe.src);
+            ((appName, newIframe, appIndex) => {
+                setTimeout(() => {
+                    window.IframeCommunicationInstance.initializeSwarmEngine(appName, newIframe);
+                    sendMessageToIframe(appName, "Hi there " + appIndex);
+                }, 1000);
+            })(appName, newIframe, appIndex);
+
             appIndex++;
-            setTimeout(()=>{
-                window.IframeCommunicationInstance.initializeSwarmEngine(appName,newIframe);
-                sendMessageToIframe(newIframe, "Hi there "+appIndex);
-            },2000);
+
         };
         controller.receive("addIframe",addIframe);
 
@@ -35,21 +36,10 @@
          */
 
 
-        // function initialiazeSwarmEngine(iframe){
-        //     const se = require("swarm-engine");
-        //     se.initialise();
-        //     const IframePC = se.IframePowerCord;
-        //     const powerCord = new IframePC(iframe);
-        //     $$.swarmEngine.plug("test/agent/agent007", powerCord);
-        // }
-
-        function sendMessageToIframe(iframe, message){
-            // if(typeof $$.swarmEngine === "undefined"){
-            //     initialiazeSwarmEngine(iframe);
-            // }
+        function sendMessageToIframe(identity, message){
 
             let sayEcho = (message)=>{
-                $$.interactions.startSwarmAs("test/agent/agent007", "echo", "say", message)
+                $$.interactions.startSwarmAs(identity, "echo", "say", message)
                     .onReturn(function(err, result){
                         if(!err){
                             console.log("Iframe received: ", result);
