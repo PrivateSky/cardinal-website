@@ -1,44 +1,49 @@
-export default class Controller {
+import BaseController from "./BaseController.js";
+
+export default class Controller extends BaseController {
     constructor(element) {
-        this._element = element;
+        super(element);
     }
 
-    bind(data) {
-        if (!data || !this._element) {
-            return;
+    receive(eventName, htmlElement, callback) {
+        if (typeof htmlElement === 'function') {
+            callback = htmlElement;
+            htmlElement = null;
         }
-        rivets.bind(this._element, { data: data });
-    }
 
-    setState(newState) {
-        this._state = newState;
-    }
-
-    getState() {
-        return this._state;
-    }
-
-    receive(eventName, callback) {
         if (!eventName || eventName.trim().length === 0 ||
             !callback || typeof callback !== 'function' ||
             !this._element || !this._element.addEventListener) {
             return;
         }
+
+        if (htmlElement) {
+            htmlElement.addEventListener(eventName, callback);
+            return;
+        }
+
         this._element.addEventListener(eventName, callback);
     }
 
-    send(eventName, data) {
+    send(eventName, data, htmlElement) {
         if (!eventName || eventName.trim().length === 0 || !this._element ||
             !this._element || !this._element.dispatchEvent) {
             return;
         }
 
-        this._element.dispatchEvent(new CustomEvent(eventName, {
+        let newEvent = new CustomEvent(eventName, {
             bubbles: true,
             cancelable: true,
             composed: true,
             detail: data
-        }));
+        });
+
+        if (htmlElement) {
+            htmlElement.dispatchEvent(newEvent);
+            return;
+        }
+
+        this._element.dispatchEvent(newEvent);
     }
 
     executeScript(controller, script) {
@@ -47,18 +52,4 @@ export default class Controller {
         }
         return null;
     }
-
-    generateList(count) {
-        let list = [];
-        for (let index = 1; index <= count; ++index) {
-            list.push({
-                name: `Tender name ${index}`,
-                active: Math.random() < 0.5,
-                receiveNotification: Math.random() < 0.5,
-                description: `This is a description for tender number ${index}`,
-                startDate: new Date().toJSON().slice(0, 10)
-            });
-        }
-        return list;
-    };
 }
