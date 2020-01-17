@@ -1,0 +1,1 @@
+import{r as s,h as r,g as t}from"./p-9835b40a.js";const o=class{constructor(r){s(this,r)}render(){return r("psk-grid",{columns:this.__host.children.length},r("slot",null))}get __host(){return t(this)}};export{o as psk_form_row};
