@@ -1,40 +1,17 @@
 import DefaultController from "./controllers/DefaultController.js";
 import Controller from "./controllers/Controller.js";
+import FormController from "./controllers/FormController.js";
+import UserController from "./controllers/UserController.js";
+import TestFormController from "./controllers/test-controllers/TestFormController.js";
+import TestFormForEachController from "./controllers/test-controllers/TestFormForEachController.js";
 
 document.addEventListener("controllerFactoryIsReady", (e) => {
     let ControllerFactory = e.detail;
+
     ControllerFactory.registerController("Controller", Controller);
+    ControllerFactory.registerController("FormController", FormController);
     ControllerFactory.registerController("DefaultController", DefaultController);
+    ControllerFactory.registerController("UserController", UserController);
+    ControllerFactory.registerController("TestFormController", TestFormController);
+    ControllerFactory.registerController("TestFormForEachController", TestFormForEachController);
 });
-
-rivets.binders.title = (el, value) => {
-    if (el && value) {
-        el.title = value;
-    }
-}
-
-rivets.binders.id = (el, value) => {
-    if (el && value) {
-        el.id = value;
-    }
-}
-
-rivets.binders.event = (el, value) => {
-    if (el && value) {
-        el.setAttribute('event-data', JSON.stringify(value));
-    }
-}
-
-rivets.binders.remove = (el, removeIcon) => {
-    if (removeIcon) {
-        el.remove();
-    }
-}
-
-rivets.formatters.eq = (value, compareToValue) => {
-    return value === compareToValue;
-}
-
-rivets.formatters.neq = (initialValue, valueToCompare) => {
-    return !(initialValue === valueToCompare);
-}
