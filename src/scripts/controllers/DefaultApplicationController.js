@@ -1,8 +1,8 @@
-import Controller from "./Controller.js";
+import ApplicationController from "./ApplicationController.js";
 
 const configUrl = "/app-config.json";
 
-export default class DefaultController extends Controller {
+export default class DefaultApplicationController extends ApplicationController {
 
     constructor(element) {
         super(element);
@@ -11,13 +11,12 @@ export default class DefaultController extends Controller {
 
         this._getAppConfiguration(configUrl, (err, _configuration) => {
             let basePath;
-            if(window && window.location && window.location.origin){
+            if (window && window.location && window.location.origin) {
                 basePath = window.location.origin;
-            }
-            else{
+            } else {
                 basePath = _configuration.baseUrl;
             }
-            this.configuration = DefaultController._prepareConfiguration(_configuration, basePath);
+            this.configuration = DefaultApplicationController._prepareConfiguration(_configuration, basePath);
             this.configIsLoaded = true;
             while (this.pendingRequests.length) {
                 let request = this.pendingRequests.pop();
@@ -34,7 +33,7 @@ export default class DefaultController extends Controller {
         element.addEventListener("getHistoryType", this._provideConfig("historyType"));
         element.addEventListener("validateUrl", (e) => {
             e.stopImmediatePropagation();
-            let {sourceUrl, callback} = e.detail;
+            let { sourceUrl, callback } = e.detail;
             if (callback && typeof callback === "function") {
                 this._parseSourceUrl(sourceUrl, callback);
             } else {
@@ -55,7 +54,7 @@ export default class DefaultController extends Controller {
                     }
                     callback(null, this.configuration[configName]);
                 } else {
-                    this.pendingRequests.push({configName: configName, callback: callback});
+                    this.pendingRequests.push({ configName: configName, callback: callback });
                 }
             }
         }
@@ -77,8 +76,8 @@ export default class DefaultController extends Controller {
             configuration.profile = rawConfig.profile;
         }
 
-        let filterIndexedItems = function (menuItems) {
-            for(let i = 0; i<menuItems.length; i++){
+        let filterIndexedItems = function(menuItems) {
+            for (let i = 0; i < menuItems.length; i++) {
                 if (menuItems[i].children) {
                     filterIndexedItems(menuItems[i].children);
                 } else {
@@ -90,7 +89,7 @@ export default class DefaultController extends Controller {
             return menuItems;
         };
 
-        let fillOptionalPageProps = function (navigationPages, pathPrefix) {
+        let fillOptionalPageProps = function(navigationPages, pathPrefix) {
             navigationPages.forEach(page => {
 
                 if (!page.path) {
@@ -159,7 +158,7 @@ export default class DefaultController extends Controller {
             if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
                 pagePrefix = rawConfig.menu.defaultMenuConfig.pagePrefix;
             }
-            let addPathPrefix = function (pages) {
+            let addPathPrefix = function(pages) {
                 pages.forEach(page => {
                     let pagePath = page.path;
                     if (pagePath.indexOf("/") === 0) {
@@ -176,12 +175,12 @@ export default class DefaultController extends Controller {
 
         let routes = JSON.parse(JSON.stringify(configuration.routes));
         configuration.menu = filterIndexedItems(routes);
-        configuration.pagesHierarchy = DefaultController._prepareRoutesTree(configuration.routes, historyType);
+        configuration.pagesHierarchy = DefaultApplicationController._prepareRoutesTree(configuration.routes, historyType);
         return configuration;
     }
 
     static _prepareRoutesTree(menuPages, historyType) {
-        let leafSearch = function (menu) {
+        let leafSearch = function(menu) {
             let tree = {};
             menu.forEach((leaf) => {
                 let pageName = leaf.name.replace(/(\s+|-)/g, '').toLowerCase();

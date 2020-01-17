@@ -1,6 +1,6 @@
-import Controller from "./Controller.js";
+import BindableController from "./BindableController.js";
 
-export default class FormController extends Controller {
+export default class DefaultFormController extends BindableController {
     constructor(element) {
         super(element);
 
