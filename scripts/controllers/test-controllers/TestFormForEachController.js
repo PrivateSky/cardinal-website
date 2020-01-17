@@ -2,9 +2,7 @@ import DefaultFormController from "../DefaultFormController.js";
 
 export default class TestFormForEachController extends DefaultFormController {
     constructor(element) {
-        super(element);
-
-        this.model = this.setModel({
+        super(element, {
             entities: [{
                 sectionTitle: {
                     label: "Your personal information"
