@@ -7,9 +7,9 @@ import DefaultFormController from "./controllers/DefaultFormController.js";
 document.addEventListener("controllerFactoryIsReady", (e) => {
     let ControllerFactory = e.detail;
 
-    ControllerFactory.registerController("Controller", ApplicationController);
-    ControllerFactory.registerController("FormController", DefaultFormController);
-    ControllerFactory.registerController("DefaultController", DefaultApplicationController);
+    ControllerFactory.registerController("ApplicationController", ApplicationController);
+    ControllerFactory.registerController("DefaultFormController", DefaultFormController);
+    ControllerFactory.registerController("DefaultApplicationController", DefaultApplicationController);
     ControllerFactory.registerController("TestFormController", TestFormController);
     ControllerFactory.registerController("TestFormForEachController", TestFormForEachController);
 });
