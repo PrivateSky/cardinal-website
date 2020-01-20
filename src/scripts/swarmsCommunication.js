@@ -42,6 +42,30 @@ function SwarmsCommunication(identity){
         };
         sayEcho(startMessage);
     };
+
+
+    this.deployCSB = function(seed){
+        if(!powerCord.identity)
+        {
+            $$.swarmEngine.plug("test/agent/agent007", powerCord);
+        }
+
+
+        $$.interactions.startSwarmAs("test/agent/agent007", "csbDeploy", "start", seed)
+            .onReturn(function(err, result){
+                if(!err){
+                    setTimeout(()=>{
+                        $$.interactions.startSwarmAs("test/agent/agent007", "swarmFromConstitution", "say", "RMS")
+                            .onReturn(function(err, result){
+                                if(!err){
+                                    console.log(result);
+                                }
+                            });
+                    },1000);
+
+                }
+            });
+    }
 }
 
 

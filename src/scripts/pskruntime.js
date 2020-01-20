@@ -4134,13 +4134,11 @@ PSKBuffer.alloc = function(size) {
 module.exports = PSKBuffer;
 },{}],"D:\\work\\privatesky\\modules\\pskcrypto\\lib\\PskCrypto.js":[function(require,module,exports){
 (function (Buffer){
-const crypto = require('crypto');
-const utils = require("./utils/cryptoUtils");
-
-
 function PskCrypto() {
-
+    const crypto = require('crypto');
+    const utils = require("./utils/cryptoUtils");
     const PskEncryption = require("./PskEncryption");
+
     this.createPskEncryption = (algorithm) => {
         return new PskEncryption(algorithm);
     };
@@ -4210,18 +4208,14 @@ function PskCrypto() {
         return crypto.publicDecrypt(publicKey, encryptedData);
     };
 
-    this.decrypt = (encryptedData, algorithm, key, iv, options) => {
-
-    };
-
-    this.pskHash = function (data) {
+    this.pskHash = function (data, encoding) {
         if (Buffer.isBuffer(data)) {
-            return utils.createPskHash(data);
+            return utils.createPskHash(data, encoding);
         }
         if (data instanceof Object) {
-            return utils.createPskHash(JSON.stringify(data));
+            return utils.createPskHash(JSON.stringify(data), encoding);
         }
-        return utils.createPskHash(data);
+        return utils.createPskHash(data, encoding);
     };
 
     this.pskHashStream = function (readStream, callback) {
@@ -4253,15 +4247,56 @@ function PskCrypto() {
     this.deriveKey = function deriveKey(algorithm, password) {
         const keylen = utils.getKeyLength(algorithm);
         const salt = utils.generateSalt(password, 32);
-        return crypto.scryptSync(password, salt, keylen);
+        return crypto.pbkdf2Sync(password, salt, 1000, keylen, 'sha256');
     };
 
 
-    this.randomBytes = crypto.randomBytes;
+    this.randomBytes = (len) => {
+        if (typeof $$.browserRuntime !== "undefined") {
+            let randomArray = new Uint8Array(len);
+
+            return window.crypto.getRandomValues(randomArray);
+        } else {
+            return crypto.randomBytes(len);
+        }
+    };
+
+    this.xorBuffers = (...args) => {
+        if (args.length < 2) {
+            throw Error(`The function should receive at least two arguments. Received ${args.length}`);
+        }
+
+        if (args.length === 2) {
+            __xorTwoBuffers(args[0], args[1]);
+            return args[1];
+        }
+
+        for (let i = 0; i < args.length - 1; i++) {
+            __xorTwoBuffers(args[i], args[i + 1]);
+        }
+
+        function __xorTwoBuffers(a, b) {
+            if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+                throw Error("The argument type should be Buffer.");
+            }
+
+            const length = Math.min(a.length, b.length);
+            for (let i = 0; i < length; i++) {
+                b[i] ^= a[i];
+            }
+
+            return b;
+        }
+
+        return args[args.length - 1];
+    };
+
     this.PskHash = utils.PskHash;
 }
 
 module.exports = new PskCrypto();
+
+
 
 }).call(this,require("buffer").Buffer)
 
@@ -7498,102 +7533,101 @@ const Queue = require("./Queue");
 var PSKBuffer = typeof $$ !== "undefined" && $$.PSKBuffer ? $$.PSKBuffer : Buffer;
 
 function UidGenerator(minBuffers, buffersSize) {
-	var buffers = new Queue();
-	var lowLimit = .2;
+    var buffers = new Queue();
+    var lowLimit = .2;
 
-	function fillBuffers(size){
-		//notifyObserver();
-		const sz = size || minBuffers;
-		if(buffers.length < Math.floor(minBuffers*lowLimit)){
-			for(var i=0+buffers.length; i < sz; i++){
-				generateOneBuffer(null);
-			}
-		}
-	}
+    function fillBuffers(size) {
+        //notifyObserver();
+        const sz = size || minBuffers;
+        if (buffers.length < Math.floor(minBuffers * lowLimit)) {
+            for (var i = buffers.length; i < sz; i++) {
+                generateOneBuffer(null);
+            }
+        }
+    }
 
-	fillBuffers();
+    fillBuffers();
 
-	function generateOneBuffer(b){
-		if(!b){
-			b = PSKBuffer.alloc(0);
-		}
-		const sz = buffersSize - b.length;
-		/*crypto.randomBytes(sz, function (err, res) {
-			buffers.push(Buffer.concat([res, b]));
-			notifyObserver();
-		});*/
-		buffers.push(PSKBuffer.concat([ crypto.randomBytes(sz), b ]));
-		notifyObserver();
-	}
+    function generateOneBuffer(b) {
+        if (!b) {
+            b = PSKBuffer.alloc(0);
+        }
+        const sz = buffersSize - b.length;
+        /*crypto.randomBytes(sz, function (err, res) {
+            buffers.push(Buffer.concat([res, b]));
+            notifyObserver();
+        });*/
+        buffers.push(PSKBuffer.concat([crypto.randomBytes(sz), b]));
+        notifyObserver();
+    }
 
-	function extractN(n){
-		var sz = Math.floor(n / buffersSize);
-		var ret = [];
+    function extractN(n) {
+        var sz = Math.floor(n / buffersSize);
+        var ret = [];
 
-		for(var i=0; i<sz; i++){
-			ret.push(buffers.pop());
-			setTimeout(generateOneBuffer, 1);
-		}
+        for (var i = 0; i < sz; i++) {
+            ret.push(buffers.pop());
+            setTimeout(generateOneBuffer, 1);
+        }
 
 
+        var remainder = n % buffersSize;
+        if (remainder > 0) {
+            var front = buffers.pop();
+            ret.push(front.slice(0, remainder));
+            //generateOneBuffer(front.slice(remainder));
+            setTimeout(function () {
+                generateOneBuffer(front.slice(remainder));
+            }, 1);
+        }
 
-		var remainder = n % buffersSize;
-		if(remainder > 0){
-			var front = buffers.pop();
-			ret.push(front.slice(0,remainder));
-			//generateOneBuffer(front.slice(remainder));
-			setTimeout(function(){
-				generateOneBuffer(front.slice(remainder));
-			},1);
-		}
+        //setTimeout(fillBuffers, 1);
 
-		//setTimeout(fillBuffers, 1);
+        return Buffer.concat(ret);
+    }
 
-		return Buffer.concat(ret);
-	}
+    var fillInProgress = false;
 
-	var fillInProgress = false;
+    this.generateUid = function (n) {
+        var totalSize = buffers.length * buffersSize;
+        if (n <= totalSize) {
+            return extractN(n);
+        } else {
+            if (!fillInProgress) {
+                fillInProgress = true;
+                setTimeout(function () {
+                    fillBuffers(Math.floor(minBuffers * 2.5));
+                    fillInProgress = false;
+                }, 1);
+            }
+            return crypto.randomBytes(n);
+        }
+    };
 
-	this.generateUid = function(n){
-		var totalSize = buffers.length * buffersSize;
-		if(n <= totalSize){
-			return extractN(n);
-		} else {
-			if(!fillInProgress){
-				fillInProgress = true;
-				setTimeout(function(){
-					fillBuffers(Math.floor(minBuffers*2.5));
-					fillInProgress = false;
-				}, 1);
-			}
-			return crypto.randomBytes(n);
-		}
-	};
+    var observer;
+    this.registerObserver = function (obs) {
+        if (observer) {
+            console.error(new Error("One observer allowed!"));
+        } else {
+            if (typeof obs == "function") {
+                observer = obs;
+                //notifyObserver();
+            }
+        }
+    };
 
-	var observer;
-	this.registerObserver = function(obs){
-		if(observer){
-			console.error(new Error("One observer allowed!"));
-		}else{
-			if(typeof obs == "function"){
-				observer = obs;
-				//notifyObserver();
-			}
-		}
-	};
-
-	function notifyObserver(){
-		if(observer){
-			var valueToReport = buffers.length*buffersSize;
-			setTimeout(function(){
-				observer(null, {"size": valueToReport});
-			}, 10);
-		}
-	}
+    function notifyObserver() {
+        if (observer) {
+            var valueToReport = buffers.length * buffersSize;
+            setTimeout(function () {
+                observer(null, {"size": valueToReport});
+            }, 10);
+        }
+    }
 }
 
 module.exports.createUidGenerator = function (minBuffers, bufferSize) {
-	return new UidGenerator(minBuffers, bufferSize);
+    return new UidGenerator(minBuffers, bufferSize);
 };
 
 }).call(this,require("buffer").Buffer)

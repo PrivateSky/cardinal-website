@@ -11,7 +11,11 @@
 <h4 id="frameName"></h4>
 <h2 id="parentMessage"></h2>
 <div id="log"></div><button id="doRequestButton">Do PIN request</button>
-<button id="swarmRequest">Do swarm request</button>
+<button id="swarmRequest">Do swarm test request</button>
+<br/>
+<label>Seed</label>
+<input type="text" id="seed"/>
+<button id="extractCSB">Extract CSB</button>
 
 
 <script>
@@ -60,6 +64,11 @@
                     console.log("Iframe received pin: ", result);
                 }
             });
+    });
+
+    document.getElementById("extractCSB").addEventListener("click", function () {
+        let seed = document.getElementById("seed").value;
+        IframeSC.deployCSB(seed);
     });
 
 
