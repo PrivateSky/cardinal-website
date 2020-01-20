@@ -1,4 +1,4 @@
-import FormController from "../FormController";
+import FormController from "../FormController.js";
 
 export default class TestFormForEachController extends FormController {
     constructor(element) {
