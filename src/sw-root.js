@@ -13,7 +13,7 @@ function createResponse(event) {
     return new Promise((resolve) => {
         let str = event.request.url;
         let newUrl = str;
-        if (str.indexOf("SSApps/ssapp-host/app") != -1) {
+        if (str.indexOf("SSApps/app/") != -1) {
             let url = new URL(str);
             newUrl = cachePrefix + "/pages/SSApps/iframe.html";
         }
