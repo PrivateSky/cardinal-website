@@ -5591,15 +5591,23 @@ exports.httpStatuses = {
 function IframesManager(){
     const iframes = {};
 
+    document.addEventListener("DOMNodeRemoved", (evt) => {
+        let removedNode = evt.target;
+
+        if (removedNode.tagName.toLowerCase() === "iframe") {
+            for (let identity in iframes) {
+                if (iframes[identity] === removedNode) {
+                    this.removeIframe(identity);
+                    break;
+                }
+            }
+        }
+
+    }, true);
+
     this.addIframe = function (identity, iframe) {
 
         if(!iframes[identity]){
-            //TODO: remove if properly - this code is not working
-            iframe.contentWindow.onbeforeunload = function () {
-                console.log("REMOVED");
-                this.removeIframe(identity);
-            };
-
             iframes[identity] = iframe;
         }
         else{
@@ -5619,6 +5627,7 @@ function IframesManager(){
     };
 
     this.removeIframe = function(identity){
+        console.log(`Removing iframe with identity ${identity}`);
         if(iframes[identity]){
             delete iframes[identity];
             return true;
@@ -6182,8 +6191,7 @@ function FetchBrickTransportStrategy(initialConfig) {
             method: 'POST',
             mode: 'cors',
             headers: {
-                'Content-Type': 'application/octet-stream',
-                'Access-Control-Allow-Origin':"*"
+                'Content-Type': 'application/octet-stream'
             },
             body: data
         }).then(function(response) {
@@ -6212,8 +6220,6 @@ function FetchBrickTransportStrategy(initialConfig) {
                 for (let i = 0; i < buffer.length; ++i) {
                     buffer[i] = view[i];
                 }
-
-
 
             callback(null, buffer);
         }).catch(error=>{
