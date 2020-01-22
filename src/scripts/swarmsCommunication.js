@@ -1,6 +1,6 @@
 const se = require("swarm-engine");
 
-const ParentPowerCord = require("browser-server").powerCords.ParentPowerCord;
+const ParentPowerCord = require("browser-server/lib/power-cords").ParentPowerCord;
 
 function SwarmsCommunication(identity){
     se.initialise(identity);

@@ -5,7 +5,7 @@ function IframeCommunication() {
     if (typeof $$.swarmEngine === "undefined") {
         se = require("swarm-engine");
         se.initialise("parent");
-        IframePC = require("browser-server").powerCords.IframePowerCord;
+        IframePC = require("browser-server/lib/power-cords").IframePowerCord;
 
         $$.swarms.describe("pin", {
             enter: function(){

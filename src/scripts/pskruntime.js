@@ -2942,7 +2942,7 @@ if (typeof(global.functionUndefined) == "undefined") {
 }
 
 const weAreInbrowser = (typeof ($$.browserRuntime) != "undefined");
-const weAreInSandbox = (typeof global.require !== 'undefined');
+const weAreInSandbox = global.sandboxEnvironment || false;
 
 
 const pastRequests = {};
@@ -4934,7 +4934,7 @@ module.exports = {
 const TransportInterface = require('./TransportInterface');
 const utils = require('../utils');
 const zeroMQModuleName = "zeromq";
-const zmq = require(zeroMQModuleName);
+const zeroMQ = require(zeroMQModuleName);
 
 
 /**
@@ -5042,7 +5042,7 @@ if(process.env.context === 'sandbox') {
 
 },{"./MessagePublisher":"D:\\work\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisher.js","./MessagePublisherForSandbox":"D:\\work\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisherForSandbox.js","./TransportInterface":"D:\\work\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js"}],"D:\\work\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\MessageSubscriber.js":[function(require,module,exports){
 const zeroMQModuleName = "zeromq";
-const zmq = require(zeroMQModuleName);
+const zeroMQ = require(zeroMQModuleName);
 
 /**
  * Creates a ZeroMQ Subscriber that listens for provided topics on the specified address for a publisher
@@ -5192,7 +5192,7 @@ module.exports = {
 
 },{"../MessagePublisher":"D:\\work\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\index.js","../utils/Configurator":"D:\\work\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js","./GenericPSKLogger":"D:\\work\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\GenericPSKLogger.js"}],"D:\\work\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\PubSubProxy.js":[function(require,module,exports){
 const zeroMQModuleName = "zeromq";
-const zmq = require(zeroMQModuleName);
+const zeroMQ = require(zeroMQModuleName);
 const utils = require('../utils');
 
 /**
@@ -5322,9 +5322,9 @@ module.exports = BufferedSocket;
 
 },{"./SocketType":"D:\\work\\privatesky\\modules\\psklogger\\src\\utils\\SocketType.js"}],"D:\\work\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js":[function(require,module,exports){
 const config = {
-    addressForPublishers: process.env.PUBLISH_LOGS_ADDR || 'tcp://127.0.0.1:7000',
-    addressForSubscribers: process.env.SUBSCRIBE_FOR_LOGS_ADDR || 'tcp://127.0.0.1:7001',
-    addressToCollector: process.env.COLLECTOR_ADDR || 'tcp://127.0.0.1:5558'
+    addressForPublishers: process.env.PSK_PUBLISH_LOGS_ADDR || 'tcp://127.0.0.1:7000',
+    addressForSubscribers: process.env.PSK_SUBSCRIBE_FOR_LOGS_ADDR || 'tcp://127.0.0.1:7001',
+    addressToCollector: process.env.PSK_COLLECTOR_ADDR || 'tcp://127.0.0.1:5558'
 };
 
 module.exports = {
@@ -6068,7 +6068,7 @@ function makePluggable(powerCord) {
 module.exports = SwarmEngine;
 },{"./interactions":"D:\\work\\privatesky\\modules\\swarm-engine\\interactions\\index.js","./swarms":"D:\\work\\privatesky\\modules\\swarm-engine\\swarms\\index.js","swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\IsolateBootScript.js":[function(require,module,exports){
 
-async function getIsolatesWorker({workerData: {constitutions}}) {
+async function getIsolatesWorker({workerData: {constitutions}, externalApi}) {
     const swarmUtils = require('swarmutils');
     const beesHealer = swarmUtils.beesHealer;
     const OwM = swarmUtils.OwM;
@@ -6090,7 +6090,8 @@ async function getIsolatesWorker({workerData: {constitutions}}) {
     const isolate = await IsolatedVM.getDefaultIsolate({
         shimsBundle: constitutions[0],
         browserifyBundles: constitutions.slice(1),
-        config: config
+        config: config,
+        externalApi: externalApi
     });
 
     class IsolatesWrapper extends EventEmitter {
@@ -6184,30 +6185,193 @@ function boot() {
 
     $$.swarmEngine.plug($$.swarmEngine.WILD_CARD_IDENTITY, powerCord);
 
-    for (const constitution of workerData.constitutions) {
-        require(constitution);
+
+    function loadNextConstitution(constitutionList, index = 0) {
+        if(index === constitutionList.length) {
+            finishedLoadingConstitution();
+            return;
+        }
+
+        const currentConstitution = constitutionList[index];
+
+        if(currentConstitution.endsWith('.js')) {
+            require(currentConstitution);
+            loadNextConstitution(constitutionList,index + 1);
+        } else {
+            const pskdomain = require('pskdomain');
+
+            pskdomain.loadCSB(currentConstitution, (err, csbBlockChain) => {
+                if(err) {
+                    throw err;
+                }
+
+                csbBlockChain.listFiles('constitutions', (err, files) => {
+                    if(err) {
+                        throw err;
+                    }
+
+                    function processNextFile(filesIndex = 0) {
+                        if(filesIndex === files.length) {
+                            loadNextConstitution(constitutionList, index + 1);
+                            return;
+                        }
+
+                        csbBlockChain.readFile(files[filesIndex], (err, fileBuffer) => {
+                            if(err) {
+                                throw err;
+                            }
+
+                            let res = eval(fileBuffer.toString());
+                            processNextFile(filesIndex + 1);
+                        })
+                    }
+
+                    processNextFile();
+                })
+            });
+
+        }
     }
 
+    loadNextConstitution(workerData.constitutions);
+
+    function finishedLoadingConstitution() {
+        parentPort.postMessage('ready');
+    }
 
     parentPort.on('message', (packedSwarm) => {
         powerCord.transfer(packedSwarm);
     });
 
-    parentPort.postMessage('ready');
 }
 
 module.exports = boot.toString();
 
-},{"swarm-engine":"swarm-engine"}],"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js":[function(require,module,exports){
+},{"pskdomain":false,"swarm-engine":"swarm-engine"}],"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\domainBootScript.js":[function(require,module,exports){
+const path = require('path');
+const fs = require('fs');
+
+$$.PSK_PubSub = require("soundpubsub").soundPubSub;
+
+$$.log(`Booting domain ... ${process.env.PRIVATESKY_DOMAIN_NAME}`);
+const se = pskruntimeRequire("swarm-engine");
+se.initialise(process.env.PRIVATESKY_DOMAIN_NAME);
+
+const config = JSON.parse(process.env.config);
+
+if (typeof config.constitution !== "undefined" && config.constitution !== "undefined") {
+    process.env.PRIVATESKY_DOMAIN_CONSTITUTION = config.constitution;
+}
+
+if (typeof config.workspace !== "undefined" && config.workspace !== "undefined") {
+    process.env.DOMAIN_WORKSPACE = config.workspace;
+}
+
+//enabling blockchain from confDir
+//validate path exists
+const blockchainFolderStorageName = 'conf';
+
+const workspace = path.resolve(process.env.DOMAIN_WORKSPACE);
+const blockchainDir = path.join(workspace, process.env.DOMAIN_BLOCKCHAIN_STORAGE_FOLDER || blockchainFolderStorageName);
+
+console.log("Using workspace", workspace);
+
+console.log("Agents will be using constitution file", process.env.PRIVATESKY_DOMAIN_CONSTITUTION);
+
+
+loadCSBAndLaunch();
+
+function loadCSBAndLaunch() {
+    fs.access(blockchainDir, (err) => {
+        if (err) {
+            loadCSBWithSeed(process.env.PRIVATESKY_DOMAIN_CONSTITUTION);
+        } else {
+            loadCSBFromFile(blockchainDir);
+        }
+    });
+}
+
+function loadCSBFromFile(blockchainFolder) {
+    let Blockchain = require("blockchain");
+
+    let worldStateCache = Blockchain.createWorldStateCache("fs", blockchainFolder);
+    let historyStorage = Blockchain.createHistoryStorage("fs", blockchainFolder);
+    let consensusAlgorithm = Blockchain.createConsensusAlgorithm("direct");
+    let signatureProvider = Blockchain.createSignatureProvider("permissive");
+
+    const blockchain = Blockchain.createABlockchain(worldStateCache, historyStorage, consensusAlgorithm, signatureProvider, true, false);
+
+    blockchain.start(() => {
+        launch(blockchain);
+    });
+}
+
+function loadCSBWithSeed(seed) {
+    const pskdomain = require('pskdomain');
+
+    pskdomain.loadCSB(seed, (err, blockchain) => {
+        if (err) {
+            throw err;
+        }
+
+        launch(blockchain);
+    });
+}
+
+function launch(blockchain) {
+
+    console.log('Blockchain loaded');
+
+    const domainConfig = blockchain.lookup('DomainConfig', process.env.PRIVATESKY_DOMAIN_NAME);
+
+    if (!domainConfig) {
+        throw new Error('Could not find any domain config for domain ' + process.env.PRIVATESKY_DOMAIN_NAME);
+    }
+
+    for (const alias in domainConfig.communicationInterfaces) {
+        if (domainConfig.communicationInterfaces.hasOwnProperty(alias)) {
+            let remoteUrls = domainConfig.communicationInterfaces[alias];
+            let powerCordToDomain = new se.SmartRemoteChannelPowerCord([remoteUrls.virtualMQ + "/"], process.env.PRIVATESKY_DOMAIN_NAME, remoteUrls.zeroMQ);
+            $$.swarmEngine.plug("*", powerCordToDomain);
+        }
+    }
+
+    //const agentPC = new se.OuterIsolatePowerCord(["../bundles/pskruntime.js", "../bundles/sandboxBase.js", "../bundles/domain.js"]);
+
+    const agents = blockchain.loadAssets('Agent');
+
+    if (agents.length === 0) {
+        agents.push({alias: 'system'});
+    }
+
+    agents.forEach(agent => {
+        // console.log('PLUGGING', `${process.env.PRIVATESKY_DOMAIN_NAME}/agent/${agent.alias}`);
+        // const agentPC = new se.OuterThreadPowerCord(["../bundles/pskruntime.js", "../bundles/sandboxBase.js", "../bundles/edfsBar.js", process.env.PRIVATESKY_DOMAIN_CONSTITUTION]);
+        const agentPC = new se.OuterThreadPowerCord(["../bundles/pskruntime.js",
+            "../bundles/psknode.js",
+            "../bundles/edfsBar.js",
+            process.env.PRIVATESKY_DOMAIN_CONSTITUTION
+        ]);
+        $$.swarmEngine.plug(`${process.env.PRIVATESKY_DOMAIN_NAME}/agent/${agent.alias}`, agentPC);
+    });
+
+    $$.event('status.domains.boot', {name: process.env.PRIVATESKY_DOMAIN_NAME});
+
+}
+
+},{"blockchain":false,"fs":false,"path":"path","pskdomain":false,"soundpubsub":"soundpubsub"}],"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js":[function(require,module,exports){
 module.exports = {
     getIsolatesBootScript: function() {
         return require('./IsolateBootScript');
     },
     getThreadBootScript: function() {
         return `(${require("./ThreadWorkerBootScript")})()`;
+    },
+    executeDomainBootScript: function() {
+        return require('./domainBootScript');
     }
 };
-},{"./IsolateBootScript":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\IsolateBootScript.js","./ThreadWorkerBootScript":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\ThreadWorkerBootScript.js"}],"D:\\work\\privatesky\\modules\\swarm-engine\\interactions\\InteractionSpace.js":[function(require,module,exports){
+},{"./IsolateBootScript":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\IsolateBootScript.js","./ThreadWorkerBootScript":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\ThreadWorkerBootScript.js","./domainBootScript":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\domainBootScript.js"}],"D:\\work\\privatesky\\modules\\swarm-engine\\interactions\\InteractionSpace.js":[function(require,module,exports){
 function InteractionSpace(swarmEngineApi) {
     const listeners = {};
     const interactionTemplate = require('./interaction_template').getTemplateHandler(swarmEngineApi);
@@ -6447,7 +6611,8 @@ function OuterIsolatePowerCord(energySource, numberOfWires = 1, apis) { // seed 
             workerOptions: {
                 workerData: {
                     constitutions: energySource
-                }
+                },
+                externalApi: apis
             }
         };
 
@@ -6455,14 +6620,6 @@ function OuterIsolatePowerCord(energySource, numberOfWires = 1, apis) { // seed 
 
             isolate.globalSetSync("getIdentity", () => {
                 return superThis.identity;
-            });
-
-            if (!apis) {
-                return
-            }
-
-            Object.keys(apis).forEach(fnName => {
-                isolate.globalSetSync(fnName, apis[fnName]);
             });
         });
 
@@ -12251,9 +12408,10 @@ module.exports = {
     InnerThreadPowerCord: require("./powerCords/InnerThreadPowerCord"),
     RemoteChannelPairPowerCord: require("./powerCords/RemoteChannelPairPowerCord"),
     RemoteChannelPowerCord: require("./powerCords/RemoteChannelPowerCord"),
-    SmartRemoteChannelPowerCord:require("./powerCords/SmartRemoteChannelPowerCord")
+    SmartRemoteChannelPowerCord:require("./powerCords/SmartRemoteChannelPowerCord"),
+    BootScripts: require('./bootScripts')
 };
-},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js"}],"swarmutils":[function(require,module,exports){
+},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js"}],"swarmutils":[function(require,module,exports){
 (function (global){
 module.exports.OwM = require("./lib/OwM");
 module.exports.beesHealer = require("./lib/beesHealer");

@@ -1,7 +1,7 @@
 {
-  "name": "cardinal",
+  "name": "csb-ui-v2",
   "version": "0.0.1",
-  "description": "PrivateSky Website Core for building self sovereign applications",
+  "description": "CSB UI v2",
   "scripts": {
     "web-server": "cd release && ws --spa ./index.html",
     "dev":"gulp build && npm run web-server"

@@ -1,73 +1,13 @@
 <psk-container>
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw-root.js', {scope: "/SSApps"}).then(function(reg) {
-                console.log('Yay, service worker is live!', reg);
-            }).catch(function(err) {
-                console.log('No oats for you.', err);
-            });
-        }
 
-        let appIndex = 1;
-        let apps = [];
-        let addIframe = async function(){
+        let addPskApp = async function(){
             let seed = this.querySelector("input#seed").value;
-
-            /*
-            TODO: use pskcrypto module
-             */
-
-            async function digestMessage(message) {
-                const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-                const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-                const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
-                return hashHex;
-            }
-
-            const digestSeedHex = await digestMessage(seed);
-
-            let newIframe = document.createElement("iframe");
-            newIframe.setAttribute("sandbox","allow-scripts allow-same-origin allow-downloads-without-user-activation allow-forms");
-            newIframe.src="/SSApps/app/"+digestSeedHex+"/index.html?"+digestSeedHex;
-
-            this.querySelector("#ssapps").appendChild(newIframe);
-            apps.push(digestSeedHex);
-
-            ((appName, newIframe, appIndex) => {
-                setTimeout(() => {
-                    window.IframeCommunicationInstance.initializeSwarmEngine(appName, newIframe);
-                    sendMessageToIframe(appName, "Hi there " + appIndex);
-                }, 1000);
-            })(digestSeedHex, newIframe, appIndex);
-
-            appIndex++;
-
+            let pskApp = document.createElement('psk-ss-app');
+            pskApp.setAttribute("csb-seed", seed);
+            this.querySelector("#ssapps").appendChild(pskApp);
         };
-        controller.receive("addIframe",addIframe);
-
-
-        /**
-         * host to iframe communication
-         */
-
-
-        function sendMessageToIframe(identity, message){
-
-            let sayEcho = (message)=>{
-                $$.interactions.startSwarmAs(identity, "echo", "say", message)
-                    .onReturn(function(err, result){
-                        if(!err){
-                            console.log("Iframe received: ", result);
-                            //ping-pong
-                            //sayEcho(result+"!");
-                        }
-                    });
-            };
-            sayEcho(message);
-        }
-
-
+        controller.receive("addPskApp", addPskApp)
 
     </script>
 
@@ -76,28 +16,12 @@
     </label>
     <input type="text" id="seed"/>
     <br/>
-    <psk-button id="add_iframe" event-name="addIframe">Add new SSApp</psk-button>
+    <psk-button id="add_iframe" event-name="addPskApp">Add PskApp</psk-button>
     <br/>
-
 
     <psk-grid columns="3" id="ssapps">
 
-
     </psk-grid>
-
-    <!--<psk-grid columns="3">-->
-
-    <!--    <psk-ss-app csb-seed = "SEED_HERE" app-name="SSApps/ssapp1" sw-path = "http://localhost:8000/sw-browserified.js">-->
-    <!--    </psk-ss-app>-->
-
-    <!--    <psk-ss-app iframe-src = "/SSApps/ssapp/appIndex2" app-name="SSApps/ssapp2" sw-path = "http://localhost:8000/sw-browserified.js">-->
-    <!--    </psk-ss-app>-->
-
-    <!--    <psk-ss-app iframe-src = "/SSApps/ssapp/appIndex3" app-name="SSApps/ssapp3" sw-path = "http://localhost:8000/sw-browserified.js">-->
-    <!--    </psk-ss-app>-->
-    <!--</psk-grid>-->
-
-
 
 </psk-container>
 
