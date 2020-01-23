@@ -1,0 +1,76 @@
+.table-of-content {
+    width: 20rem;
+    position: fixed;
+    right: 0;
+    top: 125px;
+    overflow: auto;
+}
+
+.table-of-content .psk-card .card-body,
+.table-of-content .psk-card .card-header {
+    padding-left: 0;
+    padding-right: 40px;
+}
+
+.table-of-content .psk-card {
+    padding: 0;
+}
+
+.table-of-content .psk-card .card-header h5 {
+    font-weight: bold;
+    font-size: 1.125rem;
+    color: #354F9B;
+    border-bottom: 2px solid #354F9B;
+    padding-bottom: 8px;
+}
+
+.table-of-content .card-body span {
+    font-size: 1rem;
+    color: #4C71DE;
+}
+
+.table-of-content .psk-card ul{
+    padding-left:24px;
+    padding-top:0px;
+    padding-bottom: 0px;
+}
+
+.table-of-content .psk-card ul li {
+    list-style: none;
+    cursor: pointer;
+    text-decoration: none !important;
+    padding-top: 5px;
+}
+
+.table-of-content ul li ul li {
+    color: #4C71DE;
+}
+
+.table-of-content ul li ul li ul li {
+    font-size: 90%;
+    color: #4C71DE;
+}
+
+.table-of-content ul li::before {
+    content: "";
+}
+
+.table-of-content  .card-body > ul > li:first-of-type::before,
+.table-of-content  .card-body > ul li.current_view
+{
+    content: "";
+    background-image:url(../../../../assets/images/hand-point.svg);
+    background-size: 100% 100%;
+    display: inline-block;
+    height: 20px;
+    width:20px;
+    filter: invert(31%) sepia(9%) saturate(4329%) hue-rotate(188deg) brightness(92%) contrast(93%);
+    position: relative;
+    margin-left: -24px;
+    margin-right: 4px;
+    bottom: -5px;
+}
+
+.table-of-content .card-body li span:hover {
+    color: #0029b4;
+}

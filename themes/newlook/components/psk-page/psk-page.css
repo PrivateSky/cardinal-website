@@ -1,0 +1,57 @@
+@import url(../../../commons/fonts/font-awesome.min.css);
+@import url(../../../commons/bootstrap/css/bootstrap.min.css);
+* {
+    outline: none !important;
+    background: #fff;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+:host {
+    scroll-behavior: smooth;
+    display: block;
+}
+
+.page-content {
+    color: #565656;
+    margin-right: 20rem;
+    width: auto;
+    padding: 0 60px 30px;
+}
+
+.container {
+    max-width: 100%;
+}
+
+nav {
+    width: 100%;
+    height: 80px;
+    background-color: #fff;
+    box-shadow: 0 .15rem 1rem 0 rgba(58, 59, 69, .2);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+nav h3 {
+    color: rgb(94, 127, 225);
+    font-weight: 700;
+    text-align: left center;
+    margin: 0;
+    padding-left: 60px;
+    font-size: 1.802rem;
+}
+
+@media(max-width:960px) {
+    .page-content {
+        margin-right: 0;
+        padding: 0 15px;
+    }
+    nav{
+        height:auto;
+    }
+    nav h3 {
+        padding: 10px 15px;
+        font-size: 1.266rem;
+        line-height: 1.3;
+    }
+}
