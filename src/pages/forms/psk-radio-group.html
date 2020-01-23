@@ -1,0 +1,61 @@
+<psk-page title="Psk-Radio-Group Component">
+
+    <psk-toc title="Table of Contents">
+    </psk-toc>
+
+    <psk-description title="Definition and usage">
+        <p>Psk-radio-group is the component that groups the <psk-link page="forms/psk-radio">Psk-Radio</psk-link> components. The main responsability is to ensure that only one radio option is checked.</p>
+        <p>Psk-radio-group is notified when a psk-radio is clicked, so the group can then update the model.</p>
+    </psk-description>
+
+    <psk-property-descriptor title="Supported properties for Psk-Radio-Group">
+        <psk-radio-group data-define-props="true">
+        </psk-radio-group>
+    </psk-property-descriptor>
+
+    <psk-example title="Code Examples">
+        <psk-chapter title="Source Code">
+<psk-chapter title="JavaScript Model">
+<psk-code language="js">
+    gender: {
+        label: "Select your gender",
+        required: true,
+        options: [{
+                label: "Male"
+            },
+            {
+                label: "Female",
+                value: "F"
+            }
+        ]
+    }
+</psk-code>
+</psk-chapter>
+
+<psk-chapter title="Component usage with model">
+<psk-code>
+    <psk-form controller-name="TestFormController" actions=" ">
+        <psk-form-row>
+            <psk-radio-group view-model="gender"> </psk-radio-group>
+        </psk-form-row>
+    </psk-form>
+</psk-code>
+</psk-chapter>
+
+</psk-chapter>
+
+        <psk-chapter title="Visual example">
+            <psk-form controller-name="TestFormController" actions=" ">
+				<psk-form-row>
+					<psk-radio-group view-model="gender"> </psk-radio-group>
+				</psk-form-row>
+            </psk-form>
+        </psk-chapter>
+
+        <psk-chapter title="Form Usage">
+            <p>An explanatory example using a full form can be found at:
+                <psk-link page="forms/using-forms">Using forms</psk-link> page.</p>
+        </psk-chapter>
+    </psk-example>
+
+</psk-page>
