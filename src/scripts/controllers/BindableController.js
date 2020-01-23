@@ -1,9 +1,11 @@
+import ApplicationController from "./ApplicationController.js";
+
 const PskBindableModel = require("psk-bindable-model");
 
-export default class BaseController {
+export default class BindableController extends ApplicationController {
 
     constructor(element) {
-        this._element = element;
+        super(element);
         this.setModel = PskBindableModel.setModel;
 
         this.__initGetModelEventListener();

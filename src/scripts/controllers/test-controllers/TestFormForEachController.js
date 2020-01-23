@@ -1,10 +1,8 @@
-import FormController from "../FormController.js";
+import DefaultFormController from "../DefaultFormController.js";
 
-export default class TestFormForEachController extends FormController {
+export default class TestFormForEachController extends DefaultFormController {
     constructor(element) {
-        super(element);
-
-        this.model = this.setModel({
+        super(element, {
             entities: [{
                 sectionTitle: {
                     label: "Your personal information"
@@ -42,6 +40,12 @@ export default class TestFormForEachController extends FormController {
                     options: [{
                         label: "Romanian",
                         value: "RO"
+                    }, {
+                        label: "Italian",
+                        value: "IT"
+                    }, {
+                        label: "English",
+                        value: "EN"
                     }]
                 }
             }, {
@@ -63,7 +67,7 @@ export default class TestFormForEachController extends FormController {
                     value: ''
                 },
                 gender: {
-                    label: "Select your gender",
+                    label: "Associate gender",
                     required: true,
                     options: [{
                             label: "Male"
@@ -75,7 +79,7 @@ export default class TestFormForEachController extends FormController {
                     ]
                 },
                 nationality: {
-                    label: "Select your nationality",
+                    label: "Associate nationality",
                     placeholder: "Please select one option...",
                     required: true,
                     options: [{

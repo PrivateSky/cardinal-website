@@ -1,17 +1,19 @@
-import DefaultController from "./controllers/DefaultController.js";
-import Controller from "./controllers/Controller.js";
-import FormController from "./controllers/FormController.js";
-import UserController from "./controllers/UserController.js";
+import DefaultApplicationController from "./controllers/DefaultApplicationController.js";
 import TestFormController from "./controllers/test-controllers/TestFormController.js";
 import TestFormForEachController from "./controllers/test-controllers/TestFormForEachController.js";
+import TestFormChildrenController from './controllers/test-controllers/TestFormChildrenController.js';
+import ApplicationController from "./controllers/ApplicationController.js";
+import DefaultFormController from "./controllers/DefaultFormController.js";
+import UserController from "./controllers/UserController.js";
 
 document.addEventListener("controllerFactoryIsReady", (e) => {
     let ControllerFactory = e.detail;
 
-    ControllerFactory.registerController("Controller", Controller);
-    ControllerFactory.registerController("FormController", FormController);
-    ControllerFactory.registerController("DefaultController", DefaultController);
-    ControllerFactory.registerController("UserController", UserController);
     ControllerFactory.registerController("TestFormController", TestFormController);
+    ControllerFactory.registerController("ApplicationController", ApplicationController);
+    ControllerFactory.registerController("DefaultFormController", DefaultFormController);
     ControllerFactory.registerController("TestFormForEachController", TestFormForEachController);
+    ControllerFactory.registerController("TestFormChildrenController", TestFormChildrenController);
+    ControllerFactory.registerController("DefaultApplicationController", DefaultApplicationController);
+    ControllerFactory.registerController("UserController", UserController);
 });

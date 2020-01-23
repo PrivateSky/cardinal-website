@@ -1,8 +1,6 @@
-import BaseController from "./BaseController.js";
-
-export default class Controller extends BaseController {
+export default class ApplicationController {
     constructor(element) {
-        super(element);
+        this._element = element;
     }
 
     receive(eventName, htmlElement, callback) {

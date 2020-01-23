@@ -1,6 +1,6 @@
-import Controller from "./Controller.js";
+import ApplicationController from './ApplicationController.js';
 
-export default class UserController extends Controller {
+export default class UserController extends ApplicationController {
 
     constructor(element) {
         super(element);

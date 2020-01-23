@@ -1,9 +1,9 @@
-import Controller from "./Controller.js";
+import BindableController from "./BindableController.js";
 
-export default class FormController extends Controller {
-    constructor(element) {
+export default class DefaultFormController extends BindableController {
+    constructor(element, model) {
         super(element);
-
+        this.model = this.setModel(model);
         this.__initDefaultFormListeners.call(this);
 
         document.dispatchEvent(new CustomEvent('modelReady', {
