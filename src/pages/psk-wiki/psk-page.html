@@ -1,7 +1,6 @@
 <psk-page title="psk-page">
 
-    <psk-toc title="PSK Page - TOC">
-    </psk-toc>
+    <psk-toc title="PSK Page"></psk-toc>
 
     <psk-description>
         <p>This component is the most important component for documentation as it renders the entire page.</p>
@@ -11,10 +10,10 @@
         <span><code>Psk-page</code> listens to all the <code>psk-send-chapter</code> events sent by the <psk-link
                 page="psk-wiki/psk-chapter">psk-chapter</psk-link>.</span>
         <p>For every event sent the hierarchy of chapters there are two possible situations:</p>
-        <li>
-            <ul>The hierarchy is not instantiated and therefore it will be created.</ul>
-            <ul>If it exists then it will be updated </ul>
-        </li>
+        <ul>
+            <li>The hierarchy is not instantiated and therefore it will be created.</li>
+            <li>If it exists then it will be updated </li>
+        </ul>
     </psk-description>
 
     <psk-property-descriptor title="Supported properties">
@@ -24,16 +23,14 @@
 
     <psk-chapter title="HTML Children">
         <p>If the loading has finished then the information between the two tags will be rendered on the UI in a slot
-            child.
-        </p>
+            child.</p>
     </psk-chapter>
 
     <psk-chapter title="Code Example">
         <psk-code>
-            <psk-page title="PSK-page Example">
-            </psk-page>
+            <psk-page title="PSK-page Example"></psk-page>
         </psk-code>
-    </psk-chapter>
+
     <psk-example title="Live Example">
         <psk-page title="PSK-page Example">
             <p>Despite seeming like a timeless character, the tooth fairy is a recent invention. The first written
@@ -46,4 +43,5 @@
             </psk-description>
         </psk-page>
     </psk-example>
+</psk-chapter>
 </psk-page>

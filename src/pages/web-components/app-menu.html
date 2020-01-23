@@ -1,11 +1,6 @@
 <psk-page title="app-menu">
 
-  <psk-example title="Live Example">
-    <header style="background: #005cbf;">
-      <app-menu>
-      </app-menu>
-    </header>
-  </psk-example>
+  
 
   <psk-toc title="PSK Application Menu"></psk-toc>
 
@@ -31,9 +26,160 @@
 
   <psk-chapter title="Code Example">
     <psk-code>
-      <app-menu>
-      </app-menu>
+      <psk-container>
+        <script>
+            let menuItems = [{
+              "name": "Main Innovations",
+              "path": "?PrivateSky/main-innovations",
+              "icon": "fa-bars",
+              "type": "route",
+              "component": "psk-page-loader",
+              "exact": true,
+              "indexed": true,
+              "pagePrefix": "?",
+              "historyType": "query",
+              "componentProps": {
+                  "pageUrl": "http://localhost:8000/pages/PrivateSky/main-innovations.html"
+                } 
+              },
+              {
+              "name": "Architecture",
+              "icon": "fa-bars",
+              "type": "abstract",
+              children: [{
+                  "name": "Architecture",
+                  "path": "?PrivateSky/architecture",
+                  "icon": "fa-bars",
+                  "type": "route",
+                  "component": "psk-page-loader",
+                  "exact": true,
+                  "indexed": true,
+                  "pagePrefix": "?",
+                  "historyType": "query",
+                  "componentProps": {
+                      "pageUrl": "http://localhost:8000/pages/PrivateSky/architecture.html"
+                    }
+                }]
+              },
+              {
+              "name": "Development Vision",
+              "path": "?PrivateSky/development-vision",
+              "icon": "fa-bars",
+              "type": "route",
+              "component": "psk-page-loader",
+              "exact": true,
+              "indexed": true,
+              "pagePrefix": "?",
+              "historyType": "query",
+              "componentProps": {
+                  "pageUrl": "http://localhost:8000/pages/PrivateSky/development-vision.html"
+                }
+              },
+              {
+              "name": "Swarms Explained",
+              "path": "?PrivateSky/swarms-explained",
+              "icon": "fa-bars",
+              "type": "route",
+              "component": "psk-page-loader",
+              "exact": true,
+              "indexed": true,
+              "pagePrefix": "?",
+              "historyType": "query",
+              "componentProps": {
+                  "pageUrl": "http://localhost:8000/pages/PrivateSky/swarms-explained.html"
+                }
+              }
+              ]
+            controller.receive("needMenuItems", function (evt) {
+              evt.stopImmediatePropagation();
+              callback = evt.detail;
+              callback(null, menuItems)
+            })
+          </script>
+        <header style="background: #005cbf;">
+            <app-menu>
+            </app-menu>
+        </header>
+        </psk-container>
     </psk-code>
   </psk-chapter>
+
+  <psk-example title="Live Example">
+    <psk-container>
+      <script>
+                let menuItems = [{
+                    "name": "Main Innovations",
+                    "path": "?PrivateSky/main-innovations",
+                    "icon": "fa-bars",
+                    "type": "route",
+                    "component": "psk-page-loader",
+                    "exact": true,
+                    "indexed": true,
+                    "pagePrefix": "?",
+                    "historyType": "query",
+                    "componentProps": {
+                        "pageUrl": "http://localhost:8000/pages/PrivateSky/main-innovations.html"
+                    }
+                },
+                {
+                    "name": "Architecture",
+                    "icon": "fa-bars",
+                    "type": "abstract",
+                    children: [{
+                        "name": "Architecture",
+                        "path": "?PrivateSky/architecture",
+                        "icon": "fa-bars",
+                        "type": "route",
+                        "component": "psk-page-loader",
+                        "exact": true,
+                        "indexed": true,
+                        "pagePrefix": "?",
+                        "historyType": "query",
+                        "componentProps": {
+                            "pageUrl": "http://localhost:8000/pages/PrivateSky/architecture.html"
+                        }
+                    }]
+                },
+                {
+                    "name": "Development Vision",
+                    "path": "?PrivateSky/development-vision",
+                    "icon": "fa-bars",
+                    "type": "route",
+                    "component": "psk-page-loader",
+                    "exact": true,
+                    "indexed": true,
+                    "pagePrefix": "?",
+                    "historyType": "query",
+                    "componentProps": {
+                        "pageUrl": "http://localhost:8000/pages/PrivateSky/development-vision.html"
+                    }
+                },
+                {
+                    "name": "Swarms Explained",
+                    "path": "?PrivateSky/swarms-explained",
+                    "icon": "fa-bars",
+                    "type": "route",
+                    "component": "psk-page-loader",
+                    "exact": true,
+                    "indexed": true,
+                    "pagePrefix": "?",
+                    "historyType": "query",
+                    "componentProps": {
+                        "pageUrl": "http://localhost:8000/pages/PrivateSky/swarms-explained.html"
+                    }
+                }
+                ]
+                controller.receive("needMenuItems", function (evt) {
+                    evt.stopImmediatePropagation();
+                    callback = evt.detail;
+                    callback(null, menuItems)
+                })
+        </script>
+        <header style="background: #005cbf;">
+            <app-menu hamburger-max-width="0">
+            </app-menu>
+        </header>
+    </psk-container>
+</psk-example>
 
 </psk-page>

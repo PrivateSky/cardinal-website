@@ -1,6 +1,6 @@
 <psk-page title="psk-toolbar">
 
-    <psk-toc title="PSK Toolbar - TOC">
+    <psk-toc title="PSK Toolbar">
     </psk-toc>
 
     <psk-description>
@@ -24,34 +24,40 @@
         </ul>
     </psk-chapter>
 
-    <psk-chapter title="Code Example">
+    <psk-chapter title="Icon Code Example">
         <psk-code>
-            <psk-toolbar slot="toolbar" actions="active, notifications">
-                <psk-icon slot="active" rv-remove="card.active | neq true" icon="check-circle" title="Active Tender">
-                </psk-icon>
-                <psk-icon slot="active" rv-remove="card.active | neq false" icon="circle" title="Inactive Tender"
-                    disable-color="true"></psk-icon>
-
-                <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq true" icon="circle"
-                    title="Receive notifications"></psk-icon>
-                <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq false" icon="circle"
-                    disable-color="true" title="Without notifications"></psk-icon>
+            <psk-toolbar slot="toolbar" actions="active, inactive">
+                <psk-icon slot="active" icon="check-circle" title="Active Tender"></psk-icon>
+                <!-- This psk-icon creates an span with the icon attribute and the disable-color attribute as classes if the slot exists in the actions -->
+                <psk-icon slot="inactive" icon="circle" title="Inactive Tender" disable-color="true">
+                </psk-icon> 
             </psk-toolbar>
         </psk-code>
+
+        <psk-example title="Icon Example">
+            <psk-toolbar slot="toolbar" actions="active, inactive">
+                <psk-icon slot="active" icon="check-circle" title="Active Tender"></psk-icon>
+                <psk-icon slot="inactive" icon="circle" title="Inactive Tender" disable-color="true">
+                </psk-icon>
+            </psk-toolbar>
+        </psk-example>
     </psk-chapter>
 
-    <psk-example title="Live Example">
-        <psk-toolbar slot="toolbar" actions="active, notifications">
-            <psk-icon slot="active" rv-remove="card.active | neq true" icon="check-circle" title="Active Tender">
-            </psk-icon>
-            <psk-icon slot="active" rv-remove="card.active | neq false" icon="circle" title="Inactive Tender"
-                disable-color="true"></psk-icon>
-
-            <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq true" icon="circle"
-                title="Receive notifications"></psk-icon>
-            <psk-icon slot="notifications" rv-remove="card.receiveNotification | neq false" icon="circle"
-                disable-color="true" title="Without notifications"></psk-icon>
-        </psk-toolbar>
-    </psk-example>
+    <psk-chapter title="Button Code Example">
+        <psk-code>
+            <psk-toolbar slot="toolbar" actions="click,no-click">
+                <!-- This psk-button creates a button with the btn and btn-primary classes if the slot exists in the actions-->
+                <psk-button slot="click" title="Active Button">Click Action
+                </psk-button>
+                <!-- Since the "no-click" action hasn't been used the toolbar creates anothe button with the name of the unused action  -->
+            </psk-toolbar>
+        </psk-code>
+        <psk-example title="Button Example">
+            <psk-toolbar slot="toolbar" actions="click,no-click">
+                <psk-button slot="click" title="Active Button">Click Action
+                </psk-button>
+            </psk-toolbar>
+        </psk-example>
+    </psk-chapter>
 
 </psk-page>

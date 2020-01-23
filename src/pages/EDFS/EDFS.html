@@ -1,5 +1,61 @@
-<psk-page title="Page not available yet">
-  <psk-chapter title="Not available">
-    Page still not available. Wait until our team will complete this! If you believe that this is an error or you want to contribute, write an email to sinica@axiologic.net
-  </psk-chapter>
+<psk-page title="EDFS Explained">
+
+<psk-toc title="EDFS Explained"></psk-toc>
+
+<psk-chapter title="Abstract">	
+<p align="justify">The PrivateSky’s EDFS subproject aims at implementing a distributed file system named EDFS (Encrypted Distributed File System). The folders in this file system may be of two categories: BARs and CSBs. a CSB is a special category of BAR, as may be observed on the corresponding page. The files in EDFS are are simply encrypted files stored in the cloud, without the storage service to be able to access the encryption keys.</p>
+</psk-chapter>
+
+<psk-chapter title="Concepts">
+<p align="justify">EDFS was born as a result of an initial attempt to implement the CSB concept using ZIP files to group more folders and files. This first iteration raised the necessity to optimise storage and loading these zips on the network (towards client servers or clients running web browsers or mobile applications). In this sense we invented a novel concept, named “Brick" based storage and loading system.</p>
+
+
+    <psk-chapter title="The Brick Concept">
+    <p align="justify">A Brick is actually just a buffer (a collection of bytes compressed by a compression algorithm and encrypted with a secret encryption key). In the EDFS compatible storage services, any Brick is referenced by the cryptographic HASH of its compressed and encrypted content. The decryption of the BRICK content requires a decryption key.</p>
+
+    </psk-chapter>
+
+    <psk-chapter title="The Concepts of BAR and BarMap">
+
+    <p align="justify">In order to store the content of a folder (subfolders and files in the subfolders) in EDFS, we use the concept of BAR (Brick ARchive). The files content is broken into Bricks, encrypted and stored in the EDFS compatible brick storage services.
+    In order to retrieve the initial content of a BAR, it is required in EDFS to save a special Brick, named BarMap containing a map (a reference) of the Bricks and the files these Bricks are part of. The BarMap also contains the BarMap decryption keys.</p>
+    </psk-chapter>
+
+    <psk-chapter title="The Concept of CSB">
+    <p align="justify">A CSB (Cloud Safe Box) is actually a BAR containing a PrivateSky Blockchain, while  also could contain the code for a Self Sovereign Application (SSApps).  </p>
+    </psk-chapter>
+
+</psk-chapter>
+
+<psk-chapter title="EDFS compatible Storage services">
+<p align="justify">Storing the Bricks is made using storage services. Such a service is easily implementable because it implies just the storage of an encrypted buffer using an encryption key that is the very HASH of the Brick. In the development schedule of PrivateSky, there are provisioned storage systems in AWS S3, Google Drive, Dropbox and other cloud storage systems.</p>
+</psk-chapter>
+
+<psk-chapter title= "The versioning of CSBs and BARs. Aliases">
+<p align="justify">As previously mentioned, a BAR (as well as a CSB, because any CSB is a BAR) is identifiable by the BarMap HASH. When the content of a BAR is encrypted, the BarMap must be automatically modified. This led us to the case when the previous BarMap HASH is no longer useful to identify the entire BAR. In order to address this issue, the EDFS compatible storage services are required to implement a naming service we will call “aliasing". This service is not doing anything but to assign a random identifier(user generated) to the HASH of the last BarMap generated for a given BAR.</p>
+</psk-chapter>
+
+<psk-chapter title="Referencing CSBs and BARs using a SEED">
+<p align="justify">As mentioned in the previous chapter, a BAR or a CSB is identifiable by the HASH of the last BarMap, at its turn being assigned an “alias". PrivateSky is introducing a generation method for these aliases named SEEDs able to solve both the issue of identifying the last BarMap version, and the administration of the encryption key of a BarMap Brick corresponding to a BAR. Beside the secret decryption key, the SEED also contains location data for the EDFS storage system of a given BAR.</p>
+
+<p align="justify">By applying a HASHing algorithm (or any one direction key derivation algorithm) on the SEED, a string may be obtained to be used as an alias in the EDFS starge system. We will name this string SEED_UID.</p>
+
+<p align="justify">This model enables the SEED owner to quickly find a BAR’s HashMap brick without giving away data on the encryption key.</p>
+
+<p align="justify">The BAR (or CSB) identification using SEED enables:</p>
+<ul>
+<li> Saving and recovering encrypted data in cloud with ease</li>
+<li> Very fast BAR archives sharing between the users. The speed is due to the fact that only the SEED must be shared, not the entire BAR content</li>
+</ul>
+
+</psk-chapter>
+
+<psk-chapter title="Blockchain Referencing and Anchoring">
+
+<p align="justify">In order to be certain of BAR’s and CSB’s content accuracy and traceability, the EDFS aliasing service must be supported by anchoring or referencing operations by means of storing the BarMaps HASHes and other versioning data, or only SEEDs.</p>
+<p align="justify">The storage of a SEED_UID will be named referencing, while the storage of a SEED_UID beside the BarMap HASHes history will be named anchoring.</p>
+
+</psk-chapter>
+
 </psk-page>
+

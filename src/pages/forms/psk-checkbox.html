@@ -1,10 +1,13 @@
-<psk-page title="Psk-Button Component">
+<psk-page title="Psk-Checkbox Component">
 
     <psk-toc title="Table of Contents">
     </psk-toc>
 
     <psk-description>
-
+        <p>psk-checkboxes are rendered by default as boxes that are checked (ticked) when activated.</p>
+        <p>The exact appearance depends upon the operating system configuration under which the browser is running.</p>
+        <p>Generally this is a square but it may have rounded corners. A checkbox allows you to select single values for submission in a form</p>
+        <p>Take in mind that checked-value and unchecked-value attributes are never seen on client-side, but on the server-side these are the values sent by the form when it is submitted, using the checkbox's name.</p>
     </psk-description>
 
     <psk-property-descriptor title="Supported properties">
@@ -13,11 +16,84 @@
     </psk-property-descriptor>
 
     <psk-chapter title="HTML Children">
-
+        <p>This component has no children elements.</p>
     </psk-chapter>
 
-    <psk-example title="Live Examples">
+    <psk-example title="Code Examples">
+        <psk-chapter title="Source Code">
+<psk-chapter title="JavaScript Model">
+<psk-code language="js">
+    gdpr: {
+        label: "Check if you agree with GDPR regulations",
+        name: "gdpr",
+        required: true,
+        checkboxLabel: "GDPR Consent",
+        checkedValue: "yes",
+        uncheckedValue: "no"
+    },
+    terms: {
+        label: "Do you accept our terms and conditions?",
+        name: "terms",
+        required: true,
+        checkboxLabel: "Terms & Conditions",
+        checkedValue: "yes",
+        uncheckedValue: "no"
+    }
+</psk-code>
+</psk-chapter>
 
+<psk-chapter title="Component usage with model">
+<psk-code>
+    <psk-form-row>
+        <psk-label>Agreements</psk-label>
+    </psk-form-row>
+    <psk-form-row>
+        <psk-checkbox view-model="terms"></psk-checkbox>
+        <psk-checkbox view-model="gdpr"></psk-checkbox>
+    </psk-form-row>
+</psk-code>
+</psk-chapter>
+
+<psk-chapter title="Component usage as it is">
+<psk-code>
+    <psk-form-row>
+        <psk-label>Choose your favorites social medias</psk-label>
+    </psk-form-row>
+    <psk-form-row>
+        <!-- The attribute "label" is not mandatory to be used, but it is recommended if you want to group the checkbox with an explanatory label -->
+        <psk-checkbox checkbox-label="Facebook" label="Check if you like Facebook" checked-value="facebook" unchecked-value="deny-facebook"></psk-checkbox>
+        <psk-checkbox checkbox-label="Instagram" label="Check if you like Instagram" checked-value="instagram" unchecked-value="deny-instagram"></psk-checkbox>
+    </psk-form-row>
+</psk-code>
+</psk-chapter>
+</psk-chapter>
+
+        <psk-chapter title="Visual example">
+            <psk-form controller-name="TestFormController" actions=" ">
+                <psk-form-row>
+                    <psk-label>Agreements</psk-label>
+                </psk-form-row>
+                <psk-form-row>
+                    <psk-checkbox view-model="terms"></psk-checkbox>
+                    <psk-checkbox view-model="gdpr"></psk-checkbox>
+                </psk-form-row>
+
+                <psk-form-row>
+                    <psk-label>Choose your favorites social medias</psk-label>
+                </psk-form-row>
+                <psk-form-row>
+                    <!-- The attribute "label" is not mandatory to be used, but it is recommended if you want to group the checkbox with an explanatory label -->
+                    <psk-checkbox checkbox-label="Facebook" label="Check if you like Facebook" checked-value="facebook" unchecked-value="deny-facebook"></psk-checkbox>
+                    <psk-checkbox checkbox-label="Instagram" label="Check if you like Instagram" checked-value="instagram" unchecked-value="deny-instagram"></psk-checkbox>
+                </psk-form-row>
+            </psk-form>
+        </psk-chapter>
+
+
+        <psk-chapter title="Form Usage">
+            <p>An explanatory example using a full form can be found at:
+                <psk-link page="forms/using-forms">Using forms</psk-link> page.</p>
+        </psk-chapter>
     </psk-example>
 
 </psk-page>

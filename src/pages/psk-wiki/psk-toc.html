@@ -1,6 +1,6 @@
 <psk-page title="psk-toc">
 
-    <psk-toc title="PSK Table of Content - TOC">
+    <psk-toc title="PSK Table of Content">
     </psk-toc>
 
     <psk-description>
@@ -9,7 +9,7 @@
         <span>It renders a psk-card with the given <code>title</code> in which every <code>psk-page</code>
             and <psk-link page="psk-wiki/psk-chapter">psk-chapter</psk-link> is rendered.</span>
         <p>This components selects all <code>psk-chapter</code> components and creates a ordered list based on each
-            chapter <code>guid</code>.</p>
+            chapter existing on the page.</p>
         <p>It renders a unordered list with it's HTML children.</p>
     </psk-description>
 
@@ -19,11 +19,7 @@
     </psk-property-descriptor>
 
     <psk-chapter title="HTML Children">
-        <p>This component has two child components:</p>
-        <ul>
-            <li>First is the index of the element (table of content item index).</li>
-            <li>Second is the title of each <code>chapter</code> that is rendered on that <code>psk-page</code>.</li>
-        </ul>
+        <p>This component has no html children.</p>
     </psk-chapter>
 
     <psk-chapter title="Code Example">

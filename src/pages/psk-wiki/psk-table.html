@@ -1,6 +1,6 @@
 <psk-page title="psk-table">
 
-    <psk-toc title="PSK Table - TOC">
+    <psk-toc title="PSK Table">
     </psk-toc>
 
     <psk-description>
@@ -8,7 +8,7 @@
             properties.</p>
         <p>The columns will be delimited by the special character <b>|</b>( <code>pipe</code>) ( Example: <b>Title |
                 Author | Published Year</b> )</p>
-        <p>The lines will be delimited by the <code>new line</code> character .</p>
+        <p>The lines will be delimited by the <code>enter</code> character .</p>
     </psk-description>
 
     <psk-property-descriptor title="Supported properties">
@@ -22,7 +22,7 @@
 
     <psk-chapter title="Code Example">
         <psk-code>
-            <psk-table head="true" footer="true">
+            <psk-table header="true" footer="true">
                 Title | Author | Published Year | Number of pages
                 The Water Dancer | Ta-Nehisi Coates | 2019 | 416
                 Maggie Brown & Others: Stories | Peter Orner | 2019 | 336
@@ -31,7 +31,7 @@
         </psk-code>
 
         <psk-example title="Full table Example">
-            <psk-table head="true" footer="true">
+            <psk-table header="true" footer="true">
                 Title | Author | Published Year | Number of pages
                 The Water Dancer | Ta-Nehisi Coates | 2019 | 416
                 Maggie Brown & Others: Stories | Peter Orner | 2019 | 336
@@ -40,7 +40,7 @@
         </psk-example>
 
         <psk-code>
-            <psk-table head="true" footer="true">
+            <psk-table header="true" footer="true">
                 Title | | | Number of pages
                 The Water Dancer | Ta-Nehisi Coates | | 416
                 Maggie Brown & Others: Stories | Peter Orner | | 336
@@ -49,7 +49,7 @@
         </psk-code>
 
         <psk-example title="Empty spaces table Example">
-            <psk-table head="true" footer="true">
+            <psk-table header="true" footer="true">
                 Title | | | Number of pages
                 The Water Dancer | Ta-Nehisi Coates | | 416
                 Maggie Brown & Others: Stories | Peter Orner | | 336
@@ -57,8 +57,8 @@
             </psk-table>
         </psk-example>
         <psk-code>
-            <psk-table head="true" footer="true">
-                Author | Song | Published Year | 
+            <psk-table header="true" footer="true">
+                Author | Song | Published Year 
                  | I want to break free | 1984
                 Queen |  I want it all | 1989
                  | The show must go an | 1991
@@ -68,8 +68,8 @@
             </psk-table>
         </psk-code>
         <psk-example title="Rowspan Example">
-            <psk-table head="true" footer="true">
-                Author | Song | Published Year | 
+            <psk-table header="true" footer="true">
+                Author | Song | Published Year  
                  | I want to break free | 1984
                 Queen |  I want it all | 1989
                  | The show must go an | 1991

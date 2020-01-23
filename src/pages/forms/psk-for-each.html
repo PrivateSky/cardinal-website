@@ -22,14 +22,52 @@
 
     <psk-example title="Examples">
         <psk-chapter title="Model example">
-            <psk-code>
-
+            <psk-code language="js">
+                {
+                    entities: [{
+                        sectionTitle: {
+                            label: "Your personal information"
+                        },
+                        name: {
+                            label: "Name",
+                            name: "name",
+                            required: true,
+                            placeholder: "Name here...",
+                            value: ''
+                        },
+                        email: {
+                            label: "Email address",
+                            name: "email",
+                            required: true,
+                            placeholder: "Email address here...",
+                            value: ''
+                        }
+                    }, {
+                        sectionTitle: {
+                            label: "Your associate personal information"
+                        },
+                        name: {
+                            label: "Associate Name",
+                            name: "name",
+                            required: true,
+                            placeholder: "Name here...",
+                            value: ''
+                        },
+                        email: {
+                            label: "Associate email address",
+                            name: "email",
+                            required: true,
+                            placeholder: "Email address here...",
+                            value: ''
+                        }
+                    }]
+                }
             </psk-code>
         </psk-chapter>
 
         <psk-chapter title="Template example">
             <psk-code>
-                <psk-for-each>
+                <psk-for-each data-view-model="entities">
                     <template>
                         <psk-form-row>
                             <psk-label view-model="sectionTitle"></psk-label>
@@ -47,6 +85,27 @@
                 </psk-for-each>
             </psk-code>
         </psk-chapter>
+
+		<psk-chapter title="Visual example using above model & template">
+			<psk-form controller-name="TestFormForEachController">
+				<psk-for-each data-view-model="entities">
+                    <template>
+                        <psk-form-row>
+                            <psk-label view-model="sectionTitle"></psk-label>
+                        </psk-form-row>
+            
+                        <psk-form-row>
+                            <psk-label>Name & E-mail</psk-label>
+                        </psk-form-row>
+                        
+                        <psk-form-row>
+                            <psk-text-input view-model="name"></psk-text-input>
+                            <psk-email-input view-model="email"></psk-email-input>
+                        </psk-form-row>
+                    </template>
+                </psk-for-each>
+			</psk-form>
+		</psk-chapter>
 
         <p>A very good example of using this component can be found here:
             <psk-link page="forms/using-forms">Using forms</psk-link>.

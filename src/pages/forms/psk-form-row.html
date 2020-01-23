@@ -1,23 +1,33 @@
-<psk-page title="Psk-Button Component">
+<psk-page title="Psk-Form-Row Component">
 
     <psk-toc title="Table of Contents">
     </psk-toc>
 
-    <psk-description>
-
+    <psk-description title="Definition and Usage">
+        <p>Psk-Form-Row is a wrapper component used to group a list of components into a single inline row.</p>
+        <p>On mobile devices, the responsive design is making all the form components to be displayed in a single column.</p>
+        <p>It has no other special behaviour.</p>
     </psk-description>
 
-    <psk-property-descriptor title="Supported properties">
-        <psk-button data-define-props="true">
-        </psk-button>
-    </psk-property-descriptor>
-
     <psk-chapter title="HTML Children">
-
+        <p>Every form component will be rendered on a single row.</p>
+        <p>On mobile devices, the responsive design is making all the form components to be displayed in a single column.</p>
     </psk-chapter>
 
-    <psk-example title="Live Examples">
+    <psk-example title="Code Examples">
+        <psk-code>
+            <psk-form-row>
+                <psk-label>Name, E-mail & Password</psk-label>
+            </psk-form-row>
+            <psk-form-row>
+                <psk-text-input view-model="name"></psk-text-input>
+                <psk-email-input view-model="email"></psk-email-input>
+                <psk-password-input view-model="password"></psk-password-input>
+            </psk-form-row>
+        </psk-code>
 
+        <p>A complete live example can be found at:
+            <psk-link page="forms/using-forms">Using forms</psk-link> page.</p>
     </psk-example>
 
 </psk-page>
