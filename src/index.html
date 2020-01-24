@@ -2,11 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
     <title>Cardinal.js - Mini Framework for building web applications</title>
-    <meta name="google-site-verification" content="DVCv8yEO9mQlllqxKBXiKh6JS1_jg-6kFoKkSAg8k_w" />
+
+    <meta charset="UTF-8">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
     <link href="/assets/css/main.css" rel="stylesheet" type="text/css">
+
+	<meta name="google-site-verification" content="DVCv8yEO9mQlllqxKBXiKh6JS1_jg-6kFoKkSAg8k_w" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
@@ -22,15 +24,21 @@
         </section>
     </psk-app-root>
 
+    <script src="/scripts/webshims.js"></script>
+    <script src="/scripts/bindableModel.js"></script>
+    <script>
+        //temporary fix
+        $$.log = $$.err = console.log;
+    </script>
+
+    <script type="module" src="/scripts/app.js"></script>
+    <script type="module" src="/cardinal/cardinal.esm.js"></script>
+    <script nomodule src="/cardinal.js"></script>
     <script>
         globalConfig = {
             theme: "cardinal"
         }
     </script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/mikeric/rivets/master/dist/rivets.bundled.min.js"></script>
-    <script type="module" src="/scripts/app.js"></script>
-    <script type="module" src="/cardinal/cardinal.esm.js"></script>
-    <script nomodule src="/cardinal.js"></script>
 </body>
 
 </html>
