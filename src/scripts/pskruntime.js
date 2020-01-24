@@ -6598,11 +6598,23 @@ module.exports = InnerThreadPowerCord;
 function OuterIsolatePowerCord(energySource, numberOfWires = 1, apis) { // seed or array of constitution bundle paths
     const syndicate = require('../../syndicate');
     const bootScripts = require('../bootScripts');
+    const pskisolates = require('pskisolates');
     let pool = null;
 
 
     function connectToEnergy() {
         const WorkerStrategies = syndicate.WorkerStrategies;
+
+        if(!apis) {
+            apis = {};
+        }
+
+        if(typeof apis.require === "undefined"){
+            apis.require = function(name) {
+                console.log('Creating proxy for', name);
+                return pskisolates.createDeepReference(require(name));
+            };
+        }
 
         const config = {
             bootScript: bootScripts.getIsolatesBootScript(),
@@ -6643,7 +6655,7 @@ function OuterIsolatePowerCord(energySource, numberOfWires = 1, apis) { // seed 
 
 module.exports = OuterIsolatePowerCord;
 
-},{"../../syndicate":"D:\\work\\privatesky\\modules\\syndicate\\index.js","../bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js"}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js":[function(require,module,exports){
+},{"../../syndicate":"D:\\work\\privatesky\\modules\\syndicate\\index.js","../bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","pskisolates":false}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js":[function(require,module,exports){
 function OuterThreadPowerCord(energySource, numberOfWires = 1) { // seed or array of constitution bundle paths
     const syndicate = require('../../syndicate');
     const bootScripts = require('../bootScripts');
@@ -7022,7 +7034,100 @@ function SmartRemoteChannelPowerCord(communicationAddrs, receivingChannelName, z
 module.exports = SmartRemoteChannelPowerCord;
 }).call(this,require("buffer").Buffer)
 
-},{"../../psk-http-client":"D:\\work\\privatesky\\modules\\psk-http-client\\index.js","buffer":"buffer","swarmutils":"swarmutils","virtualmq":false}],"D:\\work\\privatesky\\modules\\swarm-engine\\swarms\\index.js":[function(require,module,exports){
+},{"../../psk-http-client":"D:\\work\\privatesky\\modules\\psk-http-client\\index.js","buffer":"buffer","swarmutils":"swarmutils","virtualmq":false}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\HostPowerCord.js":[function(require,module,exports){
+function HostPowerCord(parent){
+
+    this.sendSwarm = function (swarmSerialization){
+        parent.postMessage(swarmSerialization, "*");
+    };
+
+    let receivedMessageHandler  = (event)=>{
+        console.log("Message received in iframe",event);
+        let swarmSerialization = event.data;
+        this.transfer(swarmSerialization);
+    };
+
+    let subscribe = () => {
+        if(!window.iframePCMessageHandler){
+            window.iframePCMessageHandler = receivedMessageHandler;
+            window.addEventListener("message",receivedMessageHandler)
+        }
+    };
+
+
+    return new Proxy(this, {
+        set(target, p, value, receiver) {
+            target[p] = value;
+            if(p === 'identity') {
+                subscribe.call(target);
+            }
+        }
+    });
+}
+
+
+module.exports = HostPowerCord;
+},{}],"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\IframePowerCord.js":[function(require,module,exports){
+function IframePowerCord(iframe){
+
+    let iframeSrc = iframe.src;
+
+    this.sendSwarm = function (swarmSerialization){
+        const SwarmPacker = require("swarmutils").SwarmPacker;
+
+        try {
+           SwarmPacker.getHeader(swarmSerialization);
+        }
+        catch (e) {
+            console.error("Could not deserialize swarm");
+        }
+
+        if(iframe && iframe.contentWindow){
+            iframe.contentWindow.postMessage(swarmSerialization, iframe.src);
+        }
+        else{
+            //TODO: check if the iframe/psk-app should be loaded again
+            console.error(`Iframe is no longer available. ${iframeSrc}`);
+        }
+
+    };
+
+    let receivedMessageHandler  = (event)=>{
+
+        if (event.source !== window) {
+            console.log("Message received in parent", event);
+            this.transfer(event.data);
+        }
+
+    };
+
+    let subscribe = () => {
+
+        // if(this.identity && this.identity!=="*"){
+        // }
+        // else{
+        //     //TODO: you should use a power cord capable of handling * identities.
+        //     console.error("Cannot handle identity '*'. You should use a power cord capable of handling '*' identities.")
+        // }
+
+        if(!window.iframePCMessageHandler){
+            window.iframePCMessageHandler = receivedMessageHandler;
+            window.addEventListener("message",receivedMessageHandler)
+        }
+    };
+
+    return new Proxy(this, {
+        set(target, p, value, receiver) {
+            target[p] = value;
+            if(p === 'identity') {
+                subscribe.call(target);
+            }
+        }
+    });
+}
+
+module.exports = IframePowerCord;
+},{"swarmutils":"swarmutils"}],"D:\\work\\privatesky\\modules\\swarm-engine\\swarms\\index.js":[function(require,module,exports){
 module.exports = function(swarmEngineApi){
     const cm = require("callflow");
     const swarmUtils = require("./swarm_template-se");
@@ -12411,7 +12516,12 @@ module.exports = {
     SmartRemoteChannelPowerCord:require("./powerCords/SmartRemoteChannelPowerCord"),
     BootScripts: require('./bootScripts')
 };
-},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js"}],"swarmutils":[function(require,module,exports){
+//TODO: use proper context flag from overwrite-require
+if (true/*typeof document !== "undefined"*/) {
+    module.exports.IframePowerCord = require("./powerCords/browser/IframePowerCord");
+    module.exports.HostPowerCord = require("./powerCords/browser/HostPowerCord");
+}
+},{"./SwarmEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./bootScripts":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","./powerCords/InnerIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js","./powerCords/browser/HostPowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\HostPowerCord.js","./powerCords/browser/IframePowerCord":"D:\\work\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\IframePowerCord.js"}],"swarmutils":[function(require,module,exports){
 (function (global){
 module.exports.OwM = require("./lib/OwM");
 module.exports.beesHealer = require("./lib/beesHealer");

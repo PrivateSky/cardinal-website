@@ -1,6 +1,4 @@
 import Controller from "./Controller.js";
-import {getIframeCommunicationInstance} from "../IframeCommunication.js";
-window.IframeCommunicationInstance = getIframeCommunicationInstance();
 
 const configUrl = "/app-config.json";
 
