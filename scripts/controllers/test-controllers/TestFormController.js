@@ -23,21 +23,21 @@ export default class TestFormController extends DefaultFormController {
             age: {
                 label: "Your age",
                 name: "age",
-                required: true,
+                required: false,
                 placeholder: "Your age here...",
                 value: ''
             },
             dateOfBirth: {
                 label: "Select from the calendar your birth date",
                 name: "date-of-birth",
-                required: true,
+                required: false,
                 value: ''
             },
             password: {
                 label: "Write down your password.",
                 hint: "The submition will create an account using your name and password.",
                 name: "password",
-                required: true,
+                required: false,
                 placeholder: "Password here...",
                 value: ''
             },
