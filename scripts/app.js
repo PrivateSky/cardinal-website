@@ -4,7 +4,6 @@ import TestFormForEachController from "./controllers/test-controllers/TestFormFo
 import TestFormChildrenController from './controllers/test-controllers/TestFormChildrenController.js';
 import ApplicationController from "./controllers/ApplicationController.js";
 import DefaultFormController from "./controllers/DefaultFormController.js";
-import UserController from "./controllers/UserController.js";
 
 document.addEventListener("controllerFactoryIsReady", (e) => {
     let ControllerFactory = e.detail;
@@ -15,5 +14,4 @@ document.addEventListener("controllerFactoryIsReady", (e) => {
     ControllerFactory.registerController("TestFormForEachController", TestFormForEachController);
     ControllerFactory.registerController("TestFormChildrenController", TestFormChildrenController);
     ControllerFactory.registerController("DefaultApplicationController", DefaultApplicationController);
-    ControllerFactory.registerController("UserController", UserController);
 });
