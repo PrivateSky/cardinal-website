@@ -10,6 +10,7 @@ global.ssappHostBootLoadModules = function(){
 	$$.__runtimeModules["overwrite-require"] = require("overwrite-require");
 	$$.__runtimeModules["edfs"] = require("edfs");
 	$$.__runtimeModules["boot-host"] = require("swarm-engine/bootScripts/browser/host");
+	$$.__runtimeModules["pskcrypto"] = require("pskcrypto");
 }
 if (true) {
 	ssappHostBootLoadModules();
@@ -22,7 +23,7 @@ if (typeof $$ !== "undefined") {
     
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"edfs":"edfs","overwrite-require":"overwrite-require","swarm-engine/bootScripts/browser/host":"swarm-engine/bootScripts/browser/host"}],"D:\\work\\git\\privatesky\\modules\\adler32\\index.js":[function(require,module,exports){
+},{"edfs":"edfs","overwrite-require":"overwrite-require","pskcrypto":"pskcrypto","swarm-engine/bootScripts/browser/host":"swarm-engine/bootScripts/browser/host"}],"D:\\work\\git\\privatesky\\modules\\adler32\\index.js":[function(require,module,exports){
 
 "use strict";
 
@@ -1165,7 +1166,7 @@ module.exports = Archive;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../utils/isStream":"D:\\work\\git\\privatesky\\modules\\bar\\utils\\isStream.js","./Brick":"D:\\work\\git\\privatesky\\modules\\bar\\lib\\Brick.js","adler32":"D:\\work\\git\\privatesky\\modules\\adler32\\index.js","buffer":"D:\\work\\git\\privatesky\\node_modules\\buffer\\index.js","path":"D:\\work\\git\\privatesky\\node_modules\\path-browserify\\index.js","pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js","swarmutils":"D:\\work\\git\\privatesky\\modules\\swarmutils\\index.js"}],"D:\\work\\git\\privatesky\\modules\\bar\\lib\\ArchiveConfigurator.js":[function(require,module,exports){
+},{"../utils/isStream":"D:\\work\\git\\privatesky\\modules\\bar\\utils\\isStream.js","./Brick":"D:\\work\\git\\privatesky\\modules\\bar\\lib\\Brick.js","adler32":"D:\\work\\git\\privatesky\\modules\\adler32\\index.js","buffer":"D:\\work\\git\\privatesky\\node_modules\\buffer\\index.js","path":"D:\\work\\git\\privatesky\\node_modules\\path-browserify\\index.js","pskcrypto":"pskcrypto","swarmutils":"D:\\work\\git\\privatesky\\modules\\swarmutils\\index.js"}],"D:\\work\\git\\privatesky\\modules\\bar\\lib\\ArchiveConfigurator.js":[function(require,module,exports){
 const storageProviders = {};
 const fsAdapters = {};
 const Seed = require("./Seed");
@@ -1510,7 +1511,7 @@ function Brick(config) {
 
 module.exports = Brick;
 
-},{"./transforms/BrickTransformFactory":"D:\\work\\git\\privatesky\\modules\\bar\\lib\\transforms\\BrickTransformFactory.js","adler32":"D:\\work\\git\\privatesky\\modules\\adler32\\index.js","pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js"}],"D:\\work\\git\\privatesky\\modules\\bar\\lib\\FileBarMap.js":[function(require,module,exports){
+},{"./transforms/BrickTransformFactory":"D:\\work\\git\\privatesky\\modules\\bar\\lib\\transforms\\BrickTransformFactory.js","adler32":"D:\\work\\git\\privatesky\\modules\\adler32\\index.js","pskcrypto":"pskcrypto"}],"D:\\work\\git\\privatesky\\modules\\bar\\lib\\FileBarMap.js":[function(require,module,exports){
 (function (Buffer){
 const Brick = require("./Brick");
 const util = require("../utils/utilities");
@@ -2234,7 +2235,7 @@ function Seed(compactSeed, id, endpoint, usedForEncryption  = true, randomLength
 module.exports = Seed;
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":"D:\\work\\git\\privatesky\\node_modules\\buffer\\index.js","pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js"}],"D:\\work\\git\\privatesky\\modules\\bar\\lib\\transforms\\BrickTransform.js":[function(require,module,exports){
+},{"buffer":"D:\\work\\git\\privatesky\\node_modules\\buffer\\index.js","pskcrypto":"pskcrypto"}],"D:\\work\\git\\privatesky\\modules\\bar\\lib\\transforms\\BrickTransform.js":[function(require,module,exports){
 (function (Buffer){
 function BrickTransform(transformGenerator) {
     let directTransform;
@@ -2503,7 +2504,7 @@ function EncryptionGenerator(config) {
 }
 
 module.exports = EncryptionGenerator;
-},{"pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js"}],"D:\\work\\git\\privatesky\\modules\\bar\\utils\\AsyncDispatcher.js":[function(require,module,exports){
+},{"pskcrypto":"pskcrypto"}],"D:\\work\\git\\privatesky\\modules\\bar\\utils\\AsyncDispatcher.js":[function(require,module,exports){
 
 function AsyncDispatcher(finalCallback) {
 	let results = [];
@@ -2763,7 +2764,7 @@ exports.createConsensusManager = function (delegatedAgentName, communicationOutl
     return instance;
 }
 
-},{"./transactionsUtil":"D:\\work\\git\\privatesky\\modules\\blockchain\\OBFT\\transactionsUtil.js","fs":"D:\\work\\git\\privatesky\\node_modules\\browserify\\lib\\_empty.js","pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\OBFT\\PulseUtil.js":[function(require,module,exports){
+},{"./transactionsUtil":"D:\\work\\git\\privatesky\\modules\\blockchain\\OBFT\\transactionsUtil.js","fs":"D:\\work\\git\\privatesky\\node_modules\\browserify\\lib\\_empty.js","pskcrypto":"pskcrypto"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\OBFT\\PulseUtil.js":[function(require,module,exports){
 function PulseUtil(signer, currentPulseNumber, block, newTransactions, vsd, top, last) {
     this.signer         = signer;               //a.k.a. delegatedAgentName
     this.currentPulse   = currentPulseNumber;
@@ -2815,7 +2816,7 @@ module.exports.orderCRTransactions = function (pset) { //order in place the pset
     return arr;
 }
 
-},{"pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\blockchainSwarmTypes\\asset_swarm_template.js":[function(require,module,exports){
+},{"pskcrypto":"pskcrypto"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\blockchainSwarmTypes\\asset_swarm_template.js":[function(require,module,exports){
 var callflowModule = require("callflow");
 var CNST = require("../moduleConstants");
 
@@ -3440,7 +3441,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"./blockchainSwarmTypes/asset_swarm_template":"D:\\work\\git\\privatesky\\modules\\blockchain\\blockchainSwarmTypes\\asset_swarm_template.js","./blockchainSwarmTypes/transaction_swarm_template":"D:\\work\\git\\privatesky\\modules\\blockchain\\blockchainSwarmTypes\\transaction_swarm_template.js","./pskdb":"D:\\work\\git\\privatesky\\modules\\blockchain\\pskdb\\index.js","./strategies/consensusAlgortims/consensusAlgoritmsRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\consensusAlgortims\\consensusAlgoritmsRegistry.js","./strategies/historyStorages/historyStoragesRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\historyStorages\\historyStoragesRegistry.js","./strategies/networkCommunication/networkCommunicationStrategiesRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\networkCommunication\\networkCommunicationStrategiesRegistry.js","./strategies/signatureProvidersRegistry/signatureProvidersRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\signatureProvidersRegistry\\signatureProvidersRegistry.js","./strategies/votingStrategies/votingStrategiesRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\votingStrategies\\votingStrategiesRegistry.js","./strategies/worldStateCaches/worldStateCacheRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\worldStateCaches\\worldStateCacheRegistry.js","_process":"D:\\work\\git\\privatesky\\node_modules\\process\\browser.js","callflow":"D:\\work\\git\\privatesky\\modules\\callflow\\index.js","pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\moduleConstants.js":[function(require,module,exports){
+},{"./blockchainSwarmTypes/asset_swarm_template":"D:\\work\\git\\privatesky\\modules\\blockchain\\blockchainSwarmTypes\\asset_swarm_template.js","./blockchainSwarmTypes/transaction_swarm_template":"D:\\work\\git\\privatesky\\modules\\blockchain\\blockchainSwarmTypes\\transaction_swarm_template.js","./pskdb":"D:\\work\\git\\privatesky\\modules\\blockchain\\pskdb\\index.js","./strategies/consensusAlgortims/consensusAlgoritmsRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\consensusAlgortims\\consensusAlgoritmsRegistry.js","./strategies/historyStorages/historyStoragesRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\historyStorages\\historyStoragesRegistry.js","./strategies/networkCommunication/networkCommunicationStrategiesRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\networkCommunication\\networkCommunicationStrategiesRegistry.js","./strategies/signatureProvidersRegistry/signatureProvidersRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\signatureProvidersRegistry\\signatureProvidersRegistry.js","./strategies/votingStrategies/votingStrategiesRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\votingStrategies\\votingStrategiesRegistry.js","./strategies/worldStateCaches/worldStateCacheRegistry":"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\worldStateCaches\\worldStateCacheRegistry.js","_process":"D:\\work\\git\\privatesky\\node_modules\\process\\browser.js","callflow":"D:\\work\\git\\privatesky\\modules\\callflow\\index.js","pskcrypto":"pskcrypto"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\moduleConstants.js":[function(require,module,exports){
 module.exports = {
     ALIAS:"alias",
     ALIASES : '/aliases',
@@ -4501,7 +4502,7 @@ exports.createConsensusManager = function (delegatedAgentName, communicationOutl
     return instance;
 }
 
-},{"../OBFT/transactionsUtil":"D:\\work\\git\\privatesky\\modules\\blockchain\\OBFT\\transactionsUtil.js","fs":"D:\\work\\git\\privatesky\\node_modules\\browserify\\lib\\_empty.js","pskcrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\consensusAlgortims\\consensusAlgoritmsRegistry.js":[function(require,module,exports){
+},{"../OBFT/transactionsUtil":"D:\\work\\git\\privatesky\\modules\\blockchain\\OBFT\\transactionsUtil.js","fs":"D:\\work\\git\\privatesky\\node_modules\\browserify\\lib\\_empty.js","pskcrypto":"pskcrypto"}],"D:\\work\\git\\privatesky\\modules\\blockchain\\strategies\\consensusAlgortims\\consensusAlgoritmsRegistry.js":[function(require,module,exports){
 var mod = require("../../index");
 
 function DirectCommitAlgorithm() {
@@ -7797,18 +7798,7 @@ $$.remote.base64Decode = function base64Decode(encodedString){
 
 }).call(this,require('_process'),require("buffer").Buffer)
 
-},{"./psk-abstract-client":"D:\\work\\git\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js","_process":"D:\\work\\git\\privatesky\\node_modules\\process\\browser.js","buffer":"D:\\work\\git\\privatesky\\node_modules\\buffer\\index.js","http":"D:\\work\\git\\privatesky\\node_modules\\stream-http\\index.js","https":"D:\\work\\git\\privatesky\\node_modules\\https-browserify\\index.js","url":"D:\\work\\git\\privatesky\\node_modules\\url\\url.js"}],"D:\\work\\git\\privatesky\\modules\\pskcrypto\\index.js":[function(require,module,exports){
-const PskCrypto = require("./lib/PskCrypto");
-const ssutil = require("./signsensusDS/ssutil");
-
-module.exports = PskCrypto;
-
-module.exports.hashValues = ssutil.hashValues;
-
-module.exports.DuplexStream = require("./lib/utils/DuplexStream");
-
-module.exports.isStream = require("./lib/utils/isStream");
-},{"./lib/PskCrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\PskCrypto.js","./lib/utils/DuplexStream":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\utils\\DuplexStream.js","./lib/utils/isStream":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\utils\\isStream.js","./signsensusDS/ssutil":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\signsensusDS\\ssutil.js"}],"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\PskCrypto.js":[function(require,module,exports){
+},{"./psk-abstract-client":"D:\\work\\git\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js","_process":"D:\\work\\git\\privatesky\\node_modules\\process\\browser.js","buffer":"D:\\work\\git\\privatesky\\node_modules\\buffer\\index.js","http":"D:\\work\\git\\privatesky\\node_modules\\stream-http\\index.js","https":"D:\\work\\git\\privatesky\\node_modules\\https-browserify\\index.js","url":"D:\\work\\git\\privatesky\\node_modules\\url\\url.js"}],"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\PskCrypto.js":[function(require,module,exports){
 (function (Buffer){
 function PskCrypto() {
     const crypto = require('crypto');
@@ -46631,7 +46621,18 @@ module.exports = {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./moduleConstants":"D:\\work\\git\\privatesky\\modules\\overwrite-require\\moduleConstants.js","_process":"D:\\work\\git\\privatesky\\node_modules\\process\\browser.js"}],"swarm-engine/bootScripts/browser/host":[function(require,module,exports){
+},{"./moduleConstants":"D:\\work\\git\\privatesky\\modules\\overwrite-require\\moduleConstants.js","_process":"D:\\work\\git\\privatesky\\node_modules\\process\\browser.js"}],"pskcrypto":[function(require,module,exports){
+const PskCrypto = require("./lib/PskCrypto");
+const ssutil = require("./signsensusDS/ssutil");
+
+module.exports = PskCrypto;
+
+module.exports.hashValues = ssutil.hashValues;
+
+module.exports.DuplexStream = require("./lib/utils/DuplexStream");
+
+module.exports.isStream = require("./lib/utils/isStream");
+},{"./lib/PskCrypto":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\PskCrypto.js","./lib/utils/DuplexStream":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\utils\\DuplexStream.js","./lib/utils/isStream":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\lib\\utils\\isStream.js","./signsensusDS/ssutil":"D:\\work\\git\\privatesky\\modules\\pskcrypto\\signsensusDS\\ssutil.js"}],"swarm-engine/bootScripts/browser/host":[function(require,module,exports){
 HostBootScript = require("./HostBootScript");
 let bootScript = null;
 module.exports = {
