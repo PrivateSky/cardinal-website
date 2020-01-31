@@ -1,9 +1,9 @@
-import DefaultApplicationController from "./controllers/DefaultApplicationController.js";
+import DefaultApplicationController from "./controllers/base-controllers/DefaultApplicationController.js";
 import TestFormController from "./controllers/test-controllers/TestFormController.js";
 import TestFormForEachController from "./controllers/test-controllers/TestFormForEachController.js";
 import TestFormChildrenController from './controllers/test-controllers/TestFormChildrenController.js';
-import ApplicationController from "./controllers/ApplicationController.js";
-import DefaultFormController from "./controllers/DefaultFormController.js";
+import ApplicationController from "./controllers/base-controllers/ApplicationController.js";
+import DefaultFormController from "./controllers/base-controllers/DefaultFormController.js";
 
 document.addEventListener("controllerFactoryIsReady", (e) => {
     let ControllerFactory = e.detail;
