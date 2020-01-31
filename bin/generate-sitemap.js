@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const appConfig = "./src/app-config.json";
-import DefaultApplicationController from "../src/scripts/controllers/DefaultApplicationController";
+import DefaultApplicationController from "../src/scripts/controllers/base-controllers/DefaultApplicationController";
 
 
 let buildSiteMap = function() {
