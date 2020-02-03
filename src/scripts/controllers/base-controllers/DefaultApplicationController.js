@@ -124,9 +124,14 @@ export default class DefaultApplicationController extends ApplicationController 
                             page.componentProps = {};
                         }
                         if (page.pageSrc) {
-                            page.componentProps.pageUrl = basePagesUrl + page.pageSrc;
+                            if(page.pageSrc.startsWith("http")){
+                                page.componentProps.pageUrl = page.pageSrc;
+                            }
+                            else{
+                                page.componentProps.pageUrl = basePagesUrl + page.pageSrc;
+                            }
                         } else {
-                            let filename = page.name.replace(/[:.!?]/g, "").replace(/\s/g, '-').toLowerCase();
+                            let filename = page.name.replace(/[:.!?]/g,"").replace(/\s/g, '-').toLowerCase();
 
                             let prefix = "";
                             if (pathPrefix) {
