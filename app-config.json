@@ -43,19 +43,17 @@
                 ]
             },
             {
-                "name": "Works",
+                "name": "UI-Examples",
                 "icon": "fa-briefcase",
-                "pageSrc": "works.html"
-            },
-            {
-                "name": "About",
-                "icon": "fa-home",
-                "pageSrc": "about.html"
-            },
-            {
-                "name": "News",
-                "icon": "fa-newspaper-o",
-                "pageSrc": "news.html"
+                "children": [
+                    {
+                        "name": "Render List",
+                        "pageSrc": "/examples/render-list.html"
+                    },
+                    {
+                        "name": "Cards List",
+                        "pageSrc": "/examples/cards-list.html"
+                    }]
             },
             {
                 "name": "Web Components",
