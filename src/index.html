@@ -13,6 +13,33 @@
     <psk-app-root controller="DefaultController">
     </psk-app-root>
 
+
+<!--    <psk-wizard controller="WizardController">-->
+
+<!--        <psk-wizard-step>-->
+<!--            <psk-page-loader pageUrl="/wizard/init.html"/>-->
+<!--        </psk-wizard-step>-->
+
+<!--        <psk-wizard-step>-->
+<!--            <psk-page-loader pageUrl="/wizard/new.html"/>-->
+<!--        </psk-wizard-step>-->
+
+<!--        <psk-wizard-step>-->
+<!--            <psk-page-loader pageUrl="/wizard/restore.html"/>-->
+<!--        </psk-wizard-step>-->
+
+<!--        <psk-wizard-step>-->
+<!--            <psk-page-loader pageUrl="/wizard/completed.html"/>-->
+<!--        </psk-wizard-step>-->
+
+<!--        <psk-wizard-step>-->
+<!--            <psk-app-root controller="DefaultController">-->
+<!--            </psk-app-root>-->
+<!--        </psk-wizard-step>-->
+
+<!--    </psk-wizard>-->
+
+
     <script>
         globalConfig = {
             theme: "default"
@@ -20,9 +47,6 @@
     </script>
 
     <script src="/scripts/ssappHostBoot.js"></script>
-    <script  src="/scripts/webshims.js"></script>
-    <script src="/scripts/pskruntime.js"></script>
-    <script  src="/scripts/bindableModel.js"></script>
     <script>
         //temporary fix
         $$.log = $$.err = console.log;
