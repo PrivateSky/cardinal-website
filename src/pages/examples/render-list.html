@@ -1,0 +1,81 @@
+<psk-page title="Render List">
+
+
+    <psk-container controller-name="RenderListController">
+        <style>
+            psk-grid.render-list {
+                margin:15px 0px;
+                padding: 15px;
+                background: #fff;
+                border-radius: 7px;
+                border: 1px solid #DDD;
+                display: block;
+            }
+
+            psk-grid.render-list:hover{
+                cursor:pointer;
+                background-color:#e7f9d6 ;
+            }
+
+            psk-grid.render-list.active{
+                background-color:#dbf2c5 ;
+                border-left: 5px solid #7aa354;
+            }
+        </style>
+
+        <psk-grid columns="2">
+            <psk-card class="profile_selection">
+                <h3>Candidates</h3>
+
+                <psk-text-input view-model="search" placeholder="Filter by name"></psk-text-input>
+
+                <psk-for-each data-view-model="entities">
+                    <template>
+                        <psk-grid columns="3" class="render-list">
+                    <div class="col-md-4 col-12">
+                        <psk-label class="m-0 p-0 pl-3" label="@name"></psk-label>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                            <psk-icon icon="check-circle" color="#7aa354"></psk-icon>
+                            <psk-label label="@status"></psk-label>
+                    </div>
+                    <div class="col-md-5 col-12 text-right">
+                        <psk-toolbar actions="view,edit,close" class="col-md-3">
+                            <psk-button  slot="view" button-class="no-style" event-name="changeView" event-data="@id"><psk-icon icon="eye"  title="View" color="#7aa354"></psk-icon></psk-button>
+                            <psk-icon icon="edit" slot="edit" title="Edit" color="#7aa354"></psk-icon>
+                            <psk-icon icon="close" slot="close" title="Deactivate"  color="#7aa354"></psk-icon>
+                        </psk-toolbar>
+                    </div>
+                        </psk-grid>
+                    </template>
+                </psk-for-each>
+
+            </psk-card>
+
+
+            <psk-card class="profile_container">
+                <psk-card class="user_profile">
+                    <psk-grid columns="2">
+                        <psk-img class="col-2 profile" src="@current.profilePic"></psk-img>
+                        <h3 class="col-10"><psk-label label="@current.name"></psk-label></h3>
+                    </psk-grid>
+
+                </psk-card>
+
+                <psk-card title="Description">
+                    <psk-label label="@current.description"></psk-label>
+                </psk-card>
+
+                <psk-card title="Attachments">
+                    <psk-attachments-list files="@current.attachments">
+                    </psk-attachments-list>
+                </psk-card>
+
+            </psk-card>
+
+        </psk-grid>
+
+
+    </psk-container>
+</psk-page>
