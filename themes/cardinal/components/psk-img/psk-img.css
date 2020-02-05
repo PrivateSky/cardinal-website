@@ -1,11 +1,3 @@
-* {
-  outline: none !important;
-}
-
-:host {
-  scroll-behavior: smooth;
-}
-
 .image_container {
   text-align: center;
   margin-bottom: 20px;
@@ -17,7 +9,12 @@
   font-style: italic;
 }
 
-:host {
-  display: block;
-  font-family: nunito;
+psk-img.profile img{
+  border-radius:50%;
+}
+
+psk-img.profile .image_container,
+.profile .image_description{
+  margin:0;
+  padding: 0;
 }
