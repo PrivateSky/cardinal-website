@@ -230,7 +230,11 @@ class PskBindableModel {
                 },
 
                 ownKeys: function (oTarget) {
-                    return Object.keys(oTarget);
+					let keys = Object.keys(oTarget);
+					if(Array.isArray(oTarget)){
+						keys.push("length");
+					}
+					return keys;
                 },
                 has: function (oTarget, sKey) {
                     return sKey in oTarget
@@ -256,7 +260,9 @@ class PskBindableModel {
 
             //proxify inner objects
             Object.keys(obj).forEach(prop => {
-                obj[prop] = proxify(obj[prop], extendChain(parentChain, prop))
+				if(!Array.isArray(obj)){
+					obj[prop] = proxify(obj[prop], extendChain(parentChain, prop))
+				}
             });
 
             return new Proxy(obj, handler);

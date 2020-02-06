@@ -3,7 +3,13 @@ import BindableController from "./../base-controllers/BindableController.js";
 const entities =  [
     {   id:1,
         name:"John Pompei",
-        status:"active",
+        status:{
+            text: "passed",
+            icon: {
+                color: "#7aa354",
+                name: "check-circle"
+            }
+        },
         notifications:1,
         profilePic:"https://randomuser.me/api/portraits/men/1.jpg",
         attachments: [
@@ -43,7 +49,13 @@ const entities =  [
     },
     {   id:2,
         name:"Marck Stevenson",
-        status:"active",
+        status:{
+            text: "passed",
+            icon: {
+                color: "#7aa354",
+                name: "check-circle"
+            }
+        },
         profilePic:"https://randomuser.me/api/portraits/men/2.jpg",
         notifications:2,
         attachments: [
@@ -73,7 +85,13 @@ const entities =  [
     },
     {   id:3,
         name:"Brian Derk",
-        status:"active",
+        status:{
+            text: "failed",
+            icon: {
+                color: "#FF0055",
+                name: "times-circle"
+            }
+        },
         profilePic:"https://randomuser.me/api/portraits/men/3.jpg",
         attachments: [
             {
@@ -103,14 +121,13 @@ export default class RenderListController extends  BindableController {
 
         this.model.onChange("search.value",()=>{
             let searchedString = this.model.getChainValue("search.value");
-            console.log(searchedString);
             let searchedEntities = entities.filter((entitity)=>{
                 return entitity.name.includes(searchedString);
             });
 
             console.log(searchedEntities);
+            this.model.setChainValue("entities", JSON.parse(JSON.stringify(searchedEntities)));
 
-            this.model.entities = searchedEntities;
         });
 
         element.addEventListener("changeView",  (evt) =>{

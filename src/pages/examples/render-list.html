@@ -29,25 +29,29 @@
 
                 <psk-text-input view-model="search" placeholder="Filter by name"></psk-text-input>
 
+                <p> Search results for: <psk-label label="@search.value"></psk-label></p>
+
                 <psk-for-each data-view-model="entities">
                     <template>
-                        <psk-grid columns="3" class="render-list">
-                    <div class="col-md-4 col-12">
-                        <psk-label class="m-0 p-0 pl-3" label="@name"></psk-label>
-                    </div>
+                        <psk-grid columns="4" class="render-list">
+                            <psk-grid class="col-md-5 col-12" columns="2">
+                                <psk-img class="col-md-4 profile small" src="@profilePic"></psk-img>
+                                <psk-label class="col-md-8 m-0 p-0 pl-3" label="@name"></psk-label>
+                            </psk-grid>
 
-                    <div class="col-md-3 col-12">
-                            <psk-icon icon="check-circle" color="#7aa354"></psk-icon>
-                            <psk-label label="@status"></psk-label>
-                    </div>
-                    <div class="col-md-5 col-12 text-right">
-                        <psk-toolbar actions="view,edit,close" class="col-md-3">
-                            <psk-button  slot="view" button-class="no-style" event-name="changeView" event-data="@id"><psk-icon icon="eye"  title="View" color="#7aa354"></psk-icon></psk-button>
-                            <psk-icon icon="edit" slot="edit" title="Edit" color="#7aa354"></psk-icon>
-                            <psk-icon icon="close" slot="close" title="Deactivate"  color="#7aa354"></psk-icon>
-                        </psk-toolbar>
-                    </div>
+                            <div class="col-md-3 col-12">
+                                    <psk-icon icon="@status.icon.name" color="@status.icon.color"></psk-icon>
+                                    <psk-label label="@status.text"></psk-label>
+                            </div>
+                            <div class="col-md-4 col-12 text-right">
+                                <psk-toolbar actions="view,edit,close" class="col-md-3">
+                                    <psk-button class="p-0"  slot="view" button-class="no-style" event-name="changeView" event-data="@id"><psk-icon icon="eye"  title="View" color="#7aa354"></psk-icon></psk-button>
+                                    <psk-icon class="p-0" icon="edit" slot="edit" title="Edit" color="#7aa354"></psk-icon>
+                                    <psk-icon class="p-0" icon="close" slot="close" title="Deactivate"  color="#7aa354"></psk-icon>
+                                </psk-toolbar>
+                            </div>
                         </psk-grid>
+                        <psk-card slot="no-data" title="No data"></psk-card>
                     </template>
                 </psk-for-each>
 

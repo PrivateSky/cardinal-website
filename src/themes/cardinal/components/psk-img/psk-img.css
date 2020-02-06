@@ -13,6 +13,11 @@ psk-img.profile img{
   border-radius:50%;
 }
 
+psk-img.profile.small img{
+  height:38px;
+  width:38px;
+}
+
 psk-img.profile .image_container,
 .profile .image_description{
   margin:0;
