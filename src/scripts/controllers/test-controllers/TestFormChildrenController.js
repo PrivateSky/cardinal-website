@@ -38,5 +38,6 @@ export default class TestFormChildrenController extends DefaultFormController {
                 }
             }
         });
+		/** Test */
     }
 }
