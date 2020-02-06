@@ -2,10 +2,6 @@ import DefaultFormController from "../base-controllers/DefaultFormController.js"
 
 export default class TestFormChildrenController extends DefaultFormController {
     constructor(element) {
-		/**
-		* 
-		*/
-		
         super(element, {
             sectionTitle: {
                 label: "Your personal information"
