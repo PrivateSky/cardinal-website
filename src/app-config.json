@@ -53,6 +53,10 @@
                     {
                         "name": "Cards List",
                         "pageSrc": "/examples/cards-list.html"
+                    },
+                    {
+                        "name": "Simple List",
+                        "pageSrc": "/examples/simple-list.html"
                     }]
             },
             {
