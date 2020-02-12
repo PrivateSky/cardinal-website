@@ -4,29 +4,35 @@ import entities from "./candidates/candidates.js";
 let currentView = JSON.parse(JSON.stringify(entities[0]));
 let entitiesModel = JSON.parse(JSON.stringify(entities));
 
-export default class RenderListController extends  BindableController {
+export default class RenderListController extends BindableController {
     constructor(element) {
         super(element);
-        this.model = this.setModel({entities:entitiesModel, current:currentView, search:{value:""}});
+        this.model = this.setModel({entities: entitiesModel, current: currentView, search: {value: ""}});
 
-        this.model.onChange("search.value",()=>{
+
+        let getReloadedModel = () => {
             let searchedString = this.model.getChainValue("search.value");
-            let searchedEntities = entities.filter((entitity)=>{
+            let filteredModel = entitiesModel.filter((entitity) => {
                 return entitity.name.includes(searchedString);
             });
+            this.model.setChainValue("entities", JSON.parse(JSON.stringify(filteredModel)));
+        };
 
-            console.log(searchedEntities);
-            this.model.setChainValue("entities", JSON.parse(JSON.stringify(searchedEntities)));
+        this.model.onChange("search.value", getReloadedModel);
 
+        element.addEventListener("changeView", (evt) => {
+            evt.stopImmediatePropagation();
+            let id = evt.data;
+            let selected = entities.find(el => el.id.toString() === id.toString());
+            this.model.setChainValue("current", JSON.parse(JSON.stringify(selected)));
         });
 
-        element.addEventListener("changeView",  (evt) =>{
+
+        element.addEventListener("remove", (evt) => {
             evt.stopImmediatePropagation();
-
             let id = evt.data;
-            let selected = entities.find(el=>el.id.toString() === id.toString());
-            this.model.setChainValue("current", JSON.parse(JSON.stringify(selected)));
-
+            entitiesModel = entitiesModel.filter(el => el.id.toString() !== id.toString());
+            getReloadedModel();
         })
     }
 }

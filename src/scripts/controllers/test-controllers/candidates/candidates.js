@@ -44,7 +44,7 @@ export default
         "type": "plain/text"
       }
     ],
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum malesuada diam, ac tincidunt nibh commodo in. Etiam non justo mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed massa quis nisi condimentum porttitor non vitae enim. Cras a nisi et risus pretium auctor. Vivamus lobortis pellentesque arcu, vitae imperdiet ipsum feugiat sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas sagittis dui eros, nec consequat leo maximus nec."
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum malesuada diam, ac tincidunt nibh commodo in. Etiam non justo mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed massa quis nisi condimentum porttitor non vitae enim. Cras a nisi et risus pretium auctor. Vivamus lobortis pellentesque arcu, vitae imperdiet ipsum feugiat sit amet. Pellentesque habitant morbi tristiqu"
   },
   {
     "id": 2,
