@@ -27,7 +27,9 @@ export default class BindableController extends ApplicationController {
                     callback(null, this.model);
                 }
             }
-            callback(new Error("No callback provided"));
+            else{
+                callback(new Error("No callback provided"));
+            }
         });
     }
 }

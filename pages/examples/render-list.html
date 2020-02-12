@@ -3,24 +3,7 @@
 
     <psk-container controller-name="RenderListController">
         <style>
-            psk-grid.render-list {
-                margin:15px 0px;
-                padding: 15px;
-                background: #fff;
-                border-radius: 7px;
-                border: 1px solid #DDD;
-                display: block;
-            }
 
-            psk-grid.render-list:hover{
-                cursor:pointer;
-                background-color:#e7f9d6 ;
-            }
-
-            psk-grid.render-list.active{
-                background-color:#dbf2c5 ;
-                border-left: 5px solid #7aa354;
-            }
         </style>
 
         <psk-grid columns="2" layout="xs=[12,12] s=[12,12] m=[6,6] l=[6,6]">
@@ -32,7 +15,6 @@
                 <p> Search results for: <psk-label label="@search.value"></psk-label></p>
 
                 <psk-for-each data-view-model="entities">
-                    <template>
                         <psk-grid columns="3" layout="xs=[12,12,12] s=[12,12,12] m=[5,3,4] l=[5,3,4]" class="render-list">
                             <psk-grid columns="2" layout="xs=[4,8] s=[4,8] m=[4,8] l=[4,8]">
                                 <psk-img class="profile small" src="@profilePic"></psk-img>
@@ -47,16 +29,14 @@
                                 <psk-toolbar actions="view,edit,close">
                                     <psk-button class="p-0"  slot="view" button-class="no-style" event-name="changeView" event-data="@id"><psk-icon icon="eye"  title="View" color="#7aa354"></psk-icon></psk-button>
                                     <psk-icon class="p-0" icon="edit" slot="edit" title="Edit" color="#7aa354"></psk-icon>
-                                    <psk-icon class="p-0" icon="close" slot="close" title="Deactivate"  color="#7aa354"></psk-icon>
+                                    <psk-button class="p-0" slot="close" button-class="no-style" event-name="remove" event-data="@id"><psk-icon icon="close" title="Deactivate"  color="#7aa354"></psk-icon></psk-button>
                                 </psk-toolbar>
                             </div>
                         </psk-grid>
                         <psk-card slot="no-data" title="No data"></psk-card>
-                    </template>
                 </psk-for-each>
 
             </psk-card>
-
 
             <psk-card class="profile_container">
                 <psk-card class="user_profile">
