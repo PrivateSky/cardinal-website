@@ -6,7 +6,7 @@ require("./ssappHostBoot_intermediar");
 
 },{"./ssappHostBoot_intermediar":"D:\\work\\privatesky\\builds\\tmp\\ssappHostBoot_intermediar.js","overwrite-require":"overwrite-require"}],"D:\\work\\privatesky\\builds\\tmp\\ssappHostBoot_intermediar.js":[function(require,module,exports){
 (function (global){
-global.ssappHostBootLoadModules = function(){ 
+global.ssappHostBootLoadModules = function(){
 
 	if(typeof $$.__runtimeModules["overwrite-require"] === "undefined"){
 		$$.__runtimeModules["overwrite-require"] = require("overwrite-require");
@@ -26,13 +26,13 @@ global.ssappHostBootLoadModules = function(){
 }
 if (true) {
 	ssappHostBootLoadModules();
-}; 
+};
 global.ssappHostBootRequire = require;
-if (typeof $$ !== "undefined") {            
+if (typeof $$ !== "undefined") {
     $$.requireBundle("ssappHostBoot");
     };
-    
-    
+
+
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
 },{"edfs":"edfs","overwrite-require":"overwrite-require","pskcrypto":"pskcrypto","swarm-engine/bootScripts/browser/host":"swarm-engine/bootScripts/browser/host"}],"D:\\work\\privatesky\\modules\\adler32\\index.js":[function(require,module,exports){
@@ -90,7 +90,7 @@ Hash.prototype.digest = function(encoding)
 {
 	if (this._done)
 		throw new Error('Not initialized');
-	
+
 	this._done = true;
 
 	var buf = new Buffer(4);
@@ -2070,7 +2070,7 @@ function FolderBrickStorage(location) {
         map = barMap;
         const barMapBrick = barMap.toBrick();
         barMapBrick.setTransformParameters(barMap.getTransformParameters());
-       
+
         let brickId = barMapBrick.getId();
         if (!brickId) {
             brickId = barMapBrick.getHash();
@@ -2767,7 +2767,7 @@ let OBFTPSwarm = $$.flow.describe("OBFTProcess", {
  *      - {Pulse} `pulse` (see 'transactionsUtil.js')
  * @param {InMemoryPDS} pdsAdapter e.g. require("pskdb/lib/InMemoryPDS").newPDS(null);
  * @param {Number} pulsePeriodicity e.g. 300
- * 
+ *
  * @returns {SwarmDescription} A new instance of "pulseSwarm" flow, with phase `start` already running
  */
 exports.createConsensusManager = function (delegatedAgentName, communicationOutlet, pdsAdapter, pulsePeriodicity, votingBox) {
@@ -4381,7 +4381,7 @@ let pulseSwarm = $$.flow.describe("pulseSwarm", {
 
         let self = this;
         self.communicationOutlet.broadcastPulse(newPulse);
-        
+
         this.lset = {};
         this.currentPulse++;
 
@@ -4503,7 +4503,7 @@ let pulseSwarm = $$.flow.describe("pulseSwarm", {
  *      - {Pulse} `pulse` (see 'transactionsUtil.js')
  * @param {InMemoryPDS} pdsAdapter e.g. require("pskdb/lib/InMemoryPDS").newPDS(null);
  * @param {Number} pulsePeriodicity e.g. 300
- * 
+ *
  * @returns {SwarmDescription} A new instance of "pulseSwarm" flow, with phase `start` already running
  */
 exports.createConsensusManager = function (delegatedAgentName, communicationOutlet, pdsAdapter, pulsePeriodicity, votingBox) {
@@ -41155,7 +41155,7 @@ var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode, f
 		self.url = response.url
 		self.statusCode = response.status
 		self.statusMessage = response.statusText
-		
+
 		response.headers.forEach(function (header, key){
 			self.headers[key.toLowerCase()] = header
 			self.rawHeaders.push(key, header)
@@ -46233,13 +46233,13 @@ Script.prototype.runInContext = function (context) {
     if (!(context instanceof Context)) {
         throw new TypeError("needs a 'context' argument.");
     }
-    
+
     var iframe = document.createElement('iframe');
     if (!iframe.style) iframe.style = {};
     iframe.style.display = 'none';
-    
+
     document.body.appendChild(iframe);
-    
+
     var win = iframe.contentWindow;
     var wEval = win.eval, wExecScript = win.execScript;
 
@@ -46248,7 +46248,7 @@ Script.prototype.runInContext = function (context) {
         wExecScript.call(win, 'null');
         wEval = win.eval;
     }
-    
+
     forEach(Object_keys(context), function (key) {
         win[key] = context[key];
     });
@@ -46257,11 +46257,11 @@ Script.prototype.runInContext = function (context) {
             win[key] = context[key];
         }
     });
-    
+
     var winKeys = Object_keys(win);
 
     var res = wEval.call(win, this.code);
-    
+
     forEach(Object_keys(win), function (key) {
         // Avoid copying circular objects like `top` and `window` by only
         // updating existing context properties or new properties in the `win`
@@ -46276,9 +46276,9 @@ Script.prototype.runInContext = function (context) {
             defineProp(context, key, win[key]);
         }
     });
-    
+
     document.body.removeChild(iframe);
-    
+
     return res;
 };
 
