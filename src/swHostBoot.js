@@ -1,12 +1,12 @@
-ssappHostBootRequire=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"D:\\work\\privatesky\\builds\\tmp\\ssappHostBoot.js":[function(require,module,exports){
+swHostBootRequire=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"D:\\work\\privatesky\\builds\\tmp\\swHostBoot.js":[function(require,module,exports){
 const or = require('overwrite-require');
-or.enableForEnvironment(or.constants.BROWSER_ENVIRONMENT_TYPE);
+or.enableForEnvironment(or.constants.SERVICE_WORKER_ENVIRONMENT_TYPE);
 $$.log = $$.err = $$.fixMe = console.log;
-require("./ssappHostBoot_intermediar");
+require("./swHostBoot_intermediar");
 
-},{"./ssappHostBoot_intermediar":"D:\\work\\privatesky\\builds\\tmp\\ssappHostBoot_intermediar.js","overwrite-require":"overwrite-require"}],"D:\\work\\privatesky\\builds\\tmp\\ssappHostBoot_intermediar.js":[function(require,module,exports){
+},{"./swHostBoot_intermediar":"D:\\work\\privatesky\\builds\\tmp\\swHostBoot_intermediar.js","overwrite-require":"overwrite-require"}],"D:\\work\\privatesky\\builds\\tmp\\swHostBoot_intermediar.js":[function(require,module,exports){
 (function (global){
-global.ssappHostBootLoadModules = function(){
+global.swHostBootLoadModules = function(){ 
 
 	if(typeof $$.__runtimeModules["overwrite-require"] === "undefined"){
 		$$.__runtimeModules["overwrite-require"] = require("overwrite-require");
@@ -17,7 +17,7 @@ global.ssappHostBootLoadModules = function(){
 	}
 
 	if(typeof $$.__runtimeModules["boot-host"] === "undefined"){
-		$$.__runtimeModules["boot-host"] = require("swarm-engine/bootScripts/browser/host");
+		$$.__runtimeModules["boot-host"] = require("swarm-engine/bootScripts/browser/sw-host");
 	}
 
 	if(typeof $$.__runtimeModules["pskcrypto"] === "undefined"){
@@ -25,17 +25,17 @@ global.ssappHostBootLoadModules = function(){
 	}
 }
 if (true) {
-	ssappHostBootLoadModules();
-};
-global.ssappHostBootRequire = require;
-if (typeof $$ !== "undefined") {
-    $$.requireBundle("ssappHostBoot");
+	swHostBootLoadModules();
+}; 
+global.swHostBootRequire = require;
+if (typeof $$ !== "undefined") {            
+    $$.requireBundle("swHostBoot");
     };
-
-
+    
+    
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"edfs":"edfs","overwrite-require":"overwrite-require","pskcrypto":"pskcrypto","swarm-engine/bootScripts/browser/host":"swarm-engine/bootScripts/browser/host"}],"D:\\work\\privatesky\\modules\\adler32\\index.js":[function(require,module,exports){
+},{"edfs":"edfs","overwrite-require":"overwrite-require","pskcrypto":"pskcrypto","swarm-engine/bootScripts/browser/sw-host":"swarm-engine/bootScripts/browser/sw-host"}],"D:\\work\\privatesky\\modules\\adler32\\index.js":[function(require,module,exports){
 
 "use strict";
 
@@ -90,7 +90,7 @@ Hash.prototype.digest = function(encoding)
 {
 	if (this._done)
 		throw new Error('Not initialized');
-
+	
 	this._done = true;
 
 	var buf = new Buffer(4);
@@ -217,8 +217,10 @@ module.exports.createFsAdapter = () => {
 };
 },{"./lib/FsAdapter":"D:\\work\\privatesky\\modules\\bar-fs-adapter\\lib\\FsAdapter.js"}],"D:\\work\\privatesky\\modules\\bar-fs-adapter\\lib\\FsAdapter.js":[function(require,module,exports){
 (function (Buffer){
-const fs = require('fs');
-const path = require('path');
+const fsModule = "fs";
+const fs = require(fsModule);
+const pathModule = "path";
+const path = require(pathModule);
 const PathAsyncIterator = require('./PathAsyncIterator');
 
 function FsAdapter() {
@@ -254,6 +256,10 @@ function FsAdapter() {
         readStream.on("end", () => {
             callback(undefined, data);
         });
+    };
+
+    this.getFilesIterator = function(inputPath) {
+        return new PathAsyncIterator(inputPath);
     };
 
     this.getNextFile = function (inputPath, restart, callback) {
@@ -323,10 +329,12 @@ function FsAdapter() {
 module.exports = FsAdapter;
 }).call(this,require("buffer").Buffer)
 
-},{"./PathAsyncIterator":"D:\\work\\privatesky\\modules\\bar-fs-adapter\\lib\\PathAsyncIterator.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js","fs":"D:\\work\\privatesky\\node_modules\\browserify\\lib\\_empty.js","path":"D:\\work\\privatesky\\node_modules\\path-browserify\\index.js"}],"D:\\work\\privatesky\\modules\\bar-fs-adapter\\lib\\PathAsyncIterator.js":[function(require,module,exports){
-const fs = require('fs');
-const path = require('path');
-const AsyncDispatcher = require("swarmutils").AsyncDispatcher;
+},{"./PathAsyncIterator":"D:\\work\\privatesky\\modules\\bar-fs-adapter\\lib\\PathAsyncIterator.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js"}],"D:\\work\\privatesky\\modules\\bar-fs-adapter\\lib\\PathAsyncIterator.js":[function(require,module,exports){
+const fsModule = "fs";
+const fs = require(fsModule);
+const pathModule = "path";
+const path = require(pathModule);
+const TaskCounter = require("swarmutils").TaskCounter;
 
 
 function PathAsyncIterator(inputPath) {
@@ -346,13 +354,17 @@ function PathAsyncIterator(inputPath) {
                 isFirstCall = false;
                 pathIsFolder = status;
                 if (status === true) {
-                    const splitInputPath = inputPath.split(path.sep);
-                    splitInputPath.pop();
-                    removablePathLen = splitInputPath.join(path.sep).length;
+                    if(!inputPath.endsWith('/')) {
+                        inputPath += '/';
+                    }
+
+                    removablePathLen = inputPath.length;
                     folderList.push(inputPath);
                     getNextFileFromFolder(callback);
                 } else {
-                    callback(undefined, inputPath);
+                    const fileName = path.basename(inputPath);
+                    const fileParentFolder = path.dirname(inputPath);
+                    callback(undefined, fileName, fileParentFolder);
                 }
             });
         } else if (pathIsFolder) {
@@ -363,10 +375,10 @@ function PathAsyncIterator(inputPath) {
     };
 
     function walkFolder(folderPath, callback) {
-        const asyncDispatcher = new AsyncDispatcher((errors, results) => {
+        const taskCounter = new TaskCounter((errors, results) => {
             if (fileList.length > 0) {
                 const fileName = fileList.shift();
-                return callback(undefined, fileName);
+                return callback(undefined, fileName, inputPath);
             }
 
             if (folderList.length > 0) {
@@ -389,7 +401,7 @@ function PathAsyncIterator(inputPath) {
             if (files.length === 0) {
                 walkFolder(folderList.shift(), callback);
             }
-            asyncDispatcher.dispatchEmpty(files.length);
+            taskCounter.increment(files.length);
 
             files.forEach(file => {
                 let filePath = path.join(folderPath, file);
@@ -404,7 +416,7 @@ function PathAsyncIterator(inputPath) {
                         fileList.push(filePath.substring(removablePathLen));
                     }
 
-                    asyncDispatcher.markOneAsFinished();
+                    taskCounter.decrement();
                 });
             });
         });
@@ -427,7 +439,7 @@ function PathAsyncIterator(inputPath) {
 
         if (fileList.length > 0) {
             const fileName = fileList.shift();
-            return callback(undefined, fileName);
+            return callback(undefined, fileName, inputPath);
         }
 
 
@@ -436,13 +448,13 @@ function PathAsyncIterator(inputPath) {
                 return callback(err);
             }
 
-            callback(undefined, file);
+            callback(undefined, file, inputPath);
         });
     }
 }
 
 module.exports = PathAsyncIterator;
-},{"fs":"D:\\work\\privatesky\\node_modules\\browserify\\lib\\_empty.js","path":"D:\\work\\privatesky\\node_modules\\path-browserify\\index.js","swarmutils":"D:\\work\\privatesky\\modules\\swarmutils\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\index.js":[function(require,module,exports){
+},{"swarmutils":"D:\\work\\privatesky\\modules\\swarmutils\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\index.js":[function(require,module,exports){
 
 const ArchiveConfigurator = require("./lib/ArchiveConfigurator");
 const createFolderBrickStorage = require("./lib/FolderBrickStorage").createFolderBrickStorage;
@@ -477,9 +489,10 @@ module.exports.createFileBrickStorage = createFileBrickStorage;
 },{"./lib/Archive":"D:\\work\\privatesky\\modules\\bar\\lib\\Archive.js","./lib/ArchiveConfigurator":"D:\\work\\privatesky\\modules\\bar\\lib\\ArchiveConfigurator.js","./lib/Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","./lib/FileBrickStorage":"D:\\work\\privatesky\\modules\\bar\\lib\\FileBrickStorage.js","./lib/FolderBarMap":"D:\\work\\privatesky\\modules\\bar\\lib\\FolderBarMap.js","./lib/FolderBrickStorage":"D:\\work\\privatesky\\modules\\bar\\lib\\FolderBrickStorage.js","./lib/Seed":"D:\\work\\privatesky\\modules\\bar\\lib\\Seed.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\Archive.js":[function(require,module,exports){
 (function (Buffer){
 const Brick = require('./Brick');
-const path = require("path");
+const pathModule = "path";
+const path = require(pathModule);
 const isStream = require("../utils/isStream");
-const AsyncDispatcher = require("swarmutils").AsyncDispatcher;
+const TaskCounter = require("swarmutils").TaskCounter;
 const crypto = require('pskcrypto');
 const adler32 = require('adler32');
 
@@ -487,14 +500,21 @@ function Archive(archiveConfigurator) {
 
     const archiveFsAdapter = archiveConfigurator.getFsAdapter();
     const storageProvider = archiveConfigurator.getStorageProvider();
+    let cachedSEED;
     let barMap;
 
     this.setSeed = (seed) => {
+        cachedSEED = seed;
         archiveConfigurator.setSeed(seed);
     };
 
     this.getSeed = () => {
-        return archiveConfigurator.getSeed();
+        if (cachedSEED) {
+            return cachedSEED;
+        }
+
+        cachedSEED = archiveConfigurator.getSeed();
+        return cachedSEED;
     };
 
     this.getFileHash = (fileBarPath, callback) => {
@@ -658,10 +678,10 @@ function Archive(archiveConfigurator) {
 
         function __addBricks(positions, callback) {
             let precedence;
-            const asyncDispatcher = new AsyncDispatcher((errs, results) => {
+            const taskCounter = new TaskCounter((errs, results) => {
                 return callback();
             });
-            asyncDispatcher.dispatchEmpty(Object.keys(positions).length);
+            taskCounter.increment(Object.keys(positions).length);
             Object.keys(positions).forEach((fileName) => {
                 precedence = 0;
                 let goodPath = path.posix.normalize(fileName.split(path.sep).join(path.posix.sep));
@@ -670,7 +690,7 @@ function Archive(archiveConfigurator) {
                     if (err) {
                         return callback(err);
                     }
-                    asyncDispatcher.markOneAsFinished(undefined, fileName);
+                    taskCounter.decrement(undefined, fileName);
                 });
             });
         }
@@ -917,26 +937,26 @@ function Archive(archiveConfigurator) {
             callback = barPath;
             barPath = fsFolderPath;
         }
+        const filesIterator = archiveFsAdapter.getFilesIterator(fsFolderPath);
 
         loadBarMapThenExecute(__addFolder, callback);
 
         function __addFolder() {
 
-            archiveFsAdapter.getNextFile(fsFolderPath, readFileCb);
+            filesIterator.next(readFileCb);
 
-            function readFileCb(err, file) {
+            function readFileCb(err, file, rootFsPath) {
                 if (err) {
                     return callback(err);
                 }
 
                 if (typeof file !== "undefined") {
-
-                    readFileAsBlocks(path.join(path.dirname(fsFolderPath), file), path.join(barPath, path.basename(file)), archiveConfigurator.getBufferSize(), (err) => {
+                    readFileAsBlocks(path.join(rootFsPath, file), path.join(barPath, file), archiveConfigurator.getBufferSize(), (err) => {
                         if (err) {
                             return callback(err);
                         }
 
-                        archiveFsAdapter.getNextFile(fsFolderPath, readFileCb);
+                        filesIterator.next(readFileCb);
                     });
                 } else {
                     storageProvider.putBarMap(barMap, (err, mapDigest) => {
@@ -951,6 +971,8 @@ function Archive(archiveConfigurator) {
             }
         }
     };
+
+
     this.extractFolder = (fsFolderPath, barPath, callback) => {
         if (typeof fsFolderPath === "function") {
             callback = fsFolderPath;
@@ -963,10 +985,10 @@ function Archive(archiveConfigurator) {
 
         loadBarMapThenExecute(() => {
             const filePaths = barMap.getFileList(barPath);
-            const asyncDispatcher = new AsyncDispatcher(() => {
+            const taskCounter = new TaskCounter(() => {
                 callback();
             });
-            asyncDispatcher.dispatchEmpty(filePaths.length);
+            taskCounter.increment(filePaths.length);
             filePaths.forEach(filePath => {
                 let actualPath;
                 if (fsFolderPath) {
@@ -984,7 +1006,7 @@ function Archive(archiveConfigurator) {
                         return callback(err);
                     }
 
-                    asyncDispatcher.markOneAsFinished();
+                    taskCounter.decrement();
                 });
             });
         }, callback);
@@ -1006,18 +1028,21 @@ function Archive(archiveConfigurator) {
                 return callback(err);
             }
 
-            targetBarMap.setConfig(archiveConfigurator);
-            targetBarMap.setEncryptionKey(archiveConfigurator.getMapEncryptionKey());
             loadBarMapThenExecute(__cloneBricks, callback);
 
             function __cloneBricks() {
                 const fileList = barMap.getFileList();
+
                 __getFilesRecursively(fileList, 0, (err) => {
                     if (err) {
                         return callback(err);
                     }
 
-                    targetStorage.putBarMap(targetBarMap, callback);
+                    cachedSEED = archiveConfigurator.getSeed();
+                    archiveConfigurator.generateSeed();
+                    targetBarMap.setEncryptionKey(archiveConfigurator.getMapEncryptionKey());
+                    targetBarMap.setConfig(archiveConfigurator);
+                    targetStorage.putBarMap(targetBarMap, err => callback(err, archiveConfigurator.getSeed()));
                 });
             }
 
@@ -1042,8 +1067,8 @@ function Archive(archiveConfigurator) {
                         return callback(err);
                     }
 
-                    if (barMap.getTransformParameters(brickList[brickIndex]).key) {
-                        brick.setTransformParameters({key: barMap.getTransformParameters(brickList[brickIndex]).key});
+                    if (barMap.getTransformParameters(brickList[brickIndex])) {
+                        brick.setTransformParameters(barMap.getTransformParameters(brickList[brickIndex]));
                     }
                     __addBrickToTarget(brick, callback);
                 });
@@ -1178,7 +1203,7 @@ module.exports = Archive;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../utils/isStream":"D:\\work\\privatesky\\modules\\bar\\utils\\isStream.js","./Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","adler32":"D:\\work\\privatesky\\modules\\adler32\\index.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js","path":"D:\\work\\privatesky\\node_modules\\path-browserify\\index.js","pskcrypto":"pskcrypto","swarmutils":"D:\\work\\privatesky\\modules\\swarmutils\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\ArchiveConfigurator.js":[function(require,module,exports){
+},{"../utils/isStream":"D:\\work\\privatesky\\modules\\bar\\utils\\isStream.js","./Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","adler32":"D:\\work\\privatesky\\modules\\adler32\\index.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js","pskcrypto":"pskcrypto","swarmutils":"D:\\work\\privatesky\\modules\\swarmutils\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\ArchiveConfigurator.js":[function(require,module,exports){
 const storageProviders = {};
 const fsAdapters = {};
 const Seed = require("./Seed");
@@ -1188,7 +1213,7 @@ function ArchiveConfigurator() {
 
     let self = this;
     this.setBufferSize = (bufferSize) => {
-        if(bufferSize < 65535){
+        if (bufferSize < 65535) {
             throw Error(`Brick size should be equal to or greater than 65535. The provided brick size is ${bufferSize}`);
         }
         config.bufferSize = bufferSize;
@@ -1313,6 +1338,13 @@ function ArchiveConfigurator() {
         this.setMapDigest(id);
     };
 
+    this.getSeedId = () => {
+        loadSeed();
+        if (config.seed) {
+            return config.seed.getId();
+        }
+    };
+
     this.setBrickTransportStrategyName = (brickTransportStrategyName) => {
         config.brickTransportStrategyName = brickTransportStrategyName;
     };
@@ -1350,9 +1382,19 @@ function ArchiveConfigurator() {
         return config.seed.getEncryptionKey(config.encryption.algorithm);
     };
 
+    this.generateSeed = () => {
+        if (!config.seedEndpoint && config.seed) {
+            config.seedEndpoint = config.seed.getEndpoint();
+        }
+        config.seed = new Seed(undefined, undefined, config.seedEndpoint, !!config.encryption);
+        if (config.seed.getId()) {
+            self.setMapDigest(config.seed.getId());
+        }
+    };
+
     //--------------------------
-    function loadSeed(){
-        if (!config.seed ) {
+    function loadSeed() {
+        if (!config.seed) {
             config.seed = new Seed(undefined, undefined, config.seedEndpoint, !!config.encryption);
             if (config.seed.getId()) {
                 self.setMapDigest(config.seed.getId());
@@ -1407,6 +1449,10 @@ function Brick(config) {
     };
 
     this.getId = () => {
+        const seedId = config.getSeedId();
+        if (seedId) {
+            return seedId;
+        }
         return config.getMapDigest();
     };
 
@@ -1527,7 +1573,8 @@ module.exports = Brick;
 (function (Buffer){
 const Brick = require("./Brick");
 const util = require("../utils/utilities");
-const path = require('path');
+const pathModule = "path";
+const path = require(pathModule);
 
 function FileBarMap(header) {
     header = header || {};
@@ -1649,7 +1696,7 @@ function FileBarMap(header) {
 module.exports = FileBarMap;
 }).call(this,require("buffer").Buffer)
 
-},{"../utils/utilities":"D:\\work\\privatesky\\modules\\bar\\utils\\utilities.js","./Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js","path":"D:\\work\\privatesky\\node_modules\\path-browserify\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\FileBrickStorage.js":[function(require,module,exports){
+},{"../utils/utilities":"D:\\work\\privatesky\\modules\\bar\\utils\\utilities.js","./Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\FileBrickStorage.js":[function(require,module,exports){
 (function (Buffer){
 const BarMap = require("./FileBarMap");
 const util = require("../utils/utilities");
@@ -1872,7 +1919,8 @@ module.exports = {
 },{"../utils/AsyncDispatcher":"D:\\work\\privatesky\\modules\\bar\\utils\\AsyncDispatcher.js","../utils/utilities":"D:\\work\\privatesky\\modules\\bar\\utils\\utilities.js","./Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","./FileBarMap":"D:\\work\\privatesky\\modules\\bar\\lib\\FileBarMap.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js","fs":"D:\\work\\privatesky\\node_modules\\browserify\\lib\\_empty.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\FolderBarMap.js":[function(require,module,exports){
 (function (Buffer){
 const Brick = require("./Brick");
-const path = require('path');
+const pathModule = "path";
+const path = require(pathModule);
 
 function FolderBarMap(header) {
     header = header || {};
@@ -2016,7 +2064,7 @@ function FolderBarMap(header) {
 module.exports = FolderBarMap;
 }).call(this,require("buffer").Buffer)
 
-},{"./Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js","path":"D:\\work\\privatesky\\node_modules\\path-browserify\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\FolderBrickStorage.js":[function(require,module,exports){
+},{"./Brick":"D:\\work\\privatesky\\modules\\bar\\lib\\Brick.js","buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js"}],"D:\\work\\privatesky\\modules\\bar\\lib\\FolderBrickStorage.js":[function(require,module,exports){
 const fs = require("fs");
 const path = require("path");
 const BarMap = require("./FolderBarMap");
@@ -2070,7 +2118,7 @@ function FolderBrickStorage(location) {
         map = barMap;
         const barMapBrick = barMap.toBrick();
         barMapBrick.setTransformParameters(barMap.getTransformParameters());
-
+       
         let brickId = barMapBrick.getId();
         if (!brickId) {
             brickId = barMapBrick.getHash();
@@ -2767,7 +2815,7 @@ let OBFTPSwarm = $$.flow.describe("OBFTProcess", {
  *      - {Pulse} `pulse` (see 'transactionsUtil.js')
  * @param {InMemoryPDS} pdsAdapter e.g. require("pskdb/lib/InMemoryPDS").newPDS(null);
  * @param {Number} pulsePeriodicity e.g. 300
- *
+ * 
  * @returns {SwarmDescription} A new instance of "pulseSwarm" flow, with phase `start` already running
  */
 exports.createConsensusManager = function (delegatedAgentName, communicationOutlet, pdsAdapter, pulsePeriodicity, votingBox) {
@@ -4381,7 +4429,7 @@ let pulseSwarm = $$.flow.describe("pulseSwarm", {
 
         let self = this;
         self.communicationOutlet.broadcastPulse(newPulse);
-
+        
         this.lset = {};
         this.currentPulse++;
 
@@ -4503,7 +4551,7 @@ let pulseSwarm = $$.flow.describe("pulseSwarm", {
  *      - {Pulse} `pulse` (see 'transactionsUtil.js')
  * @param {InMemoryPDS} pdsAdapter e.g. require("pskdb/lib/InMemoryPDS").newPDS(null);
  * @param {Number} pulsePeriodicity e.g. 300
- *
+ * 
  * @returns {SwarmDescription} A new instance of "pulseSwarm" flow, with phase `start` already running
  */
 exports.createConsensusManager = function (delegatedAgentName, communicationOutlet, pdsAdapter, pulsePeriodicity, votingBox) {
@@ -5160,17 +5208,18 @@ $$.CONSTANTS.mixIn = function(otherConstants){
 }
 
 },{}],"D:\\work\\privatesky\\modules\\callflow\\index.js":[function(require,module,exports){
-if($$.callflow){
-    throw new Error("Callflow already initialized!");
-}
+function initialise() {
+    if($$.callflow){
+        throw new Error("Callflow already initialized!");
+    }
 
-function defaultErrorHandlingImplementation(err, res){
-	//console.log(err.stack);
-	if(err) throw err;
-	return res;
-}
+    function defaultErrorHandlingImplementation(err, res){
+        //console.log(err.stack);
+        if(err) throw err;
+        return res;
+    }
 
-$$.__intern = {
+    $$.__intern = {
         mkArgs:function(args,pos){
             var argsArray = [];
             for(var i = pos; i < args.length; i++){
@@ -5180,67 +5229,68 @@ $$.__intern = {
         }
     };
 
-$$.defaultErrorHandlingImplementation = defaultErrorHandlingImplementation;
+    $$.defaultErrorHandlingImplementation = defaultErrorHandlingImplementation;
 
-var callflowModule = require("./lib/swarmDescription");
-$$.callflows        = callflowModule.createSwarmEngine("callflow");
-$$.callflow         = $$.callflows;
-$$.flow             = $$.callflows;
-$$.flows            = $$.callflows;
-
-
-$$.PSK_PubSub = require("soundpubsub").soundPubSub;
-
-$$.securityContext = null;
-$$.HRN_securityContext = "unnamedSecurityContext"; /*HRN: Human Readable Name */
-$$.libraryPrefix = "global";
-$$.libraries = {
-    global:{
-
-    }
-};
-
-$$.interceptor = require("./lib/InterceptorRegistry").createInterceptorRegistry();
-
-$$.loadLibrary = require("./lib/loadLibrary").loadLibrary;
-
-requireLibrary = function(name){
-    //var absolutePath = path.resolve(  $$.__global.__loadLibraryRoot + name);
-    return $$.loadLibrary(name,name);
-};
-
-require("./constants");
+    var callflowModule = require("./lib/swarmDescription");
+    $$.callflows        = callflowModule.createSwarmEngine("callflow");
+    $$.callflow         = $$.callflows;
+    $$.flow             = $$.callflows;
+    $$.flows            = $$.callflows;
 
 
-$$.pathNormalize = function (pathToNormalize) {
-    const path = require("path");
-    pathToNormalize = path.normalize(pathToNormalize);
+    $$.PSK_PubSub = require("soundpubsub").soundPubSub;
 
-    return pathToNormalize.replace(/[\/\\]/g, path.sep);
-};
+    $$.securityContext = null;
+    $$.HRN_securityContext = "unnamedSecurityContext"; /*HRN: Human Readable Name */
+    $$.libraryPrefix = "global";
+    $$.libraries = {
+        global:{
 
-// add interceptors
+        }
+    };
 
-const crypto = require('crypto');
+    $$.interceptor = require("./lib/InterceptorRegistry").createInterceptorRegistry();
 
-$$.interceptor.register('*', '*', 'before', function () {
-    const swarmTypeName = this.getMetadata('swarmTypeName');
-    const phaseName = this.getMetadata('phaseName');
-    const swarmId = this.getMetadata('swarmId');
-    const executionId = crypto.randomBytes(16).toString('hex');
+    $$.loadLibrary = require("./lib/loadLibrary").loadLibrary;
 
-    this.setMetadata('executionId', executionId);
+    requireLibrary = function(name){
+        //var absolutePath = path.resolve(  $$.__global.__loadLibraryRoot + name);
+        return $$.loadLibrary(name,name);
+    };
 
-    $$.event('swarm.call', {swarmTypeName, phaseName, swarmId});
-});
+    require("./constants");
 
+
+    $$.pathNormalize = function (pathToNormalize) {
+        const path = require("path");
+        pathToNormalize = path.normalize(pathToNormalize);
+
+        return pathToNormalize.replace(/[\/\\]/g, path.sep);
+    };
+
+    // add interceptors
+
+    const crypto = require('crypto');
+
+    $$.interceptor.register('*', '*', 'before', function () {
+        const swarmTypeName = this.getMetadata('swarmTypeName');
+        const phaseName = this.getMetadata('phaseName');
+        const swarmId = this.getMetadata('swarmId');
+        const executionId = crypto.randomBytes(16).toString('hex');
+
+        this.setMetadata('executionId', executionId);
+
+        $$.event('swarm.call', {swarmTypeName, phaseName, swarmId});
+    });
+}
 
 module.exports = {
-    				createSwarmEngine: require("./lib/swarmDescription").createSwarmEngine,
-                    createJoinPoint: require("./lib/parallelJoinPoint").createJoinPoint,
-                    createSerialJoinPoint: require("./lib/serialJoinPoint").createSerialJoinPoint,
-                    createStandardAPIsForSwarms:require("./lib/utilityFunctions/base").createForObject
-				};
+    createSwarmEngine: require("./lib/swarmDescription").createSwarmEngine,
+    createJoinPoint: require("./lib/parallelJoinPoint").createJoinPoint,
+    createSerialJoinPoint: require("./lib/serialJoinPoint").createSerialJoinPoint,
+    createStandardAPIsForSwarms: require("./lib/utilityFunctions/base").createForObject,
+    initialise: initialise
+};
 },{"./constants":"D:\\work\\privatesky\\modules\\callflow\\constants.js","./lib/InterceptorRegistry":"D:\\work\\privatesky\\modules\\callflow\\lib\\InterceptorRegistry.js","./lib/loadLibrary":"D:\\work\\privatesky\\modules\\callflow\\lib\\loadLibrary.js","./lib/parallelJoinPoint":"D:\\work\\privatesky\\modules\\callflow\\lib\\parallelJoinPoint.js","./lib/serialJoinPoint":"D:\\work\\privatesky\\modules\\callflow\\lib\\serialJoinPoint.js","./lib/swarmDescription":"D:\\work\\privatesky\\modules\\callflow\\lib\\swarmDescription.js","./lib/utilityFunctions/base":"D:\\work\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\base.js","crypto":"D:\\work\\privatesky\\node_modules\\crypto-browserify\\index.js","path":"D:\\work\\privatesky\\node_modules\\path-browserify\\index.js","soundpubsub":"D:\\work\\privatesky\\modules\\soundpubsub\\index.js"}],"D:\\work\\privatesky\\modules\\callflow\\lib\\InterceptorRegistry.js":[function(require,module,exports){
 // related to: SwarmSpace.SwarmDescription.createPhase()
 
@@ -6809,7 +6859,90 @@ module.exports.create = (brickTransportStrategyName) => {
     return new EDFSBrickStorage(brickTransportStrategyName)
 };
 
-},{"./EDFSBrickStorage":"D:\\work\\privatesky\\modules\\edfs-brick-storage\\EDFSBrickStorage.js"}],"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\HTTPBrickTransportStrategy.js":[function(require,module,exports){
+},{"./EDFSBrickStorage":"D:\\work\\privatesky\\modules\\edfs-brick-storage\\EDFSBrickStorage.js"}],"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\FetchBrickTransportationStrategy.js":[function(require,module,exports){
+(function (Buffer){
+
+function FetchBrickTransportStrategy(initialConfig) {
+    const url = initialConfig;
+    this.send = (name, data, callback) => {
+
+        fetch(url + "/EDFS/", {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/octet-stream'
+            },
+            body: data
+        }).then(function(response) {
+            if(response.status>=400){
+                return callback(new Error(`An error occurred ${response.statusText}`))
+            }
+            return response.json();
+        }).then(function(data) {
+            callback(null, data)
+        }).catch(error=>{
+            callback(error);
+        });
+
+    };
+
+    this.get = (name, callback) => {
+        fetch(url + "/EDFS/"+name,{
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/octet-stream'
+            },
+        }).then(response=>{
+            if(response.status>=400){
+                return callback(new Error(`An error occurred ${response.statusText}`))
+            }
+            return response.arrayBuffer();
+        }).then(arrayBuffer=>{
+                let buffer = new Buffer(arrayBuffer.byteLength);
+                let view = new Uint8Array(arrayBuffer);
+                for (let i = 0; i < buffer.length; ++i) {
+                    buffer[i] = view[i];
+                }
+
+            callback(null, buffer);
+        }).catch(error=>{
+            callback(error);
+        });
+    };
+
+    this.getHashForAlias = (alias, callback) => {
+        fetch(url + "/EDFS/getVersions/" + alias, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/octet-stream'
+            },
+        }).then(response => {
+            if(response.status>=400){
+                return callback(new Error(`An error occurred ${response.statusText}`))
+            }
+            return response.json().then(data => {
+                callback(null, data);
+            }).catch(error => {
+                callback(error);
+            })
+        });
+    };
+
+    this.getLocator = () => {
+        return url;
+    };
+}
+//TODO:why we use this?
+FetchBrickTransportStrategy.prototype.FETCH_BRICK_TRANSPORT_STRATEGY = "FETCH_BRICK_TRANSPORT_STRATEGY";
+
+
+module.exports = FetchBrickTransportStrategy;
+
+}).call(this,require("buffer").Buffer)
+
+},{"buffer":"D:\\work\\privatesky\\node_modules\\buffer\\index.js"}],"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\HTTPBrickTransportStrategy.js":[function(require,module,exports){
 
 function HTTPBrickTransportStrategy(initialConfig) {
     require("psk-http-client");
@@ -6909,7 +7042,6 @@ function EDFS(brickTransportStrategyName) {
 
     this.createBarWithConstitution = function(folderConstitution, callback) {
         const bar = this.createBar();
-
         bar.addFolder(folderConstitution, constants.CSB.CONSTITUTION_FOLDER, (err, mapDigest) => {
             if (err) {
                 return callback(err);
@@ -6934,7 +7066,7 @@ function EDFS(brickTransportStrategyName) {
             archiveConfigurator.setBrickTransportStrategyName(brickTransportStrategyName);
             archiveConfigurator.setSeed(seed);
         }else{
-            archiveConfigurator.setSeedEndpoint(brickTransportStrategy.getLocator())
+            archiveConfigurator.setSeedEndpoint(brickTransportStrategy.getLocator());
         }
 
         return archiveConfigurator;
@@ -7018,6 +7150,11 @@ function RawCSB(brickTransportStrategyName, seed) {
 
     this.listFiles = bar.listFiles;
 
+    this.clone = (callback) => {
+        const edfsBrickStorage = require("edfs-brick-storage").create(brickTransportStrategyName);
+        bar.clone(edfsBrickStorage, true, callback);
+    };
+
     this.startTransactionAs = (agentId, transactionType, ...args) => {
         return blockchain.startTransactionAs(agentId, transactionType, ...args);
     };
@@ -7090,7 +7227,319 @@ module.exports = {
   NODEJS_ENVIRONMENT_TYPE: 'nodejs'
 };
 
-},{}],"D:\\work\\privatesky\\modules\\psk-http-client\\index.js":[function(require,module,exports){
+},{}],"D:\\work\\privatesky\\modules\\overwrite-require\\standardGlobalSymbols.js":[function(require,module,exports){
+(function (process,global){
+let logger = console;
+
+if (!global.process || process.env.NO_LOGS !== 'true') {
+    try {
+        const PSKLoggerModule = require('psklogger');
+        const PSKLogger = PSKLoggerModule.PSKLogger;
+
+        logger = PSKLogger.getLogger();
+
+        console.log('Logger init successful', process.pid);
+    } catch (e) {
+        if(e.message.indexOf("psklogger")!==-1){
+            console.log('Logger not available, using console');
+            logger = console;
+        }else{
+            console.log(e);
+        }
+    }
+} else {
+    console.log('Environment flag NO_LOGS is set, logging to console');
+}
+
+$$.registerGlobalSymbol = function (newSymbol, value) {
+    if (typeof $$[newSymbol] == "undefined") {
+        Object.defineProperty($$, newSymbol, {
+            value: value,
+            writable: false
+        });
+    } else {
+        logger.error("Refusing to overwrite $$." + newSymbol);
+    }
+};
+
+console.warn = (...args)=>{
+    console.log(...args);
+};
+
+/**
+ * @method
+ * @name $$#autoThrow
+ * @param {Error} err
+ * @throws {Error}
+ */
+
+$$.registerGlobalSymbol("autoThrow", function (err) {
+    if (!err) {
+        throw err;
+    }
+});
+
+/**
+ * @method
+ * @name $$#propagateError
+ * @param {Error} err
+ * @param {function} callback
+ */
+$$.registerGlobalSymbol("propagateError", function (err, callback) {
+    if (err) {
+        callback(err);
+        throw err; //stop execution
+    }
+});
+
+/**
+ * @method
+ * @name $$#logError
+ * @param {Error} err
+ */
+$$.registerGlobalSymbol("logError", function (err) {
+    if (err) {
+        console.log(err);
+        $$.err(err);
+    }
+});
+
+/**
+ * @method
+ * @name $$#fixMe
+ * @param {...*} args
+ */
+console.log("Fix the fixMe to not display on console but put in logs");
+$$.registerGlobalSymbol("fixMe", function (...args) {
+    //$$.log(...args);
+});
+
+/**
+ * @method - Throws an error
+ * @name $$#exception
+ * @param {string} message
+ * @param {*} type
+ */
+$$.registerGlobalSymbol("exception", function (message, type) {
+    throw new Error(message);
+});
+
+/**
+ * @method - Throws an error
+ * @name $$#throw
+ * @param {string} message
+ * @param {*} type
+ */
+$$.registerGlobalSymbol("throw", function (message, type) {
+    throw new Error(message);
+});
+
+
+/**
+ * @method - Warns that method is not implemented
+ * @name $$#incomplete
+ * @param {...*} args
+ */
+/* signal a  planned feature but not implemented yet (during development) but
+also it could remain in production and should be flagged asap*/
+$$.incomplete = function (...args) {
+    args.unshift("Incomplete feature touched:");
+    logger.warn(...args);
+};
+
+/**
+ * @method - Warns that method is not implemented
+ * @name $$#notImplemented
+ * @param {...*} args
+ */
+$$.notImplemented = $$.incomplete;
+
+
+/**
+ * @method Throws if value is false
+ * @name $$#assert
+ * @param {boolean} value - Value to assert against
+ * @param {string} explainWhy - Reason why assert failed (why value is false)
+ */
+/* used during development and when trying to discover elusive errors*/
+$$.registerGlobalSymbol("assert", function (value, explainWhy) {
+    if (!value) {
+        throw new Error("Assert false " + explainWhy);
+    }
+});
+
+/**
+ * @method
+ * @name $$#flags
+ * @param {string} flagName
+ * @param {*} value
+ */
+/* enable/disabale flags that control psk behaviour*/
+$$.registerGlobalSymbol("flags", function (flagName, value) {
+    $$.incomplete("flags handling not implemented");
+});
+
+/**
+ * @method - Warns that a method is obsolete
+ * @name $$#obsolete
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("obsolete", function (...args) {
+    args.unshift("Obsolete feature:");
+    logger.log(...args);
+    console.log(...args);
+});
+
+/**
+ * @method - Uses the logger to log a message of level "log"
+ * @name $$#log
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("log", function (...args) {
+    args.unshift("Log:");
+    logger.log(...args);
+});
+
+/**
+ * @method - Uses the logger to log a message of level "info"
+ * @name $$#info
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("info", function (...args) {
+    args.unshift("Info:");
+    logger.log(...args);
+    console.log(...args);
+});
+
+/**
+ * @method - Uses the logger to log a message of level "error"
+ * @name $$#err
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("err", function (...args) {
+    args.unshift("Error:");
+    logger.error(...args);
+    console.error(...args);
+});
+
+/**
+ * @method - Uses the logger to log a message of level "error"
+ * @name $$#err
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("error", function (...args) {
+    args.unshift("Error:");
+    logger.error(...args);
+    console.error(...args);
+});
+
+/**
+ * @method - Uses the logger to log a message of level "warning"
+ * @name $$#warn
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("warn", function (...args) {
+    args.unshift("Warn:");
+    logger.warn(...args);
+    console.log(...args);
+});
+
+/**
+ * @method - Uses the logger to log a message of level "syntexError"
+ * @name $$#syntexError
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("syntaxError", function (...args) {
+    args.unshift("Syntax error:");
+    logger.error(...args);
+    try{
+        throw new Error("Syntax error or misspelled symbol!");
+    }catch(err){
+        console.error(...args);
+        console.error(err.stack);
+    }
+
+});
+
+/**
+ * @method - Logs an invalid member name for a swarm
+ * @name $$#invalidMemberName
+ * @param {string} name
+ * @param {Object} swarm
+ */
+$$.invalidMemberName = function (name, swarm) {
+    let swarmName = "unknown";
+    if (swarm && swarm.meta) {
+        swarmName = swarm.meta.swarmTypeName;
+    }
+    const text = "Invalid member name " + name + "in swarm " + swarmName;
+    console.error(text);
+    logger.err(text);
+};
+
+/**
+ * @method - Logs an invalid swarm name
+ * @name $$#invalidSwarmName
+ * @param {string} name
+ * @param {Object} swarm
+ */
+$$.registerGlobalSymbol("invalidSwarmName", function (swarmName) {
+    const text = "Invalid swarm name " + swarmName;
+    console.error(text);
+    logger.err(text);
+});
+
+/**
+ * @method - Logs unknown exceptions
+ * @name $$#unknownException
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("unknownException", function (...args) {
+    args.unshift("unknownException:");
+    logger.err(...args);
+    console.error(...args);
+});
+
+/**
+ * @method - PrivateSky event, used by monitoring and statistics
+ * @name $$#event
+ * @param {string} event
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("event", function (event, ...args) {
+    if (logger.hasOwnProperty('event')) {
+        logger.event(event, ...args);
+    } else {
+        if(event === "status.domains.boot"){
+            console.log("Failing to console...", event, ...args);
+        }
+    }
+});
+
+/**
+ * @method -
+ * @name $$#redirectLog
+ * @param {string} event
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("redirectLog", function (logType, logObject) {
+    if(logger.hasOwnProperty('redirect')) {
+        logger.redirect(logType, logObject);
+    }
+});
+
+/**
+ * @method - log throttling event // it is just an event?
+ * @name $$#throttlingEvent
+ * @param {...*} args
+ */
+$$.registerGlobalSymbol("throttlingEvent", function (...args) {
+    logger.log(...args);
+});
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{"_process":"D:\\work\\privatesky\\node_modules\\process\\browser.js","psklogger":false}],"D:\\work\\privatesky\\modules\\psk-http-client\\index.js":[function(require,module,exports){
 //to look nice the requireModule on Node
 require("./lib/psk-abstract-client");
 const or = require('overwrite-require');
@@ -8879,38 +9328,54 @@ function promisify(fn) {
 
 module.exports = BootEngine;
 
-},{"edfs":"edfs"}],"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\browser\\host\\HostBootScript.js":[function(require,module,exports){
+},{"edfs":"edfs"}],"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\browser\\sw-host\\HostBootScript.js":[function(require,module,exports){
 function HostBootScript(seed) {
 
     console.log("Booting host...");
     const seeds = {};
     let self = {seed};
 
-    function boot(){
+     this.boot = function(callback){
         const BootEngine = require("../../BootEngine");
 
-        const bootter = new BootEngine(getSeed, getEDFS, initializeSwarmEngine, ["webshims","pskruntime.js"],["bindableModel.js"]);
+        const bootter = new BootEngine(getSeed, getEDFS, initializeSwarmEngine, ["webshims.js","pskruntime.js"],["bindableModel.js"]);
         bootter.boot((err, archive)=>{
             if(err){
                 console.log(err);
+                callback(err);
                 return;
             }
             // in fiecare csbReference vom gasi un obiect care va contine:
             // - un seed pentru csb-ul referentiat(ssapp)
             // - numele aplicatiei (e.g My Tenders)
 
-            const csbReferences = self.myCSB.loadAssets('CSBReference');
+            //const csbReferences = self.myCSB.loadAssets('CSBReference');
+
+            callback(null, archive);
 
         })
-    }
+    };
 
     function getSeed(callback){
         callback(undefined, seed);
     }
 
     function getEDFS(callback){
+        const FETCH_BRICK_STORAGE_STRATEGY_NAME = "sw-host-fetch";
         let EDFS = require("edfs");
-        self.edfs = EDFS.attachFromSeed(seed);
+        let SEED = require("bar").Seed;
+        const seed = new SEED(self.seed);
+
+        //self.edfs = EDFS.attachFromSeed(seed);
+
+        const hasHttpStrategyRegistered = $$.brickTransportStrategiesRegistry.has(FETCH_BRICK_STORAGE_STRATEGY_NAME);
+
+        if (!hasHttpStrategyRegistered) {
+            let CreateFetchBrickTransportationStrategy = require("edfs").FetchBrickTransportationStrategy;
+            let FetchBrickTransportationStrategy = new CreateFetchBrickTransportationStrategy(seed.getEndpoint());
+            $$.brickTransportStrategiesRegistry.add(FETCH_BRICK_STORAGE_STRATEGY_NAME, FetchBrickTransportationStrategy);
+        }
+        self.edfs = EDFS.attach(FETCH_BRICK_STORAGE_STRATEGY_NAME);
         callback(undefined, self.edfs);
     }
 
@@ -8930,7 +9395,6 @@ function HostBootScript(seed) {
         $$.swarmEngine.plug(identity, powerCord);
     };
 
-    boot();
 }
 
 module.exports = HostBootScript;
@@ -8940,7 +9404,7 @@ module.exports = HostBootScript;
 
 
 
-},{"../../BootEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js","edfs":"edfs","soundpubsub":"D:\\work\\privatesky\\modules\\soundpubsub\\index.js"}],"D:\\work\\privatesky\\modules\\swarmutils\\index.js":[function(require,module,exports){
+},{"../../BootEngine":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js","bar":"D:\\work\\privatesky\\modules\\bar\\index.js","edfs":"edfs","soundpubsub":"D:\\work\\privatesky\\modules\\soundpubsub\\index.js"}],"D:\\work\\privatesky\\modules\\swarmutils\\index.js":[function(require,module,exports){
 (function (global){
 module.exports.OwM = require("./lib/OwM");
 module.exports.beesHealer = require("./lib/beesHealer");
@@ -8954,7 +9418,7 @@ module.exports.combos = require("./lib/Combos");
 
 module.exports.uidGenerator = uidGenerator;
 module.exports.generateUid = uidGenerator.generateUid;
-module.exports.AsyncDispatcher = require("./lib/AsyncDispatcher");
+module.exports.TaskCounter = require("./lib/TaskCounter");
 module.exports.SwarmPacker = require("./lib/SwarmPacker");
 
 module.exports.createPskConsole = function () {
@@ -8974,9 +9438,7 @@ if(typeof global.$$.uidGenerator == "undefined"){
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./lib/AsyncDispatcher":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\AsyncDispatcher.js","./lib/Combos":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\Combos.js","./lib/OwM":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\OwM.js","./lib/Queue":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\Queue.js","./lib/SwarmPacker":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\SwarmPacker.js","./lib/beesHealer":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js","./lib/pingpongFork":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\pingpongFork.js","./lib/pskconsole":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\pskconsole.js","./lib/safe-uuid":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\safe-uuid.js","./lib/uidGenerator":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\uidGenerator.js"}],"D:\\work\\privatesky\\modules\\swarmutils\\lib\\AsyncDispatcher.js":[function(require,module,exports){
-arguments[4]["D:\\work\\privatesky\\modules\\bar\\utils\\AsyncDispatcher.js"][0].apply(exports,arguments)
-},{}],"D:\\work\\privatesky\\modules\\swarmutils\\lib\\Combos.js":[function(require,module,exports){
+},{"./lib/Combos":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\Combos.js","./lib/OwM":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\OwM.js","./lib/Queue":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\Queue.js","./lib/SwarmPacker":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\SwarmPacker.js","./lib/TaskCounter":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\TaskCounter.js","./lib/beesHealer":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js","./lib/pingpongFork":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\pingpongFork.js","./lib/pskconsole":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\pskconsole.js","./lib/safe-uuid":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\safe-uuid.js","./lib/uidGenerator":"D:\\work\\privatesky\\modules\\swarmutils\\lib\\uidGenerator.js"}],"D:\\work\\privatesky\\modules\\swarmutils\\lib\\Combos.js":[function(require,module,exports){
 function product(args) {
     if(!args.length){
         return [ [] ];
@@ -9294,7 +9756,57 @@ SwarmPacker.getHeader = function(pack){
     return header;
 };
 module.exports = SwarmPacker;
-},{"@msgpack/msgpack":"D:\\work\\privatesky\\node_modules\\@msgpack\\msgpack\\dist.es5\\msgpack.min.js"}],"D:\\work\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js":[function(require,module,exports){
+},{"@msgpack/msgpack":"D:\\work\\privatesky\\node_modules\\@msgpack\\msgpack\\dist.es5\\msgpack.min.js"}],"D:\\work\\privatesky\\modules\\swarmutils\\lib\\TaskCounter.js":[function(require,module,exports){
+
+function TaskCounter(finalCallback) {
+	let results = [];
+	let errors = [];
+
+	let started = 0;
+
+	function decrement(err, res) {
+		if(err) {
+			errors.push(err);
+		}
+
+		if(arguments.length > 2) {
+			arguments[0] = undefined;
+			res = arguments;
+		}
+
+		if(typeof res !== "undefined") {
+			results.push(res);
+		}
+
+		if(--started <= 0) {
+            return callCallback();
+		}
+	}
+
+	function increment(amount = 1) {
+		started += amount;
+	}
+
+	function callCallback() {
+	    if(errors && errors.length === 0) {
+	        errors = undefined;
+        }
+
+	    if(results && results.length === 0) {
+	        results = undefined;
+        }
+
+        finalCallback(errors, results);
+    }
+
+	return {
+		increment,
+		decrement
+	};
+}
+
+module.exports = TaskCounter;
+},{}],"D:\\work\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js":[function(require,module,exports){
 const OwM = require("./OwM");
 
 /*
@@ -41155,7 +41667,7 @@ var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode, f
 		self.url = response.url
 		self.statusCode = response.status
 		self.statusMessage = response.statusText
-
+		
 		response.headers.forEach(function (header, key){
 			self.headers[key.toLowerCase()] = header
 			self.rawHeaders.push(key, header)
@@ -46233,13 +46745,13 @@ Script.prototype.runInContext = function (context) {
     if (!(context instanceof Context)) {
         throw new TypeError("needs a 'context' argument.");
     }
-
+    
     var iframe = document.createElement('iframe');
     if (!iframe.style) iframe.style = {};
     iframe.style.display = 'none';
-
+    
     document.body.appendChild(iframe);
-
+    
     var win = iframe.contentWindow;
     var wEval = win.eval, wExecScript = win.execScript;
 
@@ -46248,7 +46760,7 @@ Script.prototype.runInContext = function (context) {
         wExecScript.call(win, 'null');
         wEval = win.eval;
     }
-
+    
     forEach(Object_keys(context), function (key) {
         win[key] = context[key];
     });
@@ -46257,11 +46769,11 @@ Script.prototype.runInContext = function (context) {
             win[key] = context[key];
         }
     });
-
+    
     var winKeys = Object_keys(win);
 
     var res = wEval.call(win, this.code);
-
+    
     forEach(Object_keys(win), function (key) {
         // Avoid copying circular objects like `top` and `window` by only
         // updating existing context properties or new properties in the `win`
@@ -46276,9 +46788,9 @@ Script.prototype.runInContext = function (context) {
             defineProp(context, key, win[key]);
         }
     });
-
+    
     document.body.removeChild(iframe);
-
+    
     return res;
 };
 
@@ -46353,6 +46865,14 @@ module.exports = {
         const EDFS = require("./lib/EDFS");
         return new EDFS(brickTransportStrategyName);
     },
+    attachToEndpoint(endpoint){
+        //TODO:test endpoint against regex to determine transport strategy type
+        //for now http will be used
+        const transportStrategy = new this.HTTPBrickTransportStrategy(endpoint);
+        const transportStrategyAlias = "seedBasedStrategy";
+        $$.brickTransportStrategiesRegistry.add(transportStrategyAlias, transportStrategy);
+        return this.attach(transportStrategyAlias);
+    },
     attachFromSeed(compactSeed){
         const SEED = require("bar").Seed;
         const seed = new SEED(compactSeed);
@@ -46366,9 +46886,16 @@ module.exports = {
 };
 
 
+const or = require("overwrite-require");
+const browserContexts = [or.constants.SERVICE_WORKER_ENVIRONMENT_TYPE];
+if (browserContexts.indexOf($$.environmentType) !== -1) {
+    module.exports.FetchBrickTransportationStrategy = require("./brickTransportStrategies/FetchBrickTransportationStrategy");
+}
 
 
-},{"./brickTransportStrategies/HTTPBrickTransportStrategy":"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\HTTPBrickTransportStrategy.js","./brickTransportStrategies/brickTransportStrategiesRegistry":"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\brickTransportStrategiesRegistry.js","./lib/EDFS":"D:\\work\\privatesky\\modules\\edfs\\lib\\EDFS.js","./moduleConstants":"D:\\work\\privatesky\\modules\\edfs\\moduleConstants.js","bar":"D:\\work\\privatesky\\modules\\bar\\index.js"}],"overwrite-require":[function(require,module,exports){
+
+
+},{"./brickTransportStrategies/FetchBrickTransportationStrategy":"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\FetchBrickTransportationStrategy.js","./brickTransportStrategies/HTTPBrickTransportStrategy":"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\HTTPBrickTransportStrategy.js","./brickTransportStrategies/brickTransportStrategiesRegistry":"D:\\work\\privatesky\\modules\\edfs\\brickTransportStrategies\\brickTransportStrategiesRegistry.js","./lib/EDFS":"D:\\work\\privatesky\\modules\\edfs\\lib\\EDFS.js","./moduleConstants":"D:\\work\\privatesky\\modules\\edfs\\moduleConstants.js","bar":"D:\\work\\privatesky\\modules\\bar\\index.js","overwrite-require":"overwrite-require"}],"overwrite-require":[function(require,module,exports){
 (function (process,global){
 /*
  require and $$.require are overwriting the node.js defaults in loading modules for increasing security, speed and making it work to the privatesky runtime build with browserify.
@@ -46658,6 +47185,8 @@ function enableForEnvironment(envType){
         return newLoader;
     }
 
+    require("./standardGlobalSymbols.js");
+
     if (typeof($$.require) == "undefined") {
 
         $$.__requireList = ["webshimsRequire"];
@@ -46700,6 +47229,7 @@ function enableForEnvironment(envType){
 };
 
 
+
 module.exports = {
     enableForEnvironment,
     constants: require("./moduleConstants")
@@ -46707,7 +47237,7 @@ module.exports = {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./moduleConstants":"D:\\work\\privatesky\\modules\\overwrite-require\\moduleConstants.js","_process":"D:\\work\\privatesky\\node_modules\\process\\browser.js"}],"pskcrypto":[function(require,module,exports){
+},{"./moduleConstants":"D:\\work\\privatesky\\modules\\overwrite-require\\moduleConstants.js","./standardGlobalSymbols.js":"D:\\work\\privatesky\\modules\\overwrite-require\\standardGlobalSymbols.js","_process":"D:\\work\\privatesky\\node_modules\\process\\browser.js"}],"pskcrypto":[function(require,module,exports){
 const PskCrypto = require("./lib/PskCrypto");
 const ssutil = require("./signsensusDS/ssutil");
 
@@ -46718,19 +47248,40 @@ module.exports.hashValues = ssutil.hashValues;
 module.exports.DuplexStream = require("./lib/utils/DuplexStream");
 
 module.exports.isStream = require("./lib/utils/isStream");
-},{"./lib/PskCrypto":"D:\\work\\privatesky\\modules\\pskcrypto\\lib\\PskCrypto.js","./lib/utils/DuplexStream":"D:\\work\\privatesky\\modules\\pskcrypto\\lib\\utils\\DuplexStream.js","./lib/utils/isStream":"D:\\work\\privatesky\\modules\\pskcrypto\\lib\\utils\\isStream.js","./signsensusDS/ssutil":"D:\\work\\privatesky\\modules\\pskcrypto\\signsensusDS\\ssutil.js"}],"swarm-engine/bootScripts/browser/host":[function(require,module,exports){
+},{"./lib/PskCrypto":"D:\\work\\privatesky\\modules\\pskcrypto\\lib\\PskCrypto.js","./lib/utils/DuplexStream":"D:\\work\\privatesky\\modules\\pskcrypto\\lib\\utils\\DuplexStream.js","./lib/utils/isStream":"D:\\work\\privatesky\\modules\\pskcrypto\\lib\\utils\\isStream.js","./signsensusDS/ssutil":"D:\\work\\privatesky\\modules\\pskcrypto\\signsensusDS\\ssutil.js"}],"swarm-engine/bootScripts/browser/sw-host":[function(require,module,exports){
 HostBootScript = require("./HostBootScript");
 let bootScript = null;
-module.exports = {
-    initializeBootScript : function(seed){
-        if(bootScript){
-            throw new Error("HostBootScript already initialized");
-        }
-       bootScript = new HostBootScript(seed);
-    },
-    getBootScriptLoader:function(){
-        return bootScript;
-    }
-};
 
-},{"./HostBootScript":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\browser\\host\\HostBootScript.js"}]},{},["D:\\work\\privatesky\\builds\\tmp\\ssappHostBoot.js"])
+
+self.addEventListener('activate', function (event) {
+    console.log("Activating host service worker", event);
+
+    try {
+        clients.claim();
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+self.addEventListener('message', function (event) {
+    if (event.target instanceof ServiceWorkerGlobalScope) {
+        if (event.data.action === "activate") {
+            event.ports[0].postMessage({status: 'empty'});
+        }
+
+        if (event.data.seed) {
+            bootScript = new HostBootScript(event.data.seed);
+            bootScript.boot((err, archive) => {
+                archive.listFiles("app", (err, files) => {
+                    console.log(files);
+                    archive.readFile("app/index.html", (err, content) => {
+                        console.log(content.toString());
+                    })
+                })
+            });
+
+        }
+    }
+});
+
+},{"./HostBootScript":"D:\\work\\privatesky\\modules\\swarm-engine\\bootScripts\\browser\\sw-host\\HostBootScript.js"}]},{},["D:\\work\\privatesky\\builds\\tmp\\swHostBoot.js"])
