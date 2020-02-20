@@ -1,4 +1,4 @@
-import BindableController from "./../base-controllers/BindableController.js";
+import BindableController from "./base-controllers/BindableController.js";
 import entities from "./candidates/candidates.js";
 
 let currentView = JSON.parse(JSON.stringify(entities[0]));
