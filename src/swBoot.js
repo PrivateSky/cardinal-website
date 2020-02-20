@@ -2284,6 +2284,8 @@ function Seed(compactSeed, id, endpoint, usedForEncryption  = true, randomLength
 
         if (splitCompactSeed[1] && splitCompactSeed[1].length > 0) {
             localSeed.endpoint = JSON.parse(Buffer.from(splitCompactSeed[1], 'base64').toString());
+        } else {
+            console.warn('Cannot find endpoint in compact seed')
         }
 
         return localSeed;
@@ -6955,7 +6957,13 @@ function HTTPBrickTransportStrategy(initialConfig) {
     };
 
     this.getHashForAlias = (alias, callback) => {
-        $$.remote.doHttpGet(url + "/EDFS/getVersions/" + alias, (err, hashesList) => callback(err, JSON.parse(hashesList.toString())));
+        $$.remote.doHttpGet(url + "/EDFS/getVersions/" + alias, (err, hashesList) => {
+            if(err) {
+                return callback(err)
+            }
+
+            callback(undefined, JSON.parse(hashesList.toString()))
+        });
     };
 
     this.attachHashToAlias = (alias, name, callback) => {
@@ -8508,13 +8516,16 @@ function generateMethodForRequestWithData(httpMethod) {
 			});
 			res.on('end', () => {
 				try {
-					return callback(null, rawData, res.headers);
+					callback(null, rawData, res.headers);
 				} catch (err) {
 					return callback(err);
+				}finally {
+					//trying to prevent getting ECONNRESET error after getting our response
+					req.abort();
 				}
 			});
 		}).on("error", (error) => {
-			console.log("POST Error", error);
+			console.log(`[POST] ${url}`, error);
 			callback(error);
 		});
 
@@ -8551,7 +8562,6 @@ $$.remote.doHttpGet = function doHttpGet(url, callback){
 	};
 
 	const network = getNetworkForOptions(innerUrl);
-
 	const req = network.request(options, (res) => {
 		const { statusCode } = res;
 
@@ -8590,16 +8600,19 @@ $$.remote.doHttpGet = function doHttpGet(url, callback){
 				if(Array.isArray(rawData)){
 					rawData = Buffer.from(rawData);
 				}
-				return callback(null, rawData, res.headers);
+				callback(null, rawData, res.headers);
 			} catch (err) {
 				console.log("Client error:", err);
+			}finally {
+				//trying to prevent getting ECONNRESET error after getting our response
+				req.abort();
 			}
 		});
 	});
 
 	req.on("error", (error) => {
 		if(error && error.code !== 'ECONNRESET'){
-        	console.log("GET Error", error);
+        	console.log(`[GET] ${url}`, error);
 		}
 
 		callback(error);
