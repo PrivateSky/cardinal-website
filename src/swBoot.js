@@ -1142,6 +1142,9 @@ function Archive(archiveConfigurator) {
                 ++noBlocks;
             }
 
+            //todo: check if emptyList is called ok in this place.
+            // the scenario: adding a new file at an existing barPath should overwrite the initial content found there.
+            barMap.emptyList(barPath);
             __readBlocksRecursively(0, callback);
 
             function __readBlocksRecursively(blockIndex, callback) {
@@ -7032,7 +7035,9 @@ function EDFS(brickTransportStrategyName) {
     };
 
     this.clone = (seed, callback) => {
-        throw new Error('Not implemented');
+        const edfsBrickStorage = require("edfs-brick-storage").create(brickTransportStrategyName);
+        const bar = this.loadBar(seed);
+        bar.clone(edfsBrickStorage, true, callback);
     };
 
     this.createBarWithConstitution = function(folderConstitution, callback) {
@@ -7144,11 +7149,6 @@ function RawCSB(brickTransportStrategyName, seed) {
     };
 
     this.listFiles = bar.listFiles;
-
-    this.clone = (callback) => {
-        const edfsBrickStorage = require("edfs-brick-storage").create(brickTransportStrategyName);
-        bar.clone(edfsBrickStorage, true, callback);
-    };
 
     this.startTransactionAs = (agentId, transactionType, ...args) => {
         return blockchain.startTransactionAs(agentId, transactionType, ...args);

@@ -34,9 +34,11 @@ export default class SeedController {
     restoreCSB(seed, callback){
         this.sendMessageToSW({action: "activate"}).then((data) => {
             if (data.status === "empty") {
-                this.sendMessageToSW({seed: seed}).then(data => {
+                this.sendMessageToSW({seed: seed, url:window.location.origin}).then(data => {
                     console.log(data.status);
-                    callback();
+
+                    document.write(data.content);
+                    //callback();
                 })
             }
         });
