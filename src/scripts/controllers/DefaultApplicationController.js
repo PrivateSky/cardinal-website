@@ -1,4 +1,4 @@
-import ApplicationController from "./ApplicationController.js";
+import ApplicationController from "./base-controllers/ApplicationController.js";
 
 const configUrl = "/app-config.json";
 
