@@ -37,7 +37,8 @@ export default class SeedController {
                 this.sendMessageToSW({seed: seed, url:window.location.origin}).then(data => {
                     console.log(data.status);
 
-                    document.write(data.content);
+                    //document.write(data.content);
+                    window.location = "/";
                     //callback();
                 })
             }
