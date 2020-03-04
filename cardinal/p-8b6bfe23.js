@@ -1,0 +1,1 @@
+const t="PskButtonClickEvent";class s extends CustomEvent{constructor(s,n,e){super(s,e),this.getEventType=function(){return t},this.data=n}}export{s as P};
