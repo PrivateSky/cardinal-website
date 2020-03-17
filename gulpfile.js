@@ -2,10 +2,11 @@ const gulp = require('gulp');
 const run = require("gulp-run-command").default;
 const include = require('gulp-include');
 const {series} = require('gulp');
+const CardinalDepPath = "node_modules/cardinal/";
 
-function buildWebComponents(cb) {
+function buildCardinal(cb) {
     let currentDir = process.cwd();
-    process.chdir('../pskwebcomponents');
+    process.chdir('../cardinal');
     run('npm run build')().then(function () {
         process.chdir(currentDir);
         cb();
@@ -19,7 +20,7 @@ function buildSitemap(cb) {
 
 function copyJsFile(cb) {
 
-    gulp.src('node_modules/webcomponents/dist/cardinal.js')
+    gulp.src(`${CardinalDepPath}dist/cardinal.js`)
         .pipe(include({
             separateInputs: true,
         }))
@@ -29,7 +30,7 @@ function copyJsFile(cb) {
 
 function copyJsFolderBuild(cb) {
 
-    gulp.src('node_modules/webcomponents/dist/cardinal/**/*')
+    gulp.src(`${CardinalDepPath}dist/cardinal/**/*`)
         .pipe(include({
             separateInputs: true,
         }))
@@ -38,7 +39,7 @@ function copyJsFolderBuild(cb) {
 }
 
 function copyThemes(cb) {
-    gulp.src('node_modules/webcomponents/themes/**/*')
+    gulp.src(`${CardinalDepPath}themes/**/*`)
         .pipe(include({
             separateInputs: true,
         }))
@@ -53,7 +54,7 @@ function copySourceFiles(cb) {
 }
 
 
-exports.build = series(buildWebComponents, buildSitemap, copyJsFile, copyJsFolderBuild, copyThemes, copySourceFiles);
+exports.build = series(buildCardinal, buildSitemap, copyJsFile, copyJsFolderBuild, copyThemes, copySourceFiles);
 
 
 

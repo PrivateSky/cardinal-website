@@ -15,7 +15,7 @@
         "gulp-run-command": "^0.0.9",
         "local-web-server": "^3.0.7",
         "vinyl-source-stream": "^2.0.0",
-        "webcomponents": "file:../pskwebcomponents"
+        "cardinal": "file:../cardinal"
     },
     "license": "MIT"
 }

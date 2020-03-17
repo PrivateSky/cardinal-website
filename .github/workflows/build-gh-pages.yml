@@ -17,11 +17,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: install & build pskwebcomponents
+    - name: install & build cardinal
       run: |
         cd ..
-        git clone https://github.com/PrivateSky/pskwebcomponents.git
-        cd pskwebcomponents
+        git clone https://github.com/PrivateSky/cardinal.git
+        cd cardinal
         npm ci
         echo $(npm run build)
     - name: npm install
@@ -35,4 +35,4 @@ jobs:
         BASE_BRANCH: master # The branch the action should deploy from.
         BRANCH: gh-pages # The branch the action should deploy to.
         FOLDER: release # The folder the action should deploy.
-        CLEAN: true   
+        CLEAN: true
