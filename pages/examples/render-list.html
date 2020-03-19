@@ -2,9 +2,6 @@
 
 
     <psk-container controller-name="RenderListController">
-        <style>
-
-        </style>
 
         <psk-grid columns="2" layout="xs=[12,12] s=[12,12] m=[6,6] l=[6,6]">
             <psk-card class="profile_selection">
@@ -12,7 +9,9 @@
 
                 <psk-text-input view-model="search" placeholder="Filter by name"></psk-text-input>
 
+                <psk-condition condition="@ifSearchValue">
                 <p> Search results for: <psk-label label="@search.value"></psk-label></p>
+                </psk-condition>
 
                 <psk-for-each data-view-model="entities">
                         <psk-grid columns="3" layout="xs=[12,12,12] s=[12,12,12] m=[5,3,4] l=[5,3,4]" class="render-list">

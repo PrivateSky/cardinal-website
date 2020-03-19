@@ -57,6 +57,10 @@
                     {
                         "name": "Simple List",
                         "pageSrc": "/examples/simple-list.html"
+                    },
+                    {
+                        "name": "Condition",
+                        "pageSrc": "/examples/condition.html"
                     }]
             },
             {
