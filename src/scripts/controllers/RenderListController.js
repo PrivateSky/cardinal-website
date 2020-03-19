@@ -1,19 +1,21 @@
 import BindableController from "./base-controllers/BindableController.js";
 import entities from "./candidates/candidates.js";
 
-let currentView = JSON.parse(JSON.stringify(entities[0]));
-let entitiesModel = JSON.parse(JSON.stringify(entities));
 
 export default class RenderListController extends BindableController {
     constructor(element) {
         super(element);
+
+        let currentView = JSON.parse(JSON.stringify(entities[0]));
+        let entitiesModel = JSON.parse(JSON.stringify(entities));
+
         this.model = this.setModel({entities: entitiesModel, current: currentView, search: {value: ""}});
 
         this.model.addExpression("ifSearchValue",  () => {
                 return new Promise((resolve, reject)=>{
                     setTimeout(function () {
-                        //let result = Math.random() < 0.5;
-                        resolve(false);
+                        let result = Math.random() < 0.5;
+                        resolve(result);
                     },1000)
                 })
             }
