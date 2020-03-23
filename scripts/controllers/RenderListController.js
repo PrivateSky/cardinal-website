@@ -12,14 +12,9 @@ export default class RenderListController extends BindableController {
         this.model = this.setModel({entities: entitiesModel, current: currentView, search: {value: ""}});
 
         this.model.addExpression("ifSearchValue",  () => {
-                return new Promise((resolve, reject)=>{
-                    setTimeout(function () {
-                        let result = Math.random() < 0.5;
-                        resolve(result);
-                    },1000)
-                })
-            }
-        );
+            let searchValue = this.model.getChainValue("search.value");
+            return searchValue.length>0;
+            },"search.value");
 
         let getReloadedModel = () => {
             let searchedString = this.model.getChainValue("search.value");
