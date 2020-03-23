@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const appConfig = "./src/app-config.json";
-import DefaultApplicationController from "../src/scripts/controllers/DefaultApplicationController";
+import AppControllerUtils from "../release/cardinal/utils/AppControllerUtils";
 
 
 let buildSiteMap = function() {
@@ -17,7 +17,7 @@ let buildSiteMap = function() {
     }
 
     readFileData(appConfig, function(globalNavigation) {
-        let configuration = DefaultApplicationController._prepareConfiguration(globalNavigation);
+        let configuration = AppControllerUtils._prepareConfiguration(globalNavigation);
 
         let siteMap = "";
         let historyType = configuration.historyType;
@@ -42,8 +42,8 @@ let buildSiteMap = function() {
       </url>`;
                 }
 
-                if (page.children) {
-                    buildXMLTag(page.children)
+                if (typeof page.children === 'object' && page.children.type ==="known" && Array.isArray(page.children.items)) {
+                    buildXMLTag(page.children.items)
                 }
             });
         };
