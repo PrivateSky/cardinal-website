@@ -9,8 +9,10 @@
 
                 <psk-text-input view-model="search" placeholder="Filter by name"></psk-text-input>
 
+
                 <psk-condition condition="@ifSearchValue">
-                <p> Search results for: <psk-label label="@search.value"></psk-label></p>
+                        <p slot="condition-true" >  Search results for: <psk-label label="@search.value"></psk-label></p>
+                        <p slot="condition-false" >Showing all results</p>
                 </psk-condition>
 
                 <psk-for-each data-view-model="entities">
