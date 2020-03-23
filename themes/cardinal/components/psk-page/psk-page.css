@@ -14,7 +14,7 @@
   font-family: nunito;
 }
 
-nav {
+.page-title {
   width: 100%;
   line-height: 2.375rem;
   background-color: #fff !important;
@@ -23,7 +23,7 @@ nav {
   padding: 18px;
 }
 
-nav h3 {
+.page-title h1 {
   margin: 0;
   padding: 0;
   font-size: 1.5rem;
