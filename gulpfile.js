@@ -54,7 +54,7 @@ function copySourceFiles(cb) {
 }
 
 
-exports.build = series(buildCardinal, copyJsFile, copyJsFolderBuild, buildSitemap, copyThemes, copySourceFiles);
+exports.build = series(buildCardinal, copyJsFile, copyJsFolderBuild, copyThemes, copySourceFiles);
 
 
 

@@ -1,6 +1,6 @@
-import DefaultFormController from "./base-controllers/DefaultFormController.js";
+import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
 
-export default class TestFormController extends DefaultFormController {
+export default class TestFormController extends ContainerController {
     constructor(element) {
         super(element, {
             sectionTitle: {

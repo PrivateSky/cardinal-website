@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const appConfig = "./src/app-config.json";
-import AppControllerUtils from "../release/cardinal/utils/AppControllerUtils";
+import AppConfigurationHelper from "../release/cardinal/controllers/AppConfigurationHelper.js";
 
 
 let buildSiteMap = function() {
@@ -17,7 +17,7 @@ let buildSiteMap = function() {
     }
 
     readFileData(appConfig, function(globalNavigation) {
-        let configuration = AppControllerUtils._prepareConfiguration(globalNavigation);
+        let configuration = AppConfigurationHelper._prepareConfiguration(globalNavigation);
 
         let siteMap = "";
         let historyType = configuration.historyType;
