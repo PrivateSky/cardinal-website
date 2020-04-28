@@ -1,8 +1,8 @@
-import BindableController from "./base-controllers/BindableController.js";
+import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
 import entities from "./candidates/candidates.js";
 
 
-export default class RenderListController extends BindableController {
+export default class RenderListController extends ContainerController {
     constructor(element) {
         super(element);
 
