@@ -1,5 +1,5 @@
 const EVENT_PREFIX = "@event:";
-
+const PAGES_URL = "pages/";
 export default class AppConfigurationHelper {
 
 
@@ -40,13 +40,13 @@ export default class AppConfigurationHelper {
   }
 
 
-  static _prepareConfiguration(rawConfig, websiteBase) {
+  static _prepareConfiguration(rawConfig, basePath) {
 
     let configuration = {};
-    configuration.baseUrl = websiteBase;
+    configuration.baseUrl = basePath;
 
-    let basePagesUrl = websiteBase + rawConfig.basePagesUrl;
-
+    let basePagesUrl = basePath + PAGES_URL;
+    let appDir = new URL(basePath).pathname;
     if (rawConfig.modals) {
       configuration.modals = {};
       if (Object.keys(rawConfig.modals).length) {
@@ -73,6 +73,7 @@ export default class AppConfigurationHelper {
         } else {
           if (typeof menuItems[i].indexed !== "undefined" && menuItems[i].indexed.toString() === "false") {
             menuItems.splice(i, 1);
+            i--;
           }
         }
       }
@@ -80,8 +81,12 @@ export default class AppConfigurationHelper {
     };
 
     let fillOptionalPageProps = function (navigationPages, pathPrefix) {
+      if (pathPrefix) {
+        pathPrefix = pathPrefix.replace(/^\/|\/$/g, '');
+      }else{
+        pathPrefix = '';
+      }
       navigationPages.forEach(page => {
-
         if (!page.path) {
           let pageName = page.name.toLowerCase();
           let pagePath = pageName.toLowerCase().replace(/\s+/g, '-');
@@ -89,13 +94,16 @@ export default class AppConfigurationHelper {
           page.path = pagePath;
         }
 
-        if (page.path.indexOf("/") !== 0) {
-            page.path = "/" + page.path;
+        let sep = "/";
+        if (pathPrefix.length === 0) {
+          sep = "";
         }
-
-        if (pathPrefix) {
-          page.path = pathPrefix  + page.path;
+        if(!page.path.startsWith("/")){
+          page.path = sep + page.path;
         }
+        let relativePrefix = pathPrefix + page.path;
+        relativePrefix = relativePrefix.replace(/^\//g, '');
+        page.path = relativePrefix;
 
         if (page.children) {
           page.type = "abstract";
@@ -125,24 +133,19 @@ export default class AppConfigurationHelper {
             } else {
               let filename = page.name.replace(/[:.!?]/g, "").replace(/\s/g, '-').toLowerCase();
 
-              let prefix = "";
-              if (pathPrefix) {
-                prefix = pathPrefix.replace(/^\//, '');
-              }
-              page.componentProps.pageUrl = basePagesUrl + prefix + "/" + filename + ".html";
+              page.componentProps.pageUrl = basePagesUrl + pathPrefix + sep + filename + ".html";
             }
           }
         }
 
         if (typeof page.children === "object" && Array.isArray(page.children)) {
           page.children = {type: "known", items: JSON.parse(JSON.stringify(page.children))};
-          fillOptionalPageProps(page.children.items, page.path);
+          fillOptionalPageProps(page.children.items, relativePrefix);
         }
         else {
           if (typeof page.children === "string" && page.children.indexOf(EVENT_PREFIX) == 0) {
             let eventName = page.children.substring(EVENT_PREFIX.length);
             page.children = {type: "event", event: eventName};
-            page.component = "psk-ssapp-loader";
           }
         }
       });
@@ -158,25 +161,34 @@ export default class AppConfigurationHelper {
       configuration.historyType = historyType;
     }
 
-    if (historyType === "query") {
-      let pagePrefix = "?";
-      if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
-        pagePrefix = rawConfig.menu.defaultMenuConfig.pagePrefix;
-      }
+    let completeWithPrefixes = (pathPrefix) => {
       let addPathPrefix = function (pages) {
         pages.forEach(page => {
           let pagePath = page.path;
           if (pagePath.indexOf("/") === 0) {
             pagePath = pagePath.substr(1);
           }
-          page.path = `${pagePrefix}${pagePath}`;
-          if (page.children) {
+          page.path = `${pathPrefix}${pagePath}`;
+          if (page.children && page.children.items) {
             addPathPrefix(page.children.items);
           }
         });
       };
       addPathPrefix(configuration.routes);
+    };
+
+
+    let pathPrefix = appDir;
+
+    if (historyType === "query") {
+      let pagePrefix = "?";
+      if (rawConfig.menu.defaultMenuConfig.pagePrefix) {
+        pagePrefix = rawConfig.menu.defaultMenuConfig.pagePrefix;
+      }
+      pathPrefix = appDir+pagePrefix;
     }
+
+    completeWithPrefixes(pathPrefix);
 
     let getPagesTags = function (routes) {
       let tagsDictionary = [];
@@ -205,9 +217,10 @@ export default class AppConfigurationHelper {
       return tagsDictionary;
     };
 
-    let routes = JSON.parse(JSON.stringify(configuration.routes));
-    configuration.menu = filterIndexedItems(routes);
-    configuration.tags = getPagesTags(routes);
+    let routesForTags = JSON.parse(JSON.stringify(configuration.routes));
+    let routesForMenu = JSON.parse(JSON.stringify(routesForTags));
+    configuration.menu = filterIndexedItems(routesForMenu);
+    configuration.tags = getPagesTags(routesForTags);
     configuration.pagesHierarchy = AppConfigurationHelper._prepareRoutesTree(configuration.routes, historyType);
     return configuration;
   }
