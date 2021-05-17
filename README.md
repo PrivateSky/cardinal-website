@@ -1,3 +1,2 @@
-[DEPRECATED]
-# cardinal-website
+# DEPRECATED
 Cardinal.JS presentation website.
